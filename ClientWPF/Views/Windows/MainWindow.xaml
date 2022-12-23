@@ -12,7 +12,8 @@
         Background="#36393F"
         WindowStyle="None"
         AllowsTransparency="True"
-        ResizeMode="CanResizeWithGrip">
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -81,6 +82,9 @@
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type viewmodels:AddPersonViewModel}">
                     <views:AddPersonView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:RegistrationViewModel}">
+                    <views:RegistrationView />
                 </DataTemplate>
             </Grid.Resources>
 

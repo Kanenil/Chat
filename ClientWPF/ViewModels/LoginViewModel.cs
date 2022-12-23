@@ -41,7 +41,7 @@ namespace ClientWPF.ViewModels
 
         public LoginViewModel(AccountStore accountStore, INavigationService loginNavigationService)
         {
-            LoginCommand = new LoginCommand(this, accountStore, loginNavigationService);
+            //LoginCommand = new LoginCommand(this, accountStore, loginNavigationService);
         }
     }
 }

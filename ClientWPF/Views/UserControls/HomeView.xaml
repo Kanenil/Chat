@@ -5,15 +5,199 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:ClientWPF.Views.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:components="clr-namespace:PasswordBoxMVVM.Components;assembly=PasswordBoxMVVM"
+    xmlns:md="clr-namespace:ClientWPF.Model" 
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    d:DesignHeight="550"
+    d:DesignWidth="1000"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+
+        <Style x:Key="titleText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="36"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style x:Key="normalText" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="LineHeight" Value="28"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style x:Key="button" TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Width" Value="170"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#fdfefe"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="25" 
+                                BorderThickness="1"
+                                BorderBrush="White"
+                                Padding="15"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#e8e8e8"/>
+                    <Setter Property="Foreground" Value="DimGray"/>
+                </Trigger>
+                <Trigger Property="IsMouseCaptured" Value="True">
+                    <Setter Property="Background" Value="#d9d9d9"/>
+                    <Setter Property="Foreground" Value="DimGray"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="textBox" TargetType="Control">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="Margin" Value="10 0 0 0"/>
+            <Setter Property="Foreground" Value="#878787"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style x:Key="mainbutton" TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Margin" Value="0 20 0 0"/>
+            <Setter Property="Background" Value="#44474D"/>
+            <Setter Property="Foreground" Value="#fdfefe"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="25" 
+                                BorderThickness="1"
+                                BorderBrush="#44474D"
+                                Padding="15"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#252525"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <Trigger Property="IsMouseCaptured" Value="True">
+                    <Setter Property="Background" Value="#252530"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="1.5*"/>
         </Grid.ColumnDefinitions>
 
+        <Grid>
+            <Canvas>
+                <Polygon Points="0,20 230,140 0,270" Fill="#44474D"/>
+                <Polygon Points="100,400 200,370 180,470" Fill="#44474D"/>
+                <Ellipse Margin="240 450 0 0" Width="40" Height="40" Fill="#44474D"/>
+                <Ellipse Margin="50 400 0 0" Width="20" Height="20" Fill="#44474D"/>
+            </Canvas>
+
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Sign Up" Style="{StaticResource titleText}"/>
+                <TextBlock Text="Enter your personal info and create new account to connect us" 
+                           Style="{StaticResource normalText}"
+                           Opacity="0.8"
+                           Margin="20 30"/>
+                <Button Content="Sign Up"
+                        Style="{StaticResource button}"
+                        Command="{Binding RegistrationCommand}"/>
+            </StackPanel>
+        </Grid>
+
+        <Border Background="WhiteSmoke"
+                Grid.Column="1">
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Sign in to App" 
+                           Style="{StaticResource titleText}"
+                           Foreground="#3e4147"/>
+
+                <Border BorderThickness="1" 
+                        BorderBrush="#acb0af"
+                        Margin="70 7"
+                        CornerRadius="5">
+                    <Grid Margin="7 9">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <icons:PackIconMaterial Kind="Email" 
+                                                Height="20"
+                                                Foreground="Gray"/>
+
+                        <TextBox Grid.Column="1"
+                                 FontSize="14"
+                                 Style="{StaticResource textBox}"
+                                 Text="{Binding Username}"
+                                 Margin="10 0 0 0"
+                                 Background="Transparent"/>
+                        
+                        
+                    </Grid>
+                </Border>
+
+                <Border BorderThickness="1" 
+                        BorderBrush="#acb0af"
+                        Margin="70 7"
+                        CornerRadius="5">
+                    <Grid Margin="7 9">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <icons:PackIconMaterial Kind="Lock" 
+                                                Height="20"
+                                                Foreground="Gray"/>
+
+                        <PasswordBox Grid.Column="1"
+                                     FontSize="14"
+                                     Style="{StaticResource textBox}"
+                                     Margin="10 0 0 0"
+                                     Background="Transparent">
+                            <i:Interaction.Behaviors>
+                                <md:PasswordBehavior Password="{Binding Password, Mode=TwoWay}" />
+                            </i:Interaction.Behaviors>
+                        </PasswordBox>
+
+                    </Grid>
+                </Border>
+
+                <Button Content="Sign In"
+                        Style="{StaticResource mainbutton}"
+                        Command="{Binding LoginCommand}"/>
+            </StackPanel>
+        </Border>
 
     </Grid>
 </UserControl>

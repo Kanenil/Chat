@@ -23,23 +23,30 @@ namespace ClientWPF
     public partial class App : Application
     {
         private ServiceProvider _serviceProvider;
+        private readonly string connectionString;
         public App()
         {
-            IServiceCollection services = new ServiceCollection();
+            ServiceCollection services = new ServiceCollection();
+
+            connectionString = ConfigurationManager.ConnectionStrings["ChatDB"].ConnectionString;
 
             services.AddSingleton<AccountStore>();
             services.AddSingleton<PeopleStore>();
             services.AddSingleton<NavigationStore>();
             services.AddSingleton<ModalNavigationStore>();
 
+            services.AddSingleton(typeof(IService<UserDTO>), typeof(UserService));
+            ConfigurationBLL.ConfigureServices(services, connectionString);
+            ConfigurationBLL.AddDependecy(services);
+
             services.AddSingleton<INavigationService>(s => CreateHomeNavigationService(s));
             services.AddSingleton<CloseModalNavigationService>();
 
-            services.AddTransient<HomeViewModel>(s => new HomeViewModel(CreateLoginNavigationService(s)));
+            services.AddTransient<HomeViewModel>(CreateHomeViewModel);
+            services.AddTransient<RegistrationViewModel>(CreateRegistartionViewModel);
             services.AddTransient<AccountViewModel>(s => new AccountViewModel(
                 s.GetRequiredService<AccountStore>(),
                 CreateHomeNavigationService(s)));
-            services.AddTransient<LoginViewModel>(CreateLoginViewModel);
             services.AddTransient<PeopleListingViewModel>(s => new PeopleListingViewModel(
                 s.GetRequiredService<PeopleStore>(),
                 CreateAddPersonNavigationService(s)));
@@ -103,16 +110,29 @@ namespace ClientWPF
                 serviceProvider.GetRequiredService<NavigationStore>(),
                 () => serviceProvider.GetRequiredService<PeopleListingViewModel>());
         }
-
-        private LoginViewModel CreateLoginViewModel(IServiceProvider serviceProvider)
+        private INavigationService CreateRegistartionNavigationService(IServiceProvider serviceProvider)
         {
-            CompositeNavigationService navigationService = new CompositeNavigationService(
-                serviceProvider.GetRequiredService<CloseModalNavigationService>(),
-                CreateAccountNavigationService(serviceProvider));
+            return new NavigationService<RegistrationViewModel>(
+                serviceProvider.GetRequiredService<NavigationStore>(),
+                () => serviceProvider.GetRequiredService<RegistrationViewModel>());
+        }
 
-            return new LoginViewModel(
+        private HomeViewModel CreateHomeViewModel(IServiceProvider serviceProvider)
+        {
+            return new HomeViewModel(
                 serviceProvider.GetRequiredService<AccountStore>(),
-                navigationService);
+                serviceProvider.GetRequiredService<IService<UserDTO>>(),
+                CreateAccountNavigationService(serviceProvider),
+                CreateRegistartionNavigationService(serviceProvider));
+        }
+
+        private RegistrationViewModel CreateRegistartionViewModel(IServiceProvider serviceProvider)
+        {
+            return new RegistrationViewModel(
+                serviceProvider.GetRequiredService<AccountStore>(),
+                CreateAccountNavigationService(serviceProvider),
+                CreateHomeNavigationService(serviceProvider),
+                serviceProvider.GetRequiredService<IService<UserDTO>>());
         }
     }
 }
