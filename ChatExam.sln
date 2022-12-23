@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientWPF", "ClientWPF\Clie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{D95E1350-16E4-46E9-AB0F-8D2662AB5B2F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinnesLogicLayer", "BusinnesLogicLayer\BusinnesLogicLayer.csproj", "{1DDC99C6-EB9C-4B43-B46D-FBD3FCB43BB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{D95E1350-16E4-46E9-AB0F-8D2662AB5B2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D95E1350-16E4-46E9-AB0F-8D2662AB5B2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D95E1350-16E4-46E9-AB0F-8D2662AB5B2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DDC99C6-EB9C-4B43-B46D-FBD3FCB43BB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DDC99C6-EB9C-4B43-B46D-FBD3FCB43BB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DDC99C6-EB9C-4B43-B46D-FBD3FCB43BB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DDC99C6-EB9C-4B43-B46D-FBD3FCB43BB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
