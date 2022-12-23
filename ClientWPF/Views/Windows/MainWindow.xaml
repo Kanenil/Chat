@@ -3,39 +3,63 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ClientWPF.Views.UserControls"
-        xmlns:viewmodels="clr-namespace:ClientWPF.ViewModels"
-        xmlns:views="clr-namespace:ClientWPF.Views.UserControls"
-        xmlns:components="clr-namespace:ClientWPF.Components"
-        xmlns:custom="clr-namespace:ModalControl;assembly=ModalControl"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Height="650" Width="1200"
+        Background="#36393F"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip">
     <Grid>
-        <Grid.Resources>
-            <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
-                <views:HomeView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewmodels:AccountViewModel}">
-                <views:AccountView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewmodels:LoginViewModel}">
-                <views:LoginView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewmodels:PeopleListingViewModel}">
-                <views:PeopleListingView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewmodels:AddPersonViewModel}">
-                <views:AddPersonView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewmodels:LayoutViewModel}">
-                <components:Layout />
-            </DataTemplate>
-        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-        <custom:Modal Panel.ZIndex="1" IsOpen="{Binding IsOpen}">
-            <ContentControl Content="{Binding CurrentModalViewModel}" />
-        </custom:Modal>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
-        <ContentControl Content="{Binding CurrentViewModel}" />
+        <Border Grid.ColumnSpan="2"
+                Background="#252525"
+                MouseDown="Border_MouseDown">
+
+            <Grid HorizontalAlignment="Stretch">
+                <Label Content="Chat"
+                       Foreground="Gray"
+                       FontWeight="SemiBold"/>
+
+                <StackPanel HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                    <Button Width="20" Height="20"
+                            Content="▁"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="Gray"
+                            FontWeight="Bold"
+                            Margin="0 0 0 3"
+                            Click="ButtonMinimize_Click"/>
+                    <Button Width="20" Height="20"
+                            Content="⬜"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="Gray"
+                            FontWeight="Bold"
+                            Click="WindowStateButton_Click"/>
+                    <Button Width="20" Height="20"
+                            Content="╳"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="Gray"
+                            FontWeight="Bold"
+                            Click="Exit_Click"/>
+                </StackPanel>
+                
+            </Grid>
+            
+            
+            
+        </Border>
+        
     </Grid>
 </Window>
