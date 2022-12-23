@@ -1,22 +1,47 @@
-﻿using BusinnesLogicLayer.DTO;
-using BusinnesLogicLayer.Interfaces;
-using BusinnesLogicLayer.Services;
-using ClientWPF.ViewModels.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ClientWPF.Commands;
+using ClientWPF.Model;
+using ClientWPF.Services;
+using ClientWPF.Stores;
+using ClientWPF.ViewModels;
+using System.Windows.Input;
 
 namespace ClientWPF.ViewModels
 {
-    public class LoginViewModel : ViewModel
+    public class LoginViewModel : ViewModelBase
     {
-        public readonly IService<UserDTO> _service;
-        public LoginViewModel(IService<UserDTO> service)
+        private string _username;
+        public string Username
         {
-            _service = service;
-            var users = _service.GetAll();
+            get
+            {
+                return _username;
+            }
+            set
+            {
+                _username = value;
+                OnPropertyChanged(nameof(Username));
+            }
+        }
+
+        private string _password;
+        public string Password
+        {
+            get
+            {
+                return _password;
+            }
+            set
+            {
+                _password = value;
+                OnPropertyChanged(nameof(Password));
+            }
+        }
+
+        public ICommand LoginCommand { get; }
+
+        public LoginViewModel(AccountStore accountStore, INavigationService loginNavigationService)
+        {
+            LoginCommand = new LoginCommand(this, accountStore, loginNavigationService);
         }
     }
 }
