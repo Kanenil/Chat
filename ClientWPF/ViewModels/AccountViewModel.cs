@@ -10,16 +10,18 @@ namespace ClientWPF.ViewModels
     {
         private readonly AccountStore _accountStore;
 
-        public string Username => _accountStore.CurrentAccount?.Username;
+        public string Username => _accountStore.CurrentAccount?.Login;
         public string Email => _accountStore.CurrentAccount?.Email;
 
         public ICommand NavigateHomeCommand { get; }
+        public ICommand NavigateSettingsCommand { get; }
 
-        public AccountViewModel(AccountStore accountStore, INavigationService homeNavigationService)
+        public AccountViewModel(AccountStore accountStore, INavigationService homeNavigationService, INavigationService settingsNavigationService)
         {
             _accountStore = accountStore;
 
             NavigateHomeCommand = new NavigateCommand(homeNavigationService);
+            NavigateSettingsCommand = new NavigateCommand(settingsNavigationService);
 
             _accountStore.CurrentAccountChanged += OnCurrentAccountChanged;
         }

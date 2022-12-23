@@ -9,6 +9,8 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+    
+    
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -37,29 +39,33 @@
                       BorderThickness="0"
                       ItemContainerStyle="{StaticResource ContactCard}"/>
 
-            <StackPanel Grid.Row="2"
-                        Orientation="Horizontal"
-                        Background="#292B2F">
+            <Grid Grid.Row="2">
+                <StackPanel Orientation="Horizontal"
+                            Background="#292B2F" Height="50" Width="200">
 
-                <Ellipse Width="30" Height="30">
-                    <Ellipse.Fill>
-                        <ImageBrush ImageSource="{Binding ImageSource}"/>
-                    </Ellipse.Fill>
-                </Ellipse>
+                    <Ellipse Width="30" Height="30">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="{Binding ImageSource}"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
 
-                <StackPanel VerticalAlignment="Center">
-                    <Label Content="{Binding Username}"
+                    <StackPanel VerticalAlignment="Center">
+                        <Label Content="{Binding Username}"
                            Foreground="White"
                            FontWeight="SemiBold"
                            Margin="0 -5 0 -5"/>
-                    <Label Content="Castum Status"
+                        <Label Content="Castum Status"
                            Foreground="Gray"
                            FontWeight="SemiBold"
                            FontSize="10"
                            Margin="0 -8 0 -5"/>
+                    </StackPanel>
                 </StackPanel>
+                <Button Opacity="0"
+                        Command="{Binding NavigateSettingsCommand}"/>
+            </Grid>
 
-            </StackPanel>
+
 
         </Grid>
         <Grid Grid.Column="1"

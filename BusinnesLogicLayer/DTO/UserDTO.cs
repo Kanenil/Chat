@@ -16,7 +16,7 @@ namespace BusinnesLogicLayer.DTO
         public string Email { get; set; }
         [Required, StringLength(20)]
         public string Password { get; set; }
-        [Required, StringLength(255)]
+        [StringLength(255)]
         public string Photo { get; set; }
         public bool EmailConfirmed { get; set; }
     }

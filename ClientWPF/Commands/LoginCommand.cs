@@ -51,13 +51,8 @@ namespace ClientWPF.Commands
 
             _viewModel.Message = "";
 
-            Account account = new Account()
-            {
-                Email = user.Email,
-                Username = user.Login
-            };
 
-            _accountStore.CurrentAccount = account;
+            _accountStore.CurrentAccount = user;
 
             _navigationService.Navigate();
         }

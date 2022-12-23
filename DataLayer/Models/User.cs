@@ -2,25 +2,22 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace DataLayer.Data.Entities
+namespace DataLayer.Models
 {
     [Table("tblUsers")]
-    public class UserEntity
+    public class User
     {
         [Key]
         public int Id { get; set; }
-        [Required, StringLength(20)]
+        [Required]
         public string Login { get; set; }
-        [Required, StringLength(100)]
+        [Required]
         public string Email { get; set; }
-        [Required, StringLength(20)]
+        [Required]
         public string Password { get; set; }
-        [StringLength(255)]
-        public string? Photo { get; set; }
-        public bool EmailConfirmed { get; set; }
+        public bool EmailСonfirmed { get; set; }
+
     }
 }

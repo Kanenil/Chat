@@ -86,6 +86,9 @@
                 <DataTemplate DataType="{x:Type viewmodels:RegistrationViewModel}">
                     <views:RegistrationView />
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:SettingsViewModel}">
+                    <views:SettingsView />
+                </DataTemplate>
             </Grid.Resources>
 
             <custom:Modal Panel.ZIndex="1" IsOpen="{Binding IsOpen}">

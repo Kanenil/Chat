@@ -31,21 +31,19 @@ namespace ClientWPF.Commands
             if (_viewModel.ConfirmPassword != _viewModel.Password)
                 return;
 
-            await _userService.AddItemAsync(new UserDTO()
+            var user = new UserDTO()
             {
-                Email = _viewModel.Email, 
+                Email = _viewModel.Email,
                 Password = _viewModel.Password,
                 Login = _viewModel.Username,
                 EmailConfirmed = false
-            });
-
-            Account account = new Account()
-            {
-                Email = _viewModel.Email,
-                Username = _viewModel.Username
             };
 
-            _accountStore.CurrentAccount = account;
+
+            await _userService.AddItemAsync(user);
+
+
+            _accountStore.CurrentAccount = user;
 
             _navigationService.Navigate();
         }

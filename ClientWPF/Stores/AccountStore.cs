@@ -1,4 +1,5 @@
-﻿using ClientWPF.Model;
+﻿using BusinnesLogicLayer.DTO;
+using ClientWPF.Model;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,8 +8,8 @@ namespace ClientWPF.Stores
 {
     public class AccountStore
     {
-        private Account _currentAccount;
-        public Account CurrentAccount
+        private UserDTO _currentAccount;
+        public UserDTO CurrentAccount
         {
             get => _currentAccount;
             set

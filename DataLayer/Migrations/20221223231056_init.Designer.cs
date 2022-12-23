@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ChatContext))]
-    [Migration("20221223221420_add col Photo")]
-    partial class addcolPhoto
+    [Migration("20221223231056_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,7 +51,6 @@ namespace DataLayer.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Photo")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 

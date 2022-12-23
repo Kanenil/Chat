@@ -48,7 +48,6 @@ namespace DataLayer.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Photo")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 

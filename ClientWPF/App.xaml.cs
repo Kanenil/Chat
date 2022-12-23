@@ -44,9 +44,11 @@ namespace ClientWPF
 
             services.AddTransient<HomeViewModel>(CreateHomeViewModel);
             services.AddTransient<RegistrationViewModel>(CreateRegistartionViewModel);
+            services.AddTransient<SettingsViewModel>(CreateSettingsViewModel);
             services.AddTransient<AccountViewModel>(s => new AccountViewModel(
                 s.GetRequiredService<AccountStore>(),
-                CreateHomeNavigationService(s)));
+                CreateHomeNavigationService(s),
+                CreateSettingsNavigationService(s)));
             services.AddTransient<PeopleListingViewModel>(s => new PeopleListingViewModel(
                 s.GetRequiredService<PeopleStore>(),
                 CreateAddPersonNavigationService(s)));
@@ -81,6 +83,13 @@ namespace ClientWPF
             return new NavigationService<HomeViewModel>(
                 serviceProvider.GetRequiredService<NavigationStore>(),
                 () => serviceProvider.GetRequiredService<HomeViewModel>());
+        }
+
+        private INavigationService CreateSettingsNavigationService(IServiceProvider serviceProvider)
+        {
+            return new NavigationService<SettingsViewModel>(
+                serviceProvider.GetRequiredService<NavigationStore>(),
+                () => serviceProvider.GetRequiredService<SettingsViewModel>());
         }
 
         private INavigationService CreateLoginNavigationService(IServiceProvider serviceProvider)
@@ -133,6 +142,14 @@ namespace ClientWPF
                 CreateAccountNavigationService(serviceProvider),
                 CreateHomeNavigationService(serviceProvider),
                 serviceProvider.GetRequiredService<IService<UserDTO>>());
+        }
+
+        private SettingsViewModel CreateSettingsViewModel(IServiceProvider serviceProvider)
+        {
+            return new SettingsViewModel(
+                CreateAccountNavigationService(serviceProvider),
+                serviceProvider.GetRequiredService<AccountStore>(),
+                CreateHomeNavigationService(serviceProvider));
         }
     }
 }
