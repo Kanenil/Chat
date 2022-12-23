@@ -1,4 +1,9 @@
-﻿using ClientWPF.Views.Windows;
+﻿using BusinnesLogicLayer.DTO;
+using BusinnesLogicLayer.Infrastructure;
+using BusinnesLogicLayer.Interfaces;
+using BusinnesLogicLayer.Services;
+using ClientWPF.ViewModels;
+using ClientWPF.Views.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -16,19 +21,25 @@ namespace ClientWPF
     public partial class App : Application
     {
         private ServiceProvider _serviceProvider;
+        private readonly string connectionString;
         public App()
         {
             ServiceCollection services = new ServiceCollection();
+            connectionString = ConfigurationManager.ConnectionStrings["ChatDB"].ConnectionString;
             ConfigureServices(services);
             _serviceProvider = services.BuildServiceProvider();
         }
-        private void ConfigureServices(ServiceCollection services)
+        private void ConfigureServices(ServiceCollection collection)
         {
-            services.AddSingleton<MainWindow>();
+            collection.AddSingleton(typeof(IService<UserDTO>), typeof(UserService));
+            collection.AddSingleton(typeof(LoginViewModel));
+            collection.AddSingleton<MainWindow>();
+            ConfigurationBLL.ConfigureServices(collection, connectionString);
+            ConfigurationBLL.AddDependecy(collection);
         }
         protected override void OnStartup(StartupEventArgs e)
         {
-            var mainWindow = _serviceProvider.GetService<MainWindow>();
+            var mainWindow = (Window)_serviceProvider.GetService<MainWindow>();
             mainWindow.Show();
         }
     }

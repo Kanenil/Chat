@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClientWPF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,10 @@ namespace ClientWPF.Views.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(LoginViewModel model)
         {
             InitializeComponent();
+            DataContext= model;
         }
     }
 }
