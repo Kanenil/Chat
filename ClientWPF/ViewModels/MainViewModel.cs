@@ -1,6 +1,8 @@
-﻿using ClientWPF.Stores;
+﻿using ClientWPF.Model;
+using ClientWPF.Stores;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace ClientWPF.ViewModels
@@ -33,5 +35,6 @@ namespace ClientWPF.ViewModels
             OnPropertyChanged(nameof(CurrentModalViewModel));
             OnPropertyChanged(nameof(IsOpen));
         }
+
     }
 }

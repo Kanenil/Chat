@@ -3,6 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ClientWPF">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Views/Theme/ContactCard.xaml"/>
+                <ResourceDictionary Source="Views/Theme/ChatItem.xaml"/>
+                <ResourceDictionary Source="Views/Theme/MessageBox.xaml"/>
+                <ResourceDictionary Source="Views/Theme/StylishScrollbar.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
