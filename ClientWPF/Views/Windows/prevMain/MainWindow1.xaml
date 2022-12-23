@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:ClientWPF.Views.UserControls"
         xmlns:viewmodels="clr-namespace:ClientWPF.ViewModels"
         xmlns:views="clr-namespace:ClientWPF.Views.UserControls"
-        xmlns:components="clr-namespace:ClientWPF.Components"
         xmlns:custom="clr-namespace:ModalControl;assembly=ModalControl"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
@@ -26,9 +25,6 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewmodels:AddPersonViewModel}">
                 <views:AddPersonView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewmodels:LayoutViewModel}">
-                <components:Layout />
             </DataTemplate>
         </Grid.Resources>
 
