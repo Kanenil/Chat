@@ -29,6 +29,8 @@ namespace ClientWPF.Commands
 
         public override async void Execute(object parameter)
         {
+            _viewModel.Message = "";
+
             int id;
             try
             {
@@ -40,13 +42,14 @@ namespace ClientWPF.Commands
             }
             catch 
             {
+                _viewModel.Message = "* Wrong login or email!";
                 return;
             }
             var user = _service.GetAll().First(u=>u.Id == id);
 
-            if (user.Password != _viewModel.Password)
-                return;
+            if (user.Password != _viewModel.Password) { _viewModel.Message = "* Wrong password!"; return; }
 
+            _viewModel.Message = "";
 
             Account account = new Account()
             {

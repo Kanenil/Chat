@@ -21,12 +21,12 @@
 
                             <Ellipse Width="30" Height="30">
                                 <Ellipse.Fill>
-                                    <ImageBrush ImageSource="{Binding ImageSource}"/>
+                                    <ImageBrush ImageSource="{Binding User.Photo}"/>
                                 </Ellipse.Fill>
                             </Ellipse>
 
                             <StackPanel>
-                                <Label Content="{Binding Username}"
+                                <Label Content="{Binding User.Login}"
                                        Foreground="White"/>
                                 <Label Content="{Binding LastMessage}"
                                        Foreground="Gray"

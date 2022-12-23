@@ -36,6 +36,19 @@ namespace ClientWPF.ViewModels
                 OnPropertyChanged(nameof(Password));
             }
         }
+        private string _message;
+        public string Message
+        {
+            get
+            {
+                return _message;
+            }
+            set
+            {
+                _message = value;
+                OnPropertyChanged(nameof(Message));
+            }
+        }
 
         public ICommand LoginCommand { get; }
         public ICommand RegistrationCommand { get; }

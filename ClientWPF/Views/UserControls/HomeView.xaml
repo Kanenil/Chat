@@ -193,6 +193,11 @@
                     </Grid>
                 </Border>
 
+                <TextBlock Text="{Binding Message}" 
+                           Style="{StaticResource normalText}"
+                           Foreground="Red"
+                           Margin="0 7"/>
+
                 <Button Content="Sign In"
                         Style="{StaticResource mainbutton}"
                         Command="{Binding LoginCommand}"/>
