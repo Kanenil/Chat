@@ -37,7 +37,8 @@ namespace ClientWPF
             ConfigurationBLL.ConfigureServices(collection, connectionString);
             ConfigurationBLL.AddDependecy(collection);
         }
-        protected override void OnStartup(StartupEventArgs e)
+
+        private void OnStartup(object sender, StartupEventArgs e)
         {
             var mainWindow = (Window)_serviceProvider.GetService<MainWindow>();
             mainWindow.Show();

@@ -14,17 +14,11 @@ namespace DataLayer.Data
         public DbSet<UserEntity> Users { get; set; }
         public ChatContext(DbContextOptions<ChatContext> connectionString) : base(connectionString)
         {
-            Database.EnsureCreated();
-            //Database.Migrate();
+            Database.Migrate();
         }
         public ChatContext(ChatContext context)
         {
             this._dataContext = context;
-        }
-        public ChatContext() { }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=chatDatabase.mssql.somee.com;Database=chatDatabase;User Id=gonel_SQLLogin_1;Password=ss8zjgf2bq;TrustServerCertificate=True;");
         }
     }
 }
