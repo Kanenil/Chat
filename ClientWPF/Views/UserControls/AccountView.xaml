@@ -7,6 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:viewModel="clr-namespace:ClientWPF.ViewModels"
+   xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+   xmlns:md="clr-namespace:ClientWPF.Model" 
     d:DesignHeight="450"
     d:DesignWidth="800"
     d:DataContext="{d:DesignInstance Type=viewModel:AccountViewModel}"
@@ -55,7 +57,7 @@
                            Foreground="White"
                            FontWeight="SemiBold"
                            Margin="0 -5 0 -5"/>
-                        <Label Content="Castum Status"
+                        <Label Content="{Binding Online}"
                            Foreground="Gray"
                            FontWeight="SemiBold"
                            FontSize="10"
@@ -120,7 +122,13 @@
                                             VerticalAlignment="Center" 
                                             HorizontalAlignment="Center" 
                                             Foreground="Gray"
-                                            Margin="5 5 16 0"/>
+                                            Margin="5 5 16 0">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding SendCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </icons:PackIconMaterial>
 
                 </StackPanel>
             </Grid>

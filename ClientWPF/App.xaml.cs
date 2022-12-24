@@ -2,6 +2,7 @@
 using BusinnesLogicLayer.Infrastructure;
 using BusinnesLogicLayer.Interfaces;
 using BusinnesLogicLayer.Services;
+using ClientWPF.Model;
 using ClientWPF.Services;
 using ClientWPF.Stores;
 using ClientWPF.ViewModels;
@@ -34,6 +35,7 @@ namespace ClientWPF
             services.AddSingleton<PeopleStore>();
             services.AddSingleton<NavigationStore>();
             services.AddSingleton<ModalNavigationStore>();
+            services.AddSingleton<ServerConnection>();
 
             services.AddSingleton(typeof(IService<UserDTO>), typeof(UserService));
             services.AddSingleton(typeof(IService<MessageUserDTO>), typeof(MessageUserService));
@@ -51,7 +53,8 @@ namespace ClientWPF
                 CreateHomeNavigationService(s),
                 CreateSettingsNavigationService(s),
                 s.GetRequiredService<IService<UserDTO>>(),
-                s.GetRequiredService<IService<MessageUserDTO>>())
+                s.GetRequiredService<IService<MessageUserDTO>>(),
+                s.GetRequiredService<ServerConnection>())
                 );
             services.AddTransient<PeopleListingViewModel>(s => new PeopleListingViewModel(
                 s.GetRequiredService<PeopleStore>(),
@@ -65,7 +68,7 @@ namespace ClientWPF
 
             services.AddSingleton<MainViewModel>();
 
-            services.AddSingleton<MainWindow>(s => new MainWindow()
+            services.AddSingleton<MainWindow>(s => new MainWindow(s.GetRequiredService<ServerConnection>())
             {
                 DataContext = s.GetRequiredService<MainViewModel>()
             });

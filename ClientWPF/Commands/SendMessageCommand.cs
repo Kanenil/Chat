@@ -14,15 +14,20 @@ namespace ClientWPF.Commands
     {
         private readonly IService<MessageUserDTO> _messageUser;
         private readonly AccountViewModel _account;
+        private readonly ServerConnection _serverConnection;
 
-        public SendMessageCommand(IService<MessageUserDTO> messageUser, AccountViewModel account)
+        public SendMessageCommand(IService<MessageUserDTO> messageUser, AccountViewModel account, ServerConnection serverConnection)
         {
             _messageUser = messageUser;
             _account = account;
+            _serverConnection = serverConnection;
         }
 
         public async override void Execute(object parameter)
         {
+            if (_account.Messages == null || string.IsNullOrWhiteSpace(_account.Message))
+                return;
+
             if (_account.Messages.Count == 0)
                 _account.Messages.Add(new MessageModel()
                 {
@@ -72,6 +77,7 @@ namespace ClientWPF.Commands
                 }
             });
 
+            _serverConnection.SendMessage(_account.SelectedContact.User.Login, _account.User.Login);
 
             _account.Message = "";
         }

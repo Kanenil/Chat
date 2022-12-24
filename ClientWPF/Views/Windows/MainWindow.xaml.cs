@@ -1,4 +1,5 @@
-﻿using ClientWPF.ViewModels;
+﻿using ClientWPF.Model;
+using ClientWPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,10 +21,12 @@ namespace ClientWPF.Views.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly ServerConnection _serverConnection;
+        public MainWindow(ServerConnection serverConnection)
         {
             InitializeComponent();
             this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+            _serverConnection = serverConnection;
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
@@ -48,6 +51,7 @@ namespace ClientWPF.Views.Windows
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+            _serverConnection.CloseConnection();
         }
     }
 }

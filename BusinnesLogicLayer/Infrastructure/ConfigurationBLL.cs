@@ -13,7 +13,7 @@ namespace BusinnesLogicLayer.Infrastructure
     {
         public static void ConfigureServices(ServiceCollection services, string connection)
         {
-            services.AddDbContext<ChatContext>(opt => opt.UseSqlServer(connection));
+            services.AddDbContext<ChatContext>(opt => opt.UseSqlServer(connection), ServiceLifetime.Transient);
         }
         public static void AddDependecy(ServiceCollection services)
         {
