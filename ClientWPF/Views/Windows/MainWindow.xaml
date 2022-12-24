@@ -9,6 +9,8 @@
         xmlns:custom="clr-namespace:ModalControl;assembly=ModalControl"
         mc:Ignorable="d"
         Height="650" Width="1200"
+        MinHeight="300"
+        MinWidth="500"
         Background="#36393F"
         WindowStyle="None"
         AllowsTransparency="True"

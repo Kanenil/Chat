@@ -1,4 +1,5 @@
-﻿using ClientWPF.Commands;
+﻿using BusinnesLogicLayer.DTO;
+using ClientWPF.Commands;
 using ClientWPF.Services;
 using ClientWPF.Stores;
 using System;
@@ -12,6 +13,8 @@ namespace ClientWPF.ViewModels
 {
     public class SettingsViewModel : ViewModelBase
     {
+        private readonly AccountStore _account;
+        public UserDTO User => _account.CurrentAccount;
         public ICommand BackCommand { get; }
         public ICommand LogoutCommand { get; }
         public ICommand NavigateHomeCommand { get; }
@@ -20,6 +23,7 @@ namespace ClientWPF.ViewModels
             BackCommand = new NavigateCommand(backNavigationService);
             LogoutCommand = new LogoutCommand(accountStore);
             NavigateHomeCommand = new NavigateCommand(homeNavigationService);
+            _account = accountStore;
         }
     }
 }
