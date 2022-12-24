@@ -18,6 +18,7 @@ namespace BusinnesLogicLayer.Infrastructure
         public static void AddDependecy(ServiceCollection services)
         {
             services.AddSingleton(typeof(DataLayer.Interfaces.IWorkUser), typeof(DataLayer.WorkTemp.WorkUser));
+            services.AddSingleton(typeof(DataLayer.Interfaces.IWorkMessageUser), typeof(DataLayer.WorkTemp.WorkMessageUser));
         }
     }
 }
