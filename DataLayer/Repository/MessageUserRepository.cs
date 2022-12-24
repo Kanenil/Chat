@@ -20,8 +20,18 @@ namespace DataLayer.Repository
 
         public async Task Create(MessageUserEntity item)
         {
+            var userFrom = _dataContext.Users.Find(item.FromUser.Id);
+            var userTo = _dataContext.Users.Find(item.ToUser.Id);
+            var message = item.Message;
+            message.User = _dataContext.Users.Find(message.User.Id);
+
             if (item != null)
-                await _dataContext.MessageUsers.AddAsync(item);
+                await _dataContext.MessageUsers.AddAsync(new MessageUserEntity()
+                {
+                    FromUser = userFrom,
+                    ToUser = userTo,
+                    Message= message
+                });
         }
 
         public void Delete(MessageUserEntity id)
@@ -39,9 +49,14 @@ namespace DataLayer.Repository
 
         public IEnumerable<MessageUserEntity> GetAll()
         {
-            var list = _dataContext.MessageUsers;
+            var list = _dataContext.MessageUsers.ToList();
             foreach (var entity in list)
-                _dataContext.Entry(entity).State = EntityState.Detached;
+            {
+                entity.FromUser = _dataContext.Users.Find(entity.UserFromId);
+                entity.ToUser = _dataContext.Users.Find(entity.UserToId);
+                entity.Message = _dataContext.Messages.Find(entity.MessageId); 
+            }
+
             return list;
         }
 

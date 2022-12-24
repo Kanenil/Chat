@@ -36,6 +36,7 @@ namespace ClientWPF
             services.AddSingleton<ModalNavigationStore>();
 
             services.AddSingleton(typeof(IService<UserDTO>), typeof(UserService));
+            services.AddSingleton(typeof(IService<MessageUserDTO>), typeof(MessageUserService));
             ConfigurationBLL.ConfigureServices(services, connectionString);
             ConfigurationBLL.AddDependecy(services);
 

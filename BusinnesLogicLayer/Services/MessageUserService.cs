@@ -74,32 +74,85 @@ namespace BusinnesLogicLayer.Services
 
         private MessageUserDTO MappingModels(MessageUserEntity user)
         {
-            var firstobj = new MapperConfiguration(map => map.CreateMap<UserEntity, UserDTO>()).CreateMapper();
-            var secondobj = new MapperConfiguration(map => map.CreateMap<MessageEntity, MessageDTO>()).CreateMapper();
+            //var firstobj = new MapperConfiguration(map => map.CreateMap<UserEntity, UserDTO>()).CreateMapper();
+            //var secondobj = new MapperConfiguration(map => map.CreateMap<MessageEntity, MessageDTO>()).CreateMapper();
 
             return new MessageUserDTO()
             {
-                FromUser = firstobj.Map<UserDTO>(user.FromUser),
-                UserFromId = user.UserFromId,
-                ToUser = firstobj.Map<UserDTO>(user.ToUser),
-                UserToId= user.UserToId,
-                Message = secondobj.Map<MessageDTO>(user.Message),
-                MessageId = user.MessageId
+                FromUser = new UserDTO()
+                {
+                    Email = user.FromUser.Email,
+                    EmailConfirmed = user.FromUser.EmailConfirmed,
+                    Login = user.FromUser.Login,
+                    Password = user.FromUser.Password,
+                    Photo = user.FromUser.Photo,
+                    Id = user.FromUser.Id
+                },
+                ToUser = new UserDTO()
+                {
+                    Email = user.ToUser.Email,
+                    EmailConfirmed = user.ToUser.EmailConfirmed,
+                    Login = user.ToUser.Login,
+                    Password = user.ToUser.Password,
+                    Photo = user.ToUser.Photo,
+                    Id = user.ToUser.Id
+                },
+                Message = new MessageDTO()
+                {
+                    Message = user.Message.Message,
+                    Time = user.Message.Time,
+                    User = new UserDTO()
+                    {
+                        Email = user.Message.User.Email,
+                        EmailConfirmed = user.Message.User.EmailConfirmed,
+                        Login = user.Message.User.Login,
+                        Password = user.Message.User.Password,
+                        Photo = user.Message.User.Photo,
+                        Id = user.Message.User.Id
+                    },
+                    Id = user.Message.Id
+                }
             };
         }
         private MessageUserEntity MappingModels(MessageUserDTO user)
         {
-            var firstobj = new MapperConfiguration(map => map.CreateMap<UserDTO, UserEntity>()).CreateMapper();
-            var secondobj = new MapperConfiguration(map => map.CreateMap<MessageDTO, MessageEntity>()).CreateMapper();
+            //var firstobj = new MapperConfiguration(map => map.CreateMap<UserDTO, UserEntity>()).CreateMapper();
+            //var secondobj = new MapperConfiguration(map => map.CreateMap<MessageDTO, MessageEntity>()).CreateMapper();
 
             return new MessageUserEntity()
             {
-                FromUser = firstobj.Map<UserEntity>(user.FromUser),
-                UserFromId = user.UserFromId,
-                ToUser = firstobj.Map<UserEntity>(user.ToUser),
-                UserToId = user.UserToId,
-                Message = secondobj.Map<MessageEntity>(user.Message),
-                MessageId = user.MessageId
+                FromUser = new UserEntity()
+                {
+                    Email = user.FromUser.Email,
+                    EmailConfirmed= user.FromUser.EmailConfirmed,
+                    Login= user.FromUser.Login,
+                    Password= user.FromUser.Password,
+                    Photo= user.FromUser.Photo,
+                    Id = user.FromUser.Id
+                },
+                ToUser = new UserEntity()
+                {
+                    Email= user.ToUser.Email,
+                    EmailConfirmed= user.ToUser.EmailConfirmed,
+                    Login= user.ToUser.Login,
+                    Password= user.ToUser.Password,
+                    Photo= user.ToUser.Photo, 
+                    Id= user.ToUser.Id
+                },
+                Message = new MessageEntity()
+                {
+                    Message=user.Message.Message,
+                    Time = user.Message.Time,
+                    User = new UserEntity()
+                    {
+                        Email= user.Message.User.Email,
+                        EmailConfirmed= user.Message.User.EmailConfirmed,
+                        Login= user.Message.User.Login,
+                        Password= user.Message.User.Password,
+                        Photo= user.Message.User.Photo,
+                        Id = user.Message.User.Id
+                    }
+                }
             };
         }
     }
