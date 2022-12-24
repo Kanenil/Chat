@@ -100,12 +100,10 @@
         <Border HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 MinWidth="400"
-                MinHeight="300"
                 Background="#FF2F3136"
                 CornerRadius="6">
             <StackPanel>
-                <Border MinHeight="200"
-                        Background="#FF36393F"
+                <Border Background="#FF36393F"
                         CornerRadius="6 6 0 0">
                     <StackPanel>
                         <TextBlock Text="Change username"
@@ -136,7 +134,7 @@
                                    FontWeight="Bold"/>
 
                         <Border Background="#FF202225"
-                                Margin="20 10 50 0"
+                                Margin="20 10 50 20"
                                 Padding="2"
                                 CornerRadius="6">
                             <PasswordBox Style="{StaticResource textBox}">
@@ -150,7 +148,8 @@
 
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Right"
-                            VerticalAlignment="Center">
+                            VerticalAlignment="Center"
+                            Margin="0 0 0 10">
                     <Button Style="{StaticResource transperentButton}"
                         Content="Cancel"
                             Margin="10 15 0 0"/>
