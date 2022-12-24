@@ -57,6 +57,8 @@ namespace ClientWPF
                 s.GetRequiredService<CloseModalNavigationService>()
                 ));
 
+            services.AddTransient<ChangeUsernameViewModel>(CreateChangeUsernameViewModel);
+
             services.AddSingleton<MainViewModel>();
 
             services.AddSingleton<MainWindow>(s => new MainWindow()
@@ -126,6 +128,13 @@ namespace ClientWPF
                 () => serviceProvider.GetRequiredService<RegistrationViewModel>());
         }
 
+        private INavigationService CreateChangeNavigationService(IServiceProvider serviceProvider)
+        {
+            return new ModalNavigationService<ChangeUsernameViewModel>(
+                serviceProvider.GetRequiredService<ModalNavigationStore>(),
+                () => serviceProvider.GetRequiredService<ChangeUsernameViewModel>());
+        }
+
         private HomeViewModel CreateHomeViewModel(IServiceProvider serviceProvider)
         {
             return new HomeViewModel(
@@ -150,7 +159,20 @@ namespace ClientWPF
                 CreateAccountNavigationService(serviceProvider),
                 serviceProvider.GetRequiredService<AccountStore>(),
                 serviceProvider.GetRequiredService<IService<UserDTO>>(),
-                CreateHomeNavigationService(serviceProvider));
+                CreateHomeNavigationService(serviceProvider),
+                CreateChangeNavigationService(serviceProvider));
+        }
+
+        private ChangeUsernameViewModel CreateChangeUsernameViewModel(IServiceProvider serviceProvider)
+        {
+            CompositeNavigationService navigationService = new CompositeNavigationService(
+                serviceProvider.GetRequiredService<CloseModalNavigationService>(),
+                CreateSettingsNavigationService(serviceProvider));
+
+            return new ChangeUsernameViewModel(
+                serviceProvider.GetRequiredService<IService<UserDTO>>(),
+                serviceProvider.GetRequiredService<AccountStore>(),
+                navigationService);
         }
     }
 }

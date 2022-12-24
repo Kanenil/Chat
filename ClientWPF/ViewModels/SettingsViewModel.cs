@@ -20,12 +20,14 @@ namespace ClientWPF.ViewModels
         public ICommand LogoutCommand { get; }
         public ICommand NavigateHomeCommand { get; }
         public ICommand ChangePhotoCommand { get; }
-        public SettingsViewModel(INavigationService backNavigationService, AccountStore accountStore,IService<UserDTO> service, INavigationService homeNavigationService)
+        public ICommand ChangeUsernameCommand { get; }
+        public SettingsViewModel(INavigationService backNavigationService, AccountStore accountStore,IService<UserDTO> service, INavigationService homeNavigationService, INavigationService changeNameNavigationService)
         {
             BackCommand = new NavigateCommand(backNavigationService);
             LogoutCommand = new LogoutCommand(accountStore);
             NavigateHomeCommand = new NavigateCommand(homeNavigationService);
             ChangePhotoCommand = new ChangePhotoCommand(service, accountStore);
+            ChangeUsernameCommand = new NavigateCommand(changeNameNavigationService);
             _account = accountStore;
 
             _account.CurrentAccountChanged += OnCurrentAccountChanged;

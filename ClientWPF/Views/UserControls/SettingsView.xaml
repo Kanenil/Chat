@@ -293,8 +293,9 @@
                                            FontSize="15"/>
                                 </StackPanel>
                                 <Button Grid.Column="1"
-                                    Style="{StaticResource editbuttonGray}"
-                                    Content="Edit"/>
+                                        Style="{StaticResource editbuttonGray}"
+                                        Content="Edit"
+                                        Command="{Binding ChangeUsernameCommand}"/>
 
                                 <StackPanel Margin="10"
                                         Grid.Row="1">

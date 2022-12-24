@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:ClientWPF.Views.UserControls"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:md="clr-namespace:ClientWPF.Model" 
+             xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -46,29 +47,12 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="UnderlineTrigger" TargetType="TextBlock">
-            <Setter Property="TextDecorations" Value="None"/>
+        <Style TargetType="TextBlock" x:Key="HoverUnderlineStyle">
             <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="true">
-                    <Setter Property="TextDecorations" Value="Underline"/>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="TextBlock.TextDecorations" Value="Underline" />
                 </Trigger>
             </Style.Triggers>
-        </Style>
-        <Style x:Key="transperentButton" TargetType="Button">
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-            <Setter Property="ContentTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <TextBlock Style="{StaticResource UnderlineTrigger}" Text="{TemplateBinding Content}"/>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
         </Style>
         <Style x:Key="Headertext" TargetType="TextBlock">
             <Setter Property="FontSize" Value="22"/>
@@ -94,8 +78,39 @@
             <Setter Property="BorderThickness" Value="0"/>
         </Style>
 
+        <Style x:Key="exitbutton" TargetType="Button">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="25 10 10 0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#FFB9BBBE"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <icons:PackIconMaterial Kind="Close" 
+                                        VerticalAlignment="Top" 
+                                        HorizontalAlignment="Right" 
+                                        Foreground="{TemplateBinding Foreground}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#FFA4A8AF"/>
+                </Trigger>
+                <Trigger Property="IsMouseCaptured" Value="True">
+                    <Setter Property="Foreground" Value="#FFDADCE0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
     </UserControl.Resources>
-    
+
     <Grid>
         <Border HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -106,15 +121,24 @@
                 <Border Background="#FF36393F"
                         CornerRadius="6 6 0 0">
                     <StackPanel>
+
+                        <Button Style="{StaticResource exitbutton}"
+                                Margin="0 0 40 -40"
+                                Width="16"
+                                Panel.ZIndex="1"
+                                HorizontalAlignment="Right"
+                                Command="{Binding CancelCommand}"/>
+
                         <TextBlock Text="Change username"
                                    Style="{StaticResource Headertext}"
-                                   Margin="0 15 0 0"/>
+                                   Margin="0 20 0 0"/>
                         <TextBlock Text="Enter your new username and current password."
                                    Style="{StaticResource Commontext}"
                                    Margin="0 10 0 0"/>
 
-                        <TextBlock Text="Username"
+                        <TextBlock Text="{Binding UsernameMessage}"
                                    Style="{StaticResource Commontext}"
+                                   Foreground="{Binding UsernameMessageColor}"
                                    HorizontalAlignment="Left"
                                    Margin="20 10 0 0"
                                    FontWeight="Bold"/>
@@ -127,8 +151,9 @@
                                      Text="{Binding Username}"/>
                         </Border>
 
-                        <TextBlock Text="Password"
+                        <TextBlock Text="{Binding PasswordMessage}"
                                    Style="{StaticResource Commontext}"
+                                   Foreground="{Binding PasswordMessageColor}"
                                    HorizontalAlignment="Left"
                                    Margin="20 10 0 0"
                                    FontWeight="Bold"/>
@@ -149,16 +174,26 @@
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
-                            Margin="0 0 0 10">
-                    <Button Style="{StaticResource transperentButton}"
-                        Content="Cancel"
-                            Margin="10 15 0 0"/>
+                            Margin="0 0 10 10">
+
+                    <TextBlock Style="{StaticResource HoverUnderlineStyle}" 
+                                   Text="Cancel"
+                                   FontSize="13"
+                                   VerticalAlignment="Center"
+                                   Foreground="White"
+                                   Margin="10 15 0 0"
+                                   Panel.ZIndex="1">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding CancelCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBlock>
+
                     <Button Style="{StaticResource editbuttonBlue}"
-                        Content="Done"/>
+                            Content="Done"
+                            Command="{Binding DoneCommand}"/>
                 </StackPanel>
-                
-
-
             </StackPanel>
         </Border>
     </Grid>
