@@ -1,9 +1,11 @@
 ﻿using BusinnesLogicLayer.DTO;
 using BusinnesLogicLayer.Interfaces;
+using ClientWPF.Model;
 using ClientWPF.Stores;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,16 +23,18 @@ namespace ClientWPF.Commands
             _accountStore = accountStore;
         }
 
-        public override void Execute(object parameter)
+        public async override void Execute(object parameter)
         {
             OpenFileDialog res = new OpenFileDialog();
             res.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.tif;...";
             res.Multiselect = false;
             if (res.ShowDialog() != false)
             {
+                var path = PhotoSaver.UploadImage(File.ReadAllBytes(res.FileName));
                 var user = _accountStore.CurrentAccount;
-                user.Photo = res.FileName;
+                user.Photo = path;
                 _accountStore.CurrentAccount = user;
+                await _service.UpdateDTO(user);
             }
         }
     }

@@ -59,6 +59,7 @@ namespace DataLayer.Repository
                 newItem.EmailConfirmed = item.EmailConfirmed;
                 newItem.Email = item.Email;
                 newItem.Password = item.Password;
+                newItem.Photo = item.Photo;
             }
         }
     }

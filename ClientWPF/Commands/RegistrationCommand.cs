@@ -43,7 +43,7 @@ namespace ClientWPF.Commands
             await _userService.AddItemAsync(user);
 
 
-            _accountStore.CurrentAccount = user;
+            _accountStore.CurrentAccount = _userService.GetAll().First(u=>u.Login == _viewModel.Username);
 
             _navigationService.Navigate();
         }
