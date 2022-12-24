@@ -12,6 +12,7 @@ namespace DataLayer.Data
     {
         private ChatContext _dataContext;
         public DbSet<UserEntity> Users { get; set; }
+        public DbSet<MessageEntity> Messages { get; set; }
         public ChatContext(DbContextOptions<ChatContext> connectionString) : base(connectionString)
         {
             Database.Migrate();
