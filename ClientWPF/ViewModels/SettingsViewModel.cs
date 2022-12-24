@@ -1,4 +1,5 @@
 ﻿using BusinnesLogicLayer.DTO;
+using BusinnesLogicLayer.Interfaces;
 using ClientWPF.Commands;
 using ClientWPF.Services;
 using ClientWPF.Stores;
@@ -18,12 +19,27 @@ namespace ClientWPF.ViewModels
         public ICommand BackCommand { get; }
         public ICommand LogoutCommand { get; }
         public ICommand NavigateHomeCommand { get; }
-        public SettingsViewModel(INavigationService backNavigationService, AccountStore accountStore, INavigationService homeNavigationService)
+        public ICommand ChangePhotoCommand { get; }
+        public SettingsViewModel(INavigationService backNavigationService, AccountStore accountStore,IService<UserDTO> service, INavigationService homeNavigationService)
         {
             BackCommand = new NavigateCommand(backNavigationService);
             LogoutCommand = new LogoutCommand(accountStore);
             NavigateHomeCommand = new NavigateCommand(homeNavigationService);
+            ChangePhotoCommand = new ChangePhotoCommand(service, accountStore);
             _account = accountStore;
+
+            _account.CurrentAccountChanged += OnCurrentAccountChanged;
+        }
+        private void OnCurrentAccountChanged()
+        {
+            OnPropertyChanged("User");
+        }
+
+        public override void Dispose()
+        {
+            _account.CurrentAccountChanged -= OnCurrentAccountChanged;
+
+            base.Dispose();
         }
     }
 }

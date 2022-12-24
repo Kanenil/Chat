@@ -12,7 +12,7 @@ namespace ClientWPF.ViewModels
 
         public string Username => _accountStore.CurrentAccount?.Login;
         public string Email => _accountStore.CurrentAccount?.Email;
-
+        public string Photo => _accountStore.CurrentAccount?.Photo;
         public ICommand NavigateHomeCommand { get; }
         public ICommand NavigateSettingsCommand { get; }
 

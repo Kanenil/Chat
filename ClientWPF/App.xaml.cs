@@ -149,6 +149,7 @@ namespace ClientWPF
             return new SettingsViewModel(
                 CreateAccountNavigationService(serviceProvider),
                 serviceProvider.GetRequiredService<AccountStore>(),
+                serviceProvider.GetRequiredService<IService<UserDTO>>(),
                 CreateHomeNavigationService(serviceProvider));
         }
     }

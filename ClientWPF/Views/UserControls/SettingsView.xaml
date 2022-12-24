@@ -260,7 +260,8 @@
                                     </Ellipse>
 
                                     <Button Margin="20 10 10 10"
-                                        Opacity="0"/>
+                                        Opacity="0"
+                                            Command="{Binding ChangePhotoCommand}"/>
                                 </Grid>
                             </StackPanel>
 
