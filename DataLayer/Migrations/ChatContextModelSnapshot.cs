@@ -49,6 +49,26 @@ namespace DataLayer.Migrations
                     b.ToTable("tblMessage");
                 });
 
+            modelBuilder.Entity("DataLayer.Data.Entities.MessageUserEntity", b =>
+                {
+                    b.Property<int>("UserToId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserFromId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MessageId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserToId", "UserFromId", "MessageId");
+
+                    b.HasIndex("MessageId");
+
+                    b.HasIndex("UserFromId");
+
+                    b.ToTable("tblMessageUsers");
+                });
+
             modelBuilder.Entity("DataLayer.Data.Entities.UserEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -93,6 +113,33 @@ namespace DataLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DataLayer.Data.Entities.MessageUserEntity", b =>
+                {
+                    b.HasOne("DataLayer.Data.Entities.MessageEntity", "Message")
+                        .WithMany()
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataLayer.Data.Entities.UserEntity", "FromUser")
+                        .WithMany()
+                        .HasForeignKey("UserFromId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataLayer.Data.Entities.UserEntity", "ToUser")
+                        .WithMany()
+                        .HasForeignKey("UserToId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FromUser");
+
+                    b.Navigation("Message");
+
+                    b.Navigation("ToUser");
                 });
 #pragma warning restore 612, 618
         }
