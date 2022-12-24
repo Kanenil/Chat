@@ -11,9 +11,7 @@ namespace ClientWPF.Model
     public class ContactModel
     {
         public UserDTO User { get; set; }
-        //public string Username { get; set; }
-        //public string ImageSource { get; set; }
         public ObservableCollection<MessageModel> Messages { get; set; }
-        public string LastMessage => Messages.Last().Message;
+        public string LastMessage => Messages != null ? Messages.Last().Message : null;
     }
 }

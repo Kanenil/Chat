@@ -48,7 +48,10 @@ namespace ClientWPF
             services.AddTransient<AccountViewModel>(s => new AccountViewModel(
                 s.GetRequiredService<AccountStore>(),
                 CreateHomeNavigationService(s),
-                CreateSettingsNavigationService(s)));
+                CreateSettingsNavigationService(s),
+                s.GetRequiredService<IService<UserDTO>>(),
+                s.GetRequiredService<IService<MessageUserDTO>>())
+                );
             services.AddTransient<PeopleListingViewModel>(s => new PeopleListingViewModel(
                 s.GetRequiredService<PeopleStore>(),
                 CreateAddPersonNavigationService(s)));
