@@ -34,7 +34,7 @@ namespace ClientWPF.Commands
             var user = new UserDTO()
             {
                 Email = _viewModel.Email,
-                Password = _viewModel.Password,
+                Password = PasswordHasher.Hash(_viewModel.Password),
                 Login = _viewModel.Username,
                 EmailConfirmed = false
             };

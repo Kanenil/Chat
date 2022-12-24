@@ -46,8 +46,10 @@ namespace ClientWPF.Commands
                 return;
             }
             var user = _service.GetAll().First(u=>u.Id == id);
+            var password = PasswordHasher.Hash(_viewModel.Password);
 
-            if (user.Password != _viewModel.Password) { _viewModel.Message = "* Wrong password!"; return; }
+
+            if (user.Password != password) { _viewModel.Message = "* Wrong password!"; return; }
 
             _viewModel.Message = "";
 

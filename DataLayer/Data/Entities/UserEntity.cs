@@ -17,7 +17,7 @@ namespace DataLayer.Data.Entities
         public string Login { get; set; }
         [Required, StringLength(100)]
         public string Email { get; set; }
-        [Required, StringLength(20)]
+        [Required, StringLength(40)]
         public string Password { get; set; }
         [StringLength(255)]
         public string? Photo { get; set; }
