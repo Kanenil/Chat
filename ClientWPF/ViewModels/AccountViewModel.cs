@@ -70,8 +70,8 @@ namespace ClientWPF.ViewModels
                             User = message.FromUser,
                             ImageSource = message.FromUser.Photo,
                             Username = message.FromUser.Login,
-                            IsNativeOrigin = message.ToUser.Id == _accountStore.CurrentAccount.Id?false:true,
-                            FirstMessage = messages1.Count == 0 ? true : messages.Last().ToUser.Id == _accountStore.CurrentAccount.Id? false: true,
+                            IsNativeOrigin = message.ToUser.Id != _accountStore.CurrentAccount.Id?false:true,
+                            FirstMessage = messages1.Count == 0 ? true : messages1.Last().User.Id != message.FromUser.Id ? true: false,
                             Message = message.Message.Message,
                             Time = message.Message.Time
                         });
