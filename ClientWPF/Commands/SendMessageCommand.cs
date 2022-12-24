@@ -1,6 +1,6 @@
 ﻿using BusinnesLogicLayer.DTO;
 using BusinnesLogicLayer.Interfaces;
-using ClientWPF.Commands;
+using ClientWPF.Model;
 using ClientWPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClientWPF.Model
+namespace ClientWPF.Commands
 {
     public class SendMessageCommand : CommandBase
     {
@@ -23,7 +23,7 @@ namespace ClientWPF.Model
 
         public async override void Execute(object parameter)
         {
-            if(_account.Messages.Count == 0)
+            if (_account.Messages.Count == 0)
                 _account.Messages.Add(new MessageModel()
                 {
                     Message = _account.Message,
