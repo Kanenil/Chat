@@ -4,6 +4,7 @@ using ClientWPF.Commands;
 using ClientWPF.Model;
 using ClientWPF.Services;
 using ClientWPF.Stores;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Design;
 using System.Linq;
@@ -62,6 +63,7 @@ namespace ClientWPF.ViewModels
                 if (item.Id != _accountStore.CurrentAccount.Id)
                 {
                     var messages = allMessages.Where(m => (m.FromUser.Id == _accountStore.CurrentAccount.Id && m.ToUser.Id == item.Id) || (m.ToUser.Id == _accountStore.CurrentAccount.Id && m.FromUser.Id == item.Id)).ToList();
+                    messages.Sort(0, messages.Count, Comparer<MessageUserDTO>.Create((a,b) => a.Message.Time > b.Message.Time?1: a.Message.Time < b.Message.Time?-1:0));
                     ObservableCollection<MessageModel> messages1 = new ObservableCollection<MessageModel>();
                     foreach (var message in messages)
                     {

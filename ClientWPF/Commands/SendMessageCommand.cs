@@ -34,15 +34,29 @@ namespace ClientWPF.Commands
                     FirstMessage = true
                 });
             else
-                _account.Messages.Add(new MessageModel()
-                {
-                    Message = _account.Message,
-                    User = _account.User,
-                    IsNativeOrigin = false,
-                    Time = DateTime.Now,
-                    ImageSource = _account.User.Photo,
-                    FirstMessage = false
-                });
+            {
+                if (_account.Messages.Last().User.Id == _account.User.Id)
+                    _account.Messages.Add(new MessageModel()
+                    {
+                        Message = _account.Message,
+                        User = _account.User,
+                        IsNativeOrigin = false,
+                        Time = DateTime.Now,
+                        ImageSource = _account.User.Photo,
+                        FirstMessage = false
+                    });
+                else
+                    _account.Messages.Add(new MessageModel()
+                    {
+                        Message = _account.Message,
+                        User = _account.User,
+                        IsNativeOrigin = true,
+                        Time = DateTime.Now,
+                        ImageSource = _account.User.Photo,
+                        FirstMessage = true
+                    });
+
+            }    
 
             _account.SelectedContact.Messages = _account.Messages;
 
