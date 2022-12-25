@@ -28,7 +28,7 @@ namespace ChatServerConcole
             }
             TcpListener serverSocket = new TcpListener(ip, port);  //запускаємо сервер
             serverSocket.Start();
-            Console.WriteLine("Запуск сервака {0}:{1}", ip, port);
+            Console.WriteLine("[{0}] Запуск сервера {1}:{2}",DateTime.Now, ip, port);
 
             while (true)
             {
@@ -37,7 +37,7 @@ namespace ChatServerConcole
                 {
                     list_clients.Add(count, client); 
                 }
-                Console.WriteLine("Появився на сервері новий клієнт {0}", client.Client.RemoteEndPoint); 
+                Console.WriteLine("[{0}] Появився на сервері новий клієнт {1}", DateTime.Now, client.Client.RemoteEndPoint); 
 
                 Thread t = new Thread(handle_clients);  
                 t.Start(count);
@@ -71,25 +71,25 @@ namespace ChatServerConcole
                 if (split[0] == "rename")
                 {
                     clients_login.Add(split[2], id);
-                    Console.WriteLine("Клієнт {0} викликав команду rename", client.Client.RemoteEndPoint);
+                    Console.WriteLine("[{0}] Клієнт {1} викликав команду rename", DateTime.Now, client.Client.RemoteEndPoint);
                 }
                 else if (split[0] == "send")
                 {
                     try
                     {
                         broadcast(clients_login[split[2]], split[5]);
-                        Console.WriteLine("Клієнт {0} викликав команду send", client.Client.RemoteEndPoint);
+                        Console.WriteLine("[{0}] Клієнт {1} викликав команду send", DateTime.Now, client.Client.RemoteEndPoint);
                     }
                     catch 
                     {
-                        Console.WriteLine("Клієнт {0} викликав команду send, приймач оффлайн", client.Client.RemoteEndPoint);
+                        Console.WriteLine("[{0}] Клієнт {1} викликав команду send, приймач оффлайн", DateTime.Now, client.Client.RemoteEndPoint);
                     }
                 }
                 
             }
             lock (_lock)
             {
-                Console.WriteLine("Клієнт {0} відключився", client.Client.RemoteEndPoint);
+                Console.WriteLine("[{0}] Клієнт {1} відключився", DateTime.Now, client.Client.RemoteEndPoint);
                 foreach (var item in clients_login)
                 {
                     if (item.Value == id)

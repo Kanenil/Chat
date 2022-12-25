@@ -94,7 +94,8 @@
                 </Grid>
             </Border>
 
-            <ListView Grid.Row="1"
+            <md:MyListView Grid.Row="1"
+                      IsSynchronizedWithCurrentItem="True"
                       ItemsSource="{Binding Messages}"
                       Background="Transparent"
                       BorderThickness="0"

@@ -9,6 +9,8 @@ namespace BusinnesLogicLayer.Interfaces
     public interface IService<T>
     {
         IEnumerable<T> GetAll();
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<T>> GetCount(int count);
         Task AddItemAsync(object item);
         Task<T> FindDTO(T id);
         Task UpdateDTO(T item);

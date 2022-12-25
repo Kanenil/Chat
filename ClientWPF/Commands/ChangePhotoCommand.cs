@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ClientWPF.Commands
 {
-    public class ChangePhotoCommand : CommandBase
+    public class ChangePhotoCommand : AsyncCommandBase
     {
         private readonly IService<UserDTO> _service;
         private readonly AccountStore _accountStore;
@@ -23,7 +23,7 @@ namespace ClientWPF.Commands
             _accountStore = accountStore;
         }
 
-        public async override void Execute(object parameter)
+        public async override Task ExecuteAsync(object parameter)
         {
             OpenFileDialog res = new OpenFileDialog();
             res.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.tif;...";

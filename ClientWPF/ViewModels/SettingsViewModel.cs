@@ -1,6 +1,7 @@
 ﻿using BusinnesLogicLayer.DTO;
 using BusinnesLogicLayer.Interfaces;
 using ClientWPF.Commands;
+using ClientWPF.Model;
 using ClientWPF.Services;
 using ClientWPF.Stores;
 using System;
@@ -21,10 +22,10 @@ namespace ClientWPF.ViewModels
         public ICommand NavigateHomeCommand { get; }
         public ICommand ChangePhotoCommand { get; }
         public ICommand ChangeUsernameCommand { get; }
-        public SettingsViewModel(INavigationService backNavigationService, AccountStore accountStore,IService<UserDTO> service, INavigationService homeNavigationService, INavigationService changeNameNavigationService)
+        public SettingsViewModel(INavigationService backNavigationService, AccountStore accountStore,IService<UserDTO> service, INavigationService homeNavigationService, INavigationService changeNameNavigationService, ServerConnection server)
         {
             BackCommand = new NavigateCommand(backNavigationService);
-            LogoutCommand = new LogoutCommand(accountStore);
+            LogoutCommand = new LogoutCommand(accountStore, server);
             NavigateHomeCommand = new NavigateCommand(homeNavigationService);
             ChangePhotoCommand = new ChangePhotoCommand(service, accountStore);
             ChangeUsernameCommand = new NavigateCommand(changeNameNavigationService);

@@ -38,7 +38,7 @@ namespace ClientWPF
             services.AddSingleton<ServerConnection>();
 
             services.AddSingleton(typeof(IService<UserDTO>), typeof(UserService));
-            services.AddSingleton(typeof(IService<MessageUserDTO>), typeof(MessageUserService));
+            services.AddSingleton(typeof(IMessageUserService<MessageUserDTO>), typeof(MessageUserService));
             ConfigurationBLL.ConfigureServices(services, connectionString);
             ConfigurationBLL.AddDependecy(services);
 
@@ -53,7 +53,7 @@ namespace ClientWPF
                 CreateHomeNavigationService(s),
                 CreateSettingsNavigationService(s),
                 s.GetRequiredService<IService<UserDTO>>(),
-                s.GetRequiredService<IService<MessageUserDTO>>(),
+                s.GetRequiredService<IMessageUserService<MessageUserDTO>>(),
                 s.GetRequiredService<ServerConnection>())
                 );
             services.AddTransient<PeopleListingViewModel>(s => new PeopleListingViewModel(
@@ -167,7 +167,8 @@ namespace ClientWPF
                 serviceProvider.GetRequiredService<AccountStore>(),
                 serviceProvider.GetRequiredService<IService<UserDTO>>(),
                 CreateHomeNavigationService(serviceProvider),
-                CreateChangeNavigationService(serviceProvider));
+                CreateChangeNavigationService(serviceProvider),
+                serviceProvider.GetRequiredService<ServerConnection>());
         }
 
         private ChangeUsernameViewModel CreateChangeUsernameViewModel(IServiceProvider serviceProvider)

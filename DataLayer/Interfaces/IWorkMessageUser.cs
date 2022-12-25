@@ -9,6 +9,6 @@ namespace DataLayer.Interfaces
 {
     public interface IWorkMessageUser : IWork
     {
-        public IRepository<MessageUserEntity> MessageUsers { get; }
+        public IMessageUserRepository<MessageUserEntity> MessageUsers { get; }
     }
 }

@@ -19,7 +19,7 @@ namespace DataLayer.WorkTemp
         {
             _dataContext = new ChatContext(connectionString);
         }
-        public IRepository<MessageUserEntity> MessageUsers { get { return _userRepository = new MessageUserRepository(_dataContext); } }
+        public IMessageUserRepository<MessageUserEntity> MessageUsers { get { return _userRepository = new MessageUserRepository(_dataContext); } }
 
         public void Dispose()
         {

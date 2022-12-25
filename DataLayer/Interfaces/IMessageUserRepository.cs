@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IMessageUserRepository<T> where T : class
     {
-        Task<T> Find(T id);
-        IEnumerable<T> GetAll();
-        Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<T>> GetAll();
         Task<IEnumerable<T>> GetCount(int count);
+        Task<IEnumerable<T>> Find(int fromId, int toId);
         Task Create(T item);
-        void Update(T item);
         void Delete(T id);
-        int GetId(T item);
     }
 }

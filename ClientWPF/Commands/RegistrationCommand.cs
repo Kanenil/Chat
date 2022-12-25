@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ClientWPF.Commands
 {
-    public class RegistrationCommand : CommandBase
+    public class RegistrationCommand : AsyncCommandBase
     {
         private readonly RegistrationViewModel _viewModel;
         private readonly AccountStore _accountStore;
@@ -26,7 +26,8 @@ namespace ClientWPF.Commands
             _navigationService = navigationService;
             _userService = userService;
         }
-        public override async void Execute(object parameter)
+
+        public override async Task ExecuteAsync(object parameter)
         {
             if (_viewModel.ConfirmPassword != _viewModel.Password)
                 return;
@@ -43,7 +44,7 @@ namespace ClientWPF.Commands
             await _userService.AddItemAsync(user);
 
 
-            _accountStore.CurrentAccount = _userService.GetAll().First(u=>u.Login == _viewModel.Username);
+            _accountStore.CurrentAccount = _userService.GetAll().First(u => u.Login == _viewModel.Username);
 
             _navigationService.Navigate();
         }

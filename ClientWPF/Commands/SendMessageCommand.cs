@@ -1,6 +1,7 @@
 ﻿using BusinnesLogicLayer.DTO;
 using BusinnesLogicLayer.Interfaces;
 using ClientWPF.Model;
+using ClientWPF.Stores;
 using ClientWPF.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,60 +11,22 @@ using System.Threading.Tasks;
 
 namespace ClientWPF.Commands
 {
-    public class SendMessageCommand : CommandBase
+    public class SendMessageCommand : AsyncCommandBase
     {
-        private readonly IService<MessageUserDTO> _messageUser;
+        private readonly IMessageUserService<MessageUserDTO> _messageUser;
         private readonly AccountViewModel _account;
         private readonly ServerConnection _serverConnection;
 
-        public SendMessageCommand(IService<MessageUserDTO> messageUser, AccountViewModel account, ServerConnection serverConnection)
+        public SendMessageCommand(IMessageUserService<MessageUserDTO> messageUser, AccountViewModel account, ServerConnection serverConnection)
         {
             _messageUser = messageUser;
             _account = account;
             _serverConnection = serverConnection;
         }
-
-        public async override void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             if (_account.Messages == null || string.IsNullOrWhiteSpace(_account.Message))
                 return;
-
-            if (_account.Messages.Count == 0)
-                _account.Messages.Add(new MessageModel()
-                {
-                    Message = _account.Message,
-                    User = _account.User,
-                    IsNativeOrigin = false,
-                    Time = DateTime.Now,
-                    ImageSource = _account.User.Photo,
-                    FirstMessage = true
-                });
-            else
-            {
-                if (_account.Messages.Last().User.Id == _account.User.Id)
-                    _account.Messages.Add(new MessageModel()
-                    {
-                        Message = _account.Message,
-                        User = _account.User,
-                        IsNativeOrigin = false,
-                        Time = DateTime.Now,
-                        ImageSource = _account.User.Photo,
-                        FirstMessage = false
-                    });
-                else
-                    _account.Messages.Add(new MessageModel()
-                    {
-                        Message = _account.Message,
-                        User = _account.User,
-                        IsNativeOrigin = true,
-                        Time = DateTime.Now,
-                        ImageSource = _account.User.Photo,
-                        FirstMessage = true
-                    });
-
-            }    
-
-            _account.SelectedContact.Messages = _account.Messages;
 
             await _messageUser.AddItemAsync(new MessageUserDTO()
             {
@@ -77,9 +40,16 @@ namespace ClientWPF.Commands
                 }
             });
 
-            _serverConnection.SendMessage(_account.SelectedContact.User.Login, _account.User.Login);
+            OnMessageSended();
+            if (_serverConnection.IsConnected)
+                _serverConnection.SendMessage(_account.SelectedContact.User.Login, _account.User.Login);
 
             _account.Message = "";
+        }
+        public event Action MessageSended;
+        private void OnMessageSended()
+        {
+            MessageSended?.Invoke();
         }
     }
 }

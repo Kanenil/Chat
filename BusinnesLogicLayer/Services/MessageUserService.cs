@@ -11,20 +11,14 @@ using System.Threading.Tasks;
 
 namespace BusinnesLogicLayer.Services
 {
-    public class MessageUserService : IService<MessageUserDTO>
+    public class MessageUserService : IMessageUserService<MessageUserDTO>
     {
         private readonly IWorkMessageUser _userDB;
         public MessageUserService(IWorkMessageUser database)
         {
             this._userDB = database;
         }
-        public async Task AddItemAsync(object item)
-        {
-            if (item is MessageUserDTO)
-                await AddUser((MessageUserDTO)item);
-        }
-
-        private async Task AddUser(MessageUserDTO item)
+        public async Task AddItemAsync(MessageUserDTO item)
         {
             var contact = MappingModels(item);
 
@@ -32,44 +26,10 @@ namespace BusinnesLogicLayer.Services
             await _userDB.Save();
         }
 
-        public async Task AddList(IEnumerable<MessageUserDTO> templist)
-        {
-            if (templist != null)
-            {
-                foreach (var item in templist)
-                {
-                    await AddUser(item);
-                }
-            }
-        }
-
         public async Task DeleteDTO(MessageUserDTO id)
         {
             _userDB.MessageUsers.Delete(MappingModels(id));
             await _userDB.Save();
-        }
-
-        public async Task<MessageUserDTO> FindDTO(MessageUserDTO id)
-        {
-            return MappingModels(await _userDB.MessageUsers.Find(MappingModels(id)));
-        }
-
-        public IEnumerable<MessageUserDTO> GetAll()
-        {
-            List<MessageUserDTO> list = new List<MessageUserDTO>();
-            foreach (var item in _userDB.MessageUsers.GetAll())
-                list.Add(MappingModels(item));
-            return list;
-        }
-
-        public int GetIdDTO(MessageUserDTO item)
-        {
-            throw new InvalidOperationException();
-        }
-
-        public Task UpdateDTO(MessageUserDTO item)
-        {
-            throw new InvalidOperationException();
         }
 
         private MessageUserDTO MappingModels(MessageUserEntity user)
@@ -154,6 +114,30 @@ namespace BusinnesLogicLayer.Services
                     }
                 }
             };
+        }
+
+        public async Task<IEnumerable<MessageUserDTO>> GetCount(int count)
+        {
+            List<MessageUserDTO> list = new List<MessageUserDTO>();
+            foreach (var item in await _userDB.MessageUsers.GetCount(count))
+                list.Add(MappingModels(item));
+            return list;
+        }
+
+        public async Task<IEnumerable<MessageUserDTO>> GetAll()
+        {
+            List<MessageUserDTO> list = new List<MessageUserDTO>();
+            foreach (var item in await _userDB.MessageUsers.GetAll())
+                list.Add(MappingModels(item));
+            return list;
+        }
+
+        public async Task<IEnumerable<MessageUserDTO>> Find(int fromId, int toId)
+        {
+            List<MessageUserDTO> list = new List<MessageUserDTO>();
+            foreach (var item in await _userDB.MessageUsers.Find(fromId, toId))
+                list.Add(MappingModels(item));
+            return list;
         }
     }
 }

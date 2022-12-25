@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ClientWPF.Commands
 {
-    public class ChangeUsernameCommand : CommandBase
+    public class ChangeUsernameCommand : AsyncCommandBase
     {
         private readonly IService<UserDTO> _service;
         private readonly AccountStore _accountStore;
@@ -27,7 +27,7 @@ namespace ClientWPF.Commands
             _model = model;
         }
 
-        public async override void Execute(object parameter)
+        public async override Task ExecuteAsync(object parameter)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace ClientWPF.Commands
                 _model.UsernameMessageColor = "#FF0000";
                 return;
             }
-            catch 
+            catch
             {
                 var user = _accountStore.CurrentAccount;
                 user.Login = _model.Username;

@@ -83,5 +83,21 @@ namespace BusinnesLogicLayer.Services
             var firstobj = new MapperConfiguration(map => map.CreateMap<UserDTO, UserEntity>()).CreateMapper();
             return firstobj.Map<UserEntity>(user);
         }
+
+        public async Task<IEnumerable<UserDTO>> GetCount(int count)
+        {
+            List<UserDTO> list = new List<UserDTO>();
+            foreach (var item in await _userDB.Users.GetCount(count))
+                list.Add(MappingModels(item));
+            return list;
+        }
+
+        public async Task<IEnumerable<UserDTO>> GetAllAsync()
+        {
+            List<UserDTO> list = new List<UserDTO>();
+            foreach (var item in await _userDB.Users.GetAllAsync())
+                list.Add(MappingModels(item));
+            return list;
+        }
     }
 }

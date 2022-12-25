@@ -27,7 +27,7 @@ namespace ClientWPF.Commands
             _service = service;
         }
 
-        public override async void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             _viewModel.Message = "";
 

@@ -44,6 +44,16 @@ namespace DataLayer.Repository
             return list;
         }
 
+        public async Task<IEnumerable<UserEntity>> GetAllAsync()
+        {
+            return await _dataContext.Users.ToListAsync();
+        }
+
+        public async Task<IEnumerable<UserEntity>> GetCount(int count)
+        {
+            return await _dataContext.Users.Take(count).ToListAsync();
+        }
+
         public int GetId(UserEntity item)
         {
             var tempItem = _dataContext.Users.Where(e => e.Login == item.Login || e.Email == item.Email).First();

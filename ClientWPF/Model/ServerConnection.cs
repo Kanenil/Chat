@@ -22,6 +22,7 @@ namespace ClientWPF.Model
         NetworkStream ns;
         Thread thread;
         public string LastMessage { get; private set; }
+        public bool IsConnected => client.Connected;
         public void Connect()
         {
             string fileName = "config.txt";

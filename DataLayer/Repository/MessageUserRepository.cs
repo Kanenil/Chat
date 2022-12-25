@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Repository
 {
-    public class MessageUserRepository : IRepository<MessageUserEntity>
+    public class MessageUserRepository : IMessageUserRepository<MessageUserEntity>
     {
         private ChatContext _dataContext;
         public MessageUserRepository(ChatContext context)
@@ -20,10 +20,10 @@ namespace DataLayer.Repository
 
         public async Task Create(MessageUserEntity item)
         {
-            var userFrom = _dataContext.Users.Find(item.FromUser.Id);
-            var userTo = _dataContext.Users.Find(item.ToUser.Id);
+            var userFrom = await _dataContext.Users.FindAsync(item.FromUser.Id);
+            var userTo = await _dataContext.Users.FindAsync(item.ToUser.Id);
             var message = item.Message;
-            message.User = _dataContext.Users.Find(message.User.Id);
+            message.User = await _dataContext.Users.FindAsync(message.User.Id);
 
             if (item != null)
                 await _dataContext.MessageUsers.AddAsync(new MessageUserEntity()
@@ -39,35 +39,40 @@ namespace DataLayer.Repository
             _dataContext.MessageUsers.Remove(id);
         }
 
-        public async Task<MessageUserEntity> Find(MessageUserEntity id)
+        public async Task<IEnumerable<MessageUserEntity>> Find(int fromId, int toId)
         {
-            var messageUsers = await _dataContext.MessageUsers.FindAsync(id);
-            if (messageUsers != null)
-                return messageUsers;
-            throw new InvalidOperationException();
-        }
-
-        public IEnumerable<MessageUserEntity> GetAll()
-        {
-            var list = _dataContext.MessageUsers.ToList();
+            var list = await _dataContext.MessageUsers.Where(u=>(u.UserFromId == fromId && u.UserToId == toId) || (u.UserFromId == toId && u.UserToId == fromId)).ToListAsync();
             foreach (var entity in list)
             {
-                entity.FromUser = _dataContext.Users.Find(entity.UserFromId);
-                entity.ToUser = _dataContext.Users.Find(entity.UserToId);
-                entity.Message = _dataContext.Messages.Find(entity.MessageId); 
+                entity.FromUser = await _dataContext.Users.FindAsync(entity.UserFromId);
+                entity.ToUser = await _dataContext.Users.FindAsync(entity.UserToId);
+                entity.Message = await _dataContext.Messages.FindAsync(entity.MessageId);
             }
-
             return list;
         }
 
-        public int GetId(MessageUserEntity item)
+        public async Task<IEnumerable<MessageUserEntity>> GetAll()
         {
-            throw new InvalidOperationException();
+            var list = await _dataContext.MessageUsers.ToListAsync();
+            foreach (var entity in list)
+            {
+                entity.FromUser = await _dataContext.Users.FindAsync(entity.UserFromId);
+                entity.ToUser = await _dataContext.Users.FindAsync(entity.UserToId);
+                entity.Message = await _dataContext.Messages.FindAsync(entity.MessageId);
+            }
+            return list;
         }
 
-        public void Update(MessageUserEntity item)
+        public async Task<IEnumerable<MessageUserEntity>> GetCount(int count)
         {
-            throw new InvalidOperationException();
+            var list = await _dataContext.MessageUsers.Take(count).ToListAsync();
+            foreach (var entity in list)
+            {
+                entity.FromUser = await _dataContext.Users.FindAsync(entity.UserFromId);
+                entity.ToUser = await _dataContext.Users.FindAsync(entity.UserToId);
+                entity.Message = await _dataContext.Messages.FindAsync(entity.MessageId);
+            }
+            return list;
         }
     }
 }
