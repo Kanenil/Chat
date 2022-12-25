@@ -73,6 +73,8 @@ namespace ClientWPF.ViewModels
         public ICommand NavigateSettingsCommand { get; }
         public ICommand SendCommand { get; }
 
+        public Task Initialization { get; }
+
         public AccountViewModel(AccountStore accountStore, INavigationService homeNavigationService, INavigationService settingsNavigationService, IService<UserDTO> service, IMessageUserService<MessageUserDTO> messageUserService, ServerConnection serverConnection)
         {
             Contacts = new ObservableCollection<ContactModel>();
@@ -87,33 +89,63 @@ namespace ClientWPF.ViewModels
             Online = "Status Online";
             _serverConnection = serverConnection;
 
-            try
-            {
-                _serverConnection.Connect();
-
-                _serverConnection.DataReceived += ServerConnection_DataReceived;
-
-                _serverConnection.Rename(_accountStore.CurrentAccount.Login);
-            }
-            catch (System.Exception ex)
-            {
-                Online = "Status Offline";
-            }
-
-            ConfigureChat();
-
             SendCommand = new SendMessageCommand(messageUserService, this, serverConnection);
-
             (SendCommand as SendMessageCommand).MessageSended += OnMessageSended;
             _accountStore.CurrentAccountChanged += OnCurrentAccountChanged;
+
+            Initialization = InitializeAsync();
+        }
+
+        private async Task InitializeAsync()
+        {
+            await Task.WhenAll(ConfigureChat());
+
+            if (_serverConnection.IsConnected)
+                return;
+
+            try
+            {
+                await _serverConnection.Connect();
+
+                _serverConnection.DataReceived += ServerConnection_DataReceived;
+                _serverConnection.ConnectedUsersChanged += ServerConnection_ConnectedUsersChanged;
+
+                await _serverConnection.Rename(_accountStore.CurrentAccount.Login);
+                await _serverConnection.GetAllConnectedUsers(_accountStore.CurrentAccount.Login);
+            }
+            catch
+            {
+                if (!_serverConnection.IsConnected)
+                    Online = "Status Offline";
+            }
+        }
+        private void ServerConnection_ConnectedUsersChanged()
+        {
+            Application.Current.Dispatcher.Invoke(async () =>
+            {
+                //Працює, але мінус того що він обновляє всю колекцію
+                await ConfigureChat();
+                SelectedContact = Contacts.First(u => u.User.Login == _selectedLogin);
+            });
         }
 
         private void ServerConnection_DataReceived()
         {
             Application.Current.Dispatcher.Invoke(async () =>
             {
-                await ConfigureChat(_serverConnection.LastMessage);
-                SelectedContact = Contacts.First(u => u.User.Login == _selectedLogin);
+                if (_serverConnection.LastMessage.Split(' ').Contains("connected"))
+                {
+                    await _serverConnection.GetAllConnectedUsers(_accountStore.CurrentAccount.Login);
+                }
+                else if(_serverConnection.LastMessage.Split(' ').Contains("disconnected"))
+                {
+                    await _serverConnection.GetAllConnectedUsers(_accountStore.CurrentAccount.Login);
+                }
+                else
+                {
+                    await ConfigureChat(_serverConnection.LastMessage);
+                    SelectedContact = Contacts.First(u => u.User.Login == _selectedLogin);
+                }
             });
         }
 
@@ -123,15 +155,24 @@ namespace ClientWPF.ViewModels
             var contacts = await _userService.GetAllAsync();
             foreach (var contact in contacts)
             {
+                if (_accountStore.CurrentAccount == null) return;
                 if (contact.Id != _accountStore.CurrentAccount.Id)
                 {
-                    var message = await _messageUserService.FindLast(_accountStore.CurrentAccount.Id, contact.Id);
-
-                    Contacts.Add(new ContactModel()
+                    try
                     {
-                        User = contact,
-                        LastMessage = message != null ? message.Message.Message : null
-                    });
+                        Contacts.First(x => x.User.Id == contact.Id);
+                    }
+                    catch 
+                    {
+                        var message = await _messageUserService.FindLast(_accountStore.CurrentAccount.Id, contact.Id);
+
+                        Contacts.Add(new ContactModel()
+                        {
+                            User = contact,
+                            LastMessage = message != null ? message.Message.Message : null,
+                            Online = _serverConnection.ConnectedUsers != null ? _serverConnection.ConnectedUsers.Contains(contact.Login) : false
+                        });
+                    }
                 }
             }
         }
@@ -158,6 +199,9 @@ namespace ClientWPF.ViewModels
         }
         private async Task ConfigureChat(string login)
         {
+
+            if (_accountStore.CurrentAccount.Login == login) return;
+
             var contacts = Contacts.ToList();
             ContactModel contact = null;
             for (int i = 0; i < contacts.Count; i++)
@@ -169,8 +213,15 @@ namespace ClientWPF.ViewModels
                     break;
                 }
             }
-            var messages = (await _messageUserService.Find(_accountStore.CurrentAccount.Id, contact.User.Id)).ToList();
+            if (contact == null)
+            {
+                await Task.Delay(1000);
+                await ConfigureChat(login);
+            }
+
+            var messages = await _messageUserService.Find(_accountStore.CurrentAccount.Id, contact.User.Id);
             contact.LastMessage = messages.Last().Message.Message;
+            contact.Online = _serverConnection.ConnectedUsers.Contains(contact.User.Login);
             contacts.Insert(0, contact);
             Contacts.Clear();
             foreach (var item in contacts)

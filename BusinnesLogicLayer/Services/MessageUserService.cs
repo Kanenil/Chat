@@ -144,7 +144,7 @@ namespace BusinnesLogicLayer.Services
         {
             var item = await _userDB.MessageUsers.FindLast(fromId, toId);
             if (item != null)
-                return MappingModels(await _userDB.MessageUsers.FindLast(fromId, toId));
+                return MappingModels(item);
             return null;
         }
     }

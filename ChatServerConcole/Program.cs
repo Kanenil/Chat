@@ -67,38 +67,65 @@ namespace ChatServerConcole
 
                 //Commands: rename to "name"
                 //          send to "name" message from "name"
+                //          get all conected users to "name"
 
-                if (split[0] == "rename")
+                for (int i = 0; i < split.Length; i++)
                 {
-                    clients_login.Add(split[2], id);
-                    Console.WriteLine("[{0}] Клієнт {1} викликав команду rename", DateTime.Now, client.Client.RemoteEndPoint);
-                }
-                else if (split[0] == "send")
-                {
-                    try
+                    if (split[i] == "rename")
                     {
-                        broadcast(clients_login[split[2]], split[5]);
-                        Console.WriteLine("[{0}] Клієнт {1} викликав команду send", DateTime.Now, client.Client.RemoteEndPoint);
+                        foreach (var item in clients_login)
+                            broadcast(item.Value, $"connected {split[2]}");
+                        clients_login.Add(split[i + 2], id);
+                        Console.WriteLine("[{0}] Клієнт {1} викликав команду rename to {2}", DateTime.Now, client.Client.RemoteEndPoint, split[2]);
+                        i = i + 2;
                     }
-                    catch 
+                    else if(split[i] == "send")
                     {
-                        Console.WriteLine("[{0}] Клієнт {1} викликав команду send, приймач оффлайн", DateTime.Now, client.Client.RemoteEndPoint);
+                        try
+                        {
+                            broadcast(clients_login[split[i+2]], split[i+5]);
+                            Console.WriteLine("[{0}] Клієнт {1} викликав команду send", DateTime.Now, client.Client.RemoteEndPoint);
+                        }
+                        catch
+                        {
+                            Console.WriteLine("[{0}] Клієнт {1} викликав команду send, приймач оффлайн", DateTime.Now, client.Client.RemoteEndPoint);
+                        }
+                        i = i + 5;
+                    }
+                    else if (split[i] == "get")
+                    {
+                        string message = "[";
+                        foreach (var item in clients_login)
+                            message += $"{item.Key},";
+                        message.Remove(message.Length - 1);
+                        message += "]";
+                        broadcast(clients_login[split[i+5]], message);
+                        Console.WriteLine("[{0}] Клієнт {1} викликав команду get all", DateTime.Now, client.Client.RemoteEndPoint);
+                        i = i + 5;
                     }
                 }
-                
+
+
             }
             lock (_lock)
             {
-                Console.WriteLine("[{0}] Клієнт {1} відключився", DateTime.Now, client.Client.RemoteEndPoint);
+                int value = 0;
+                string key = "";
                 foreach (var item in clients_login)
                 {
                     if (item.Value == id)
                     {
+                        key = item.Key;
+                        value = item.Value;
                         clients_login.Remove(item.Key);
                         break;
                     }
                 }
-                list_clients.Remove(id);
+                list_clients.Remove(value);
+                Console.WriteLine("[{0}] Клієнт {1} -> {2} відключився", DateTime.Now, client.Client.RemoteEndPoint, key);
+                foreach (var item in clients_login)
+                    broadcast(item.Value, $"disconnected {key}");
+                Console.WriteLine("[{0}] Залишилось {1} Клієнт(-ів)", DateTime.Now, list_clients.Count);
             }
             client.Client.Shutdown(SocketShutdown.Both);
             client.Close();

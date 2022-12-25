@@ -95,7 +95,7 @@
             </Border>
 
             <md:MyListView Grid.Row="1"
-                      ItemsSource="{Binding Messages}"
+                      ItemsSource="{Binding Messages, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       Background="Transparent"
                       BorderThickness="0"
                       ItemContainerStyle="{StaticResource ChatItem}"
