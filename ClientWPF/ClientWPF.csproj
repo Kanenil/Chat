@@ -8,6 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\Fonts\ggsans-Bold.ttf" />
+    <None Remove="Views\Fonts\ggsans-BoldItalic.ttf" />
+    <None Remove="Views\Fonts\ggsans-ExtraBold.ttf" />
+    <None Remove="Views\Fonts\ggsans-ExtraBoldItalic.ttf" />
+    <None Remove="Views\Fonts\ggsans-Medium.ttf" />
+    <None Remove="Views\Fonts\ggsans-MediumItalic.ttf" />
+    <None Remove="Views\Fonts\ggsans-Normal.ttf" />
+    <None Remove="Views\Fonts\ggsans-NormalItalic.ttf" />
+    <None Remove="Views\Fonts\ggsans-Semibold.ttf" />
+    <None Remove="Views\Fonts\ggsans-SemiboldItalic.ttf" />
+    <None Remove="Views\Images\login-background.webp" />
+    <None Remove="Views\Images\logo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.11.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.1">
       <PrivateAssets>all</PrivateAssets>
@@ -25,13 +40,44 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="config.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <Resource Include="Views\Fonts\ggsans-Bold.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Fonts\ggsans-BoldItalic.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Fonts\ggsans-ExtraBold.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Fonts\ggsans-ExtraBoldItalic.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Fonts\ggsans-Medium.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Fonts\ggsans-MediumItalic.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Fonts\ggsans-Normal.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Fonts\ggsans-NormalItalic.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Fonts\ggsans-Semibold.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Fonts\ggsans-SemiboldItalic.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Views\Images\login-background.webp" />
+    <Resource Include="Views\Images\logo.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Images\" />
+    <None Update="config.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

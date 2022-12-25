@@ -30,7 +30,29 @@ namespace ClientWPF.Commands
 
         public override void Execute(object parameter)
         {
-            _viewModel.Message = "";
+            _viewModel.UsernameText = "Email address or Login";
+            _viewModel.UsernameTextColor = "#FFB8BABD";
+            _viewModel.PasswordText = "Password";
+            _viewModel.PasswordTextColor = "#FFB8BABD";
+            _viewModel.UsernameRequiredVisibilty = Visibility.Visible;
+            _viewModel.PasswordRequiredVisibilty = Visibility.Visible;
+
+            if (String.IsNullOrWhiteSpace(_viewModel.Username))
+            {
+                _viewModel.UsernameRequiredVisibilty = Visibility.Collapsed;
+                _viewModel.UsernameText = "Email address or Login - This is a required field.";
+                _viewModel.UsernameTextColor = "#c77377";
+                return;
+            }
+
+            if(String.IsNullOrWhiteSpace(_viewModel.Password))
+            {
+                _viewModel.PasswordRequiredVisibilty = Visibility.Collapsed;
+                _viewModel.PasswordText = "Password - This is a required field.";
+                _viewModel.PasswordTextColor = "#c77377";
+                return;
+            }
+
 
             int id;
             try
@@ -43,17 +65,23 @@ namespace ClientWPF.Commands
             }
             catch 
             {
-                _viewModel.Message = "* Wrong login or email!";
+                _viewModel.UsernameRequiredVisibilty = Visibility.Collapsed;
+                _viewModel.UsernameText = "Email address or Login - Invalid login or email.";
+                _viewModel.UsernameTextColor = "#c77377";
+
                 return;
             }
             var user = _service.GetAll().First(u=>u.Id == id);
             var password = PasswordHasher.Hash(_viewModel.Password);
 
 
-            if (user.Password != password) { _viewModel.Message = "* Wrong password!"; return; }
-
-            _viewModel.Message = "";
-
+            if (user.Password != password) 
+            {
+                _viewModel.PasswordRequiredVisibilty = Visibility.Collapsed;
+                _viewModel.PasswordText = "Password - Invalid password.";
+                _viewModel.PasswordTextColor = "#c77377";
+                return;
+            }
 
             _accountStore.CurrentAccount = user;
 

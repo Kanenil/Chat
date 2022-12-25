@@ -9,7 +9,10 @@
                 <ResourceDictionary Source="Views/Theme/ChatItem.xaml"/>
                 <ResourceDictionary Source="Views/Theme/MessageBox.xaml"/>
                 <ResourceDictionary Source="Views/Theme/StylishScrollbar.xaml"/>
+                <ResourceDictionary Source="Views/Theme/CommonResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            
+            <FontFamily x:Key="SansGG">pack://application:,,,/Views/Fonts/#Sans GG</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -8,199 +8,207 @@
              xmlns:components="clr-namespace:PasswordBoxMVVM.Components;assembly=PasswordBoxMVVM"
              xmlns:md="clr-namespace:ClientWPF.Components" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:viewModel="clr-namespace:ClientWPF.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewModel:RegistrationViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <Style x:Key="titleText" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="36"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-        <Style x:Key="normalText" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="LineHeight" Value="28"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-        <Style x:Key="textBox" TargetType="Control">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Grid.Column" Value="1"/>
-            <Setter Property="Margin" Value="10 0 0 0"/>
-            <Setter Property="Foreground" Value="#878787"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-        </Style>
-        <Style x:Key="mainbutton" TargetType="Button">
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Margin" Value="0 20 0 0"/>
-            <Setter Property="Background" Value="#252525"/>
-            <Setter Property="Foreground" Value="#fdfefe"/>
-            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="25" 
-                                BorderThickness="1"
-                                BorderBrush="#44474D"
-                                Padding="15"
-                                Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" 
-                                              VerticalAlignment="Center"/>
+             d:DesignHeight="650"
+             d:DesignWidth="1000">
 
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+    <UserControl.Background>
+        <ImageBrush ImageSource="..\Images\login-background.webp"/>
+    </UserControl.Background>
+
+    <UserControl.Resources>
+        <Style x:Key="underlineRun" TargetType="Run">
+            <Setter Property="Cursor" Value="{x:Null}"/>
+            <Setter Property="TextDecorations" Value="None"/>
+            <Setter Property="Foreground" Value="#05a4e4"/>
+            <Setter Property="FontWeight" Value="Regular"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#251525"/>
-                    <Setter Property="Foreground" Value="White"/>
-                </Trigger>
-                <Trigger Property="IsMouseCaptured" Value="True">
-                    <Setter Property="Background" Value="#252530"/>
-                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="TextDecorations" Value="Underline"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
+    
+    <Grid>
+        <Border HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                MinWidth="400"
+                Background="#FF2F3136"
+                CornerRadius="10">
+            <StackPanel>
+                <!--#region Header-->
+                <TextBlock Style="{StaticResource HoverUnderlineStyle}" 
+                           Text="＜ Back"
+                           FontFamily="{StaticResource SansGG}"
+                           FontSize="14"
+                           VerticalAlignment="Center"
+                           Foreground="#FFB8BABD"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Left"
+                           Margin="25 20 0 0">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding CancelCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                </TextBlock>
 
 
-    <Grid Background="#44474D">
-        <StackPanel VerticalAlignment="Center">
-            <TextBlock Text="Sign Up" 
-                       Style="{StaticResource titleText}"/>
-            <TextBlock Text="Enter your personal info and create new account to connect us" 
-                           Style="{StaticResource normalText}"
-                           Opacity="0.8"
-                           Margin="20 30"/>
-
-            <Border BorderThickness="1" 
-                        BorderBrush="#acb0af"
-                        Margin="70 7"
-                        CornerRadius="5"
-                    MaxWidth="300">
-                <Grid Margin="7 9">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <icons:PackIconMaterial Kind="Account" 
-                                                Height="20"
-                                                Foreground="Gray"/>
-
-                    <TextBox Grid.Column="1"
-                             FontSize="14"
-                             Style="{StaticResource textBox}"
-                             Text="{Binding Username}"
-                             ToolTip="Username"
-                             Margin="10 0 0 0"
-                             Background="Transparent"/>
-
-
-                </Grid>
-            </Border>
-            <Border BorderThickness="1" 
-                        BorderBrush="#acb0af"
-                        Margin="70 7"
-                        CornerRadius="5"
-                    MaxWidth="300">
-                <Grid Margin="7 9">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <icons:PackIconMaterial Kind="Email" 
-                                                Height="20"
-                                                Foreground="Gray"/>
-
-                    <TextBox Grid.Column="1"
-                             FontSize="14"
-                             Style="{StaticResource textBox}"
+                <TextBlock Text="Create account"
+                           FontFamily="{StaticResource SansGG}"
+                           FontWeight="Bold"
+                           Style="{StaticResource Headertext}"
+                           Margin="0 10 0 0"/>
+                <!--#endregion-->
+                <!--#region Email address-->
+                <TextBlock Text="{Binding EmailText}"
+                           FontFamily="{StaticResource SansGG}"
+                           Style="{StaticResource Commontext}"
+                           Foreground="{Binding EmailTextColor}"
+                           FontSize="12"
+                           HorizontalAlignment="Left"
+                           FontWeight="Bold"
+                           Margin="25 10 0 0"/>
+                <Border Background="#FF202225"
+                        Margin="0 10 0 0"
+                        MinWidth="350"
+                        HorizontalAlignment="Center"
+                        Padding="2"
+                        CornerRadius="3">
+                    <TextBox Style="{StaticResource textBox}"
+                             FontFamily="{StaticResource SansGG}"
+                             CaretBrush="White"
                              Text="{Binding Email}"
-                             ToolTip="Email"
-                             Margin="10 0 0 0"
-                             Background="Transparent"/>
-
-
-                </Grid>
-            </Border>
-            <Border BorderThickness="1" 
-                        BorderBrush="#acb0af"
-                        Margin="70 7"
-                        CornerRadius="5"
-                    MaxWidth="300">
-                <Grid Margin="7 9">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <icons:PackIconMaterial Kind="Lock" 
-                                                Height="20"
-                                                Foreground="Gray"/>
-
-                    <PasswordBox Grid.Column="1"
-                                     FontSize="14"
-                                     Style="{StaticResource textBox}"
-                                     Margin="10 0 0 0"
-                                     Background="Transparent">
+                             Padding="4"
+                             FontSize="16"
+                             Foreground="#a3a3a5"/>
+                </Border>
+                <!--#endregion-->
+                <!--#region Username-->
+                <TextBlock Text="{Binding UsernameText}"
+                           Style="{StaticResource Commontext}"
+                           Foreground="{Binding UsernameTextColor}"
+                           FontFamily="{StaticResource SansGG}"
+                           HorizontalAlignment="Left"
+                           FontWeight="Bold"
+                           FontSize="12"
+                           Margin="25 10 0 0"/>
+                <Border Background="#FF202225"
+                        Margin="0 10 0 0"
+                        MinWidth="350"
+                        HorizontalAlignment="Center"
+                        Padding="2"
+                        CornerRadius="3">
+                    <TextBox Style="{StaticResource textBox}"
+                             Text="{Binding Username}"
+                             FontFamily="{StaticResource SansGG}"
+                             Padding="4"
+                             CaretBrush="White"
+                             FontSize="16"
+                             Foreground="#a3a3a5"/>
+                </Border>
+                <!--#endregion-->
+                <!--#region Password-->
+                <TextBlock Text="{Binding PasswordText}"
+                           Style="{StaticResource Commontext}"
+                           Foreground="{Binding PasswordTextColor}"
+                           FontFamily="{StaticResource SansGG}"
+                           HorizontalAlignment="Left"
+                           FontSize="12"
+                           FontWeight="Bold"
+                           Margin="25 10 0 0"/>
+                <Border Background="#FF202225"
+                        Margin="0 10 0 0"
+                        MinWidth="350"
+                        HorizontalAlignment="Center"
+                        Padding="2"
+                        CornerRadius="3">
+                    <PasswordBox Style="{StaticResource textBox}"
+                                 FontSize="16"
+                                 Padding="4"
+                                 CaretBrush="White"
+                                 FontFamily="{StaticResource SansGG}"
+                                 Foreground="#a3a3a5"
+                                 MaxLength="16">
                         <i:Interaction.Behaviors>
                             <md:PasswordBehavior Password="{Binding Password, Mode=TwoWay}" />
                         </i:Interaction.Behaviors>
                     </PasswordBox>
-
-
-                </Grid>
-            </Border>
-            <Border BorderThickness="1" 
-                        BorderBrush="#acb0af"
-                        Margin="70 7"
-                        CornerRadius="5"
-                    MaxWidth="300">
-                <Grid Margin="7 9">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <icons:PackIconMaterial Kind="Lock" 
-                                                Height="20"
-                                                Foreground="Gray"/>
-
-                    <PasswordBox Grid.Column="1"
-                                     FontSize="14"
-                                     Style="{StaticResource textBox}"
-                                     Margin="10 0 0 0"
-                                     Background="Transparent">
+                </Border>
+                <!--#endregion-->
+                <!--#region Confirm Password-->
+                <TextBlock Text="{Binding ConfirmPasswordText}"
+                           Style="{StaticResource Commontext}"
+                           Foreground="{Binding ConfirmPasswordTextColor}"
+                           FontFamily="{StaticResource SansGG}"
+                           FontSize="12"
+                           HorizontalAlignment="Left"
+                           FontWeight="Bold"
+                           Margin="25 10 0 0"/>
+                <Border Background="#FF202225"
+                        Margin="0 10 0 0"
+                        MinWidth="350"
+                        HorizontalAlignment="Center"
+                        Padding="2"
+                        CornerRadius="3">
+                    <PasswordBox Style="{StaticResource textBox}"
+                                 FontSize="16"
+                                 Padding="4"
+                                 CaretBrush="White"
+                                 FontFamily="{StaticResource SansGG}"
+                                 Foreground="#a3a3a5"
+                                 MaxLength="16">
                         <i:Interaction.Behaviors>
                             <md:PasswordBehavior Password="{Binding ConfirmPassword, Mode=TwoWay}" />
                         </i:Interaction.Behaviors>
                     </PasswordBox>
-
-                </Grid>
-            </Border>
-
-
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        Margin="26">
-                <Button Content="Sign Up"
-                        Style="{StaticResource mainbutton}"
+                </Border>
+                <!--#endregion-->
+                <!--#region Continue-->
+                <Button Style="{StaticResource editbuttonBlue}"
+                        Content="Continue"
+                        FontFamily="{StaticResource SansGG}"
                         Command="{Binding RegistrationCommand}"
-                        Margin="10 0"/>
-                <Button Content="Cancel"
-                        Style="{StaticResource mainbutton}"
-                        Command="{Binding CancelCommand}"
-                        Margin="10 0"/>
+                        Margin="0 20 0 0"
+                        MinWidth="350"
+                        FontSize="17"
+                        Padding="10"
+                        FontWeight="SemiBold"
+                        HorizontalAlignment="Center"/>
+                <!--#endregion-->
+                <!--#region Already have account?-->
+                <TextBlock Style="{StaticResource HoverUnderlineStyle}" 
+                           Text="Already have account?"
+                           FontSize="13"
+                           FontFamily="{StaticResource SansGG}"
+                           VerticalAlignment="Center"
+                           Foreground="#05a4e4"
+                           FontWeight="SemiBold"
+                           Margin="25 10 0 20">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding CancelCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                </TextBlock>
+                <!--#endregion-->
+                <!--#region Policy-->
+                <TextBlock Style="{StaticResource Commontext}"
+                           Margin="25 0 0 25"
+                           TextWrapping="WrapWithOverflow"
+                           MaxWidth="350"
+                           FontFamily="{StaticResource SansGG}"
+                           FontSize="12"
+                           FontWeight="Regular"
+                           HorizontalAlignment="Left">
+                    By registering, you agree with <Run Style="{StaticResource underlineRun}">the terms of service</Run> and <Run Style="{StaticResource underlineRun}">privacy policy</Run>
+                </TextBlock>
+                <!--#endregion-->
             </StackPanel>
-
-
-        </StackPanel>
+        </Border>
     </Grid>
-    
 </UserControl>
