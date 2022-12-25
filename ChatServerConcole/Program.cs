@@ -76,7 +76,7 @@ namespace ChatServerConcole
                         foreach (var item in clients_login)
                             broadcast(item.Value, $"connected {split[2]}");
                         clients_login.Add(split[i + 2], id);
-                        Console.WriteLine("[{0}] Клієнт {1} викликав команду rename to {2}", DateTime.Now, client.Client.RemoteEndPoint, split[2]);
+                        Console.WriteLine("[{0}] Клієнт {1}  викликав команду rename to {2}", DateTime.Now, client.Client.RemoteEndPoint, split[2]);
                         i = i + 2;
                     }
                     else if(split[i] == "send")

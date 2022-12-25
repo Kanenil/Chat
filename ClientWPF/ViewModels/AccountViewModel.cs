@@ -12,7 +12,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Design;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -42,6 +44,8 @@ namespace ClientWPF.ViewModels
             set { _messages = value; OnPropertyChanged(); }
         }
         private string _selectedLogin;
+        private System.Timers.Timer connectionTimer;
+        private System.Timers.Timer checkConnection;
 
         private ContactModel _selectedContact;
         public ContactModel SelectedContact 
@@ -62,7 +66,8 @@ namespace ClientWPF.ViewModels
                 OnPropertyChanged(); 
             } 
         }
-        public string Online { get; set; }
+        private string _online;
+        public string Online { get => _online; set { _online = value; OnPropertyChanged(); } }
         private string _message;
         public string Message
         {
@@ -86,9 +91,8 @@ namespace ClientWPF.ViewModels
             NavigateSettingsCommand = new NavigateCommand(settingsNavigationService);
             _userService = service;
             _messageUserService = messageUserService;
-            Online = "Status Online";
             _serverConnection = serverConnection;
-
+            Online = "Server Offline";
             SendCommand = new SendMessageCommand(messageUserService, this, serverConnection);
             (SendCommand as SendMessageCommand).MessageSended += OnMessageSended;
             _accountStore.CurrentAccountChanged += OnCurrentAccountChanged;
@@ -101,7 +105,10 @@ namespace ClientWPF.ViewModels
             await Task.WhenAll(ConfigureChat());
 
             if (_serverConnection.IsConnected)
+            {
+                Online = "Server Online";
                 return;
+            }
 
             try
             {
@@ -115,10 +122,62 @@ namespace ClientWPF.ViewModels
             }
             catch
             {
-                if (!_serverConnection.IsConnected)
-                    Online = "Status Offline";
+                connectionTimer = new System.Timers.Timer();
+
+                connectionTimer.Interval = 5000;
+                connectionTimer.Elapsed += OnTimedEvent;
+                connectionTimer.AutoReset = true;
+                connectionTimer.Enabled = true;
+
+
             }
         }
+
+        private async void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+                await _serverConnection.Connect();
+
+                _serverConnection.DataReceived += ServerConnection_DataReceived;
+                _serverConnection.ConnectedUsersChanged += ServerConnection_ConnectedUsersChanged;
+
+                await _serverConnection.Rename(_accountStore.CurrentAccount.Login);
+                await _serverConnection.GetAllConnectedUsers(_accountStore.CurrentAccount.Login);
+
+                Online = "Server Online";
+
+                checkConnection = new System.Timers.Timer();
+
+                checkConnection.Interval = 5000;
+                checkConnection.Elapsed += OnConnectionTimedEvent;
+                checkConnection.AutoReset = true;
+                checkConnection.Enabled = true;
+
+                connectionTimer.Stop();
+            }
+            catch 
+            {
+
+            }
+        }
+
+        private void OnConnectionTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            if (!_serverConnection.IsConnected)
+            {
+                checkConnection.Stop();
+                Online = "Server Offline";
+                _serverConnection.ConnectedUsers.Clear();
+                connectionTimer.Start();
+
+                Application.Current.Dispatcher.Invoke(async () =>
+                {
+                    await ConfigureChat();
+                });
+            }
+        }
+
         private void ServerConnection_ConnectedUsersChanged()
         {
             Application.Current.Dispatcher.Invoke(async () =>
@@ -243,6 +302,8 @@ namespace ClientWPF.ViewModels
             _accountStore.CurrentAccountChanged -= OnCurrentAccountChanged;
             _serverConnection.DataReceived -= ServerConnection_DataReceived;
             (SendCommand as SendMessageCommand).MessageSended -= OnMessageSended;
+            checkConnection.Dispose();
+            connectionTimer.Dispose();
 
             base.Dispose();
         }
