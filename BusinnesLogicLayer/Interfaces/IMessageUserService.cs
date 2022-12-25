@@ -11,6 +11,7 @@ namespace BusinnesLogicLayer.Interfaces
         Task<IEnumerable<T>> GetAll();
         Task<IEnumerable<T>> GetCount(int count);
         Task<IEnumerable<T>> Find(int fromId, int toId);
+        Task<T> FindLast(int fromId, int toId);
         Task AddItemAsync(T item);
         Task DeleteDTO(T id);
     }

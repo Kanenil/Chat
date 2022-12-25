@@ -139,5 +139,13 @@ namespace BusinnesLogicLayer.Services
                 list.Add(MappingModels(item));
             return list;
         }
+
+        public async Task<MessageUserDTO> FindLast(int fromId, int toId)
+        {
+            var item = await _userDB.MessageUsers.FindLast(fromId, toId);
+            if (item != null)
+                return MappingModels(await _userDB.MessageUsers.FindLast(fromId, toId));
+            return null;
+        }
     }
 }

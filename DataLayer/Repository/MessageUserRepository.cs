@@ -48,7 +48,23 @@ namespace DataLayer.Repository
                 entity.ToUser = await _dataContext.Users.FindAsync(entity.UserToId);
                 entity.Message = await _dataContext.Messages.FindAsync(entity.MessageId);
             }
+            list.Sort(0, list.Count, Comparer<MessageUserEntity>.Create((a, b) => a.Message.Time > b.Message.Time ? 1 : a.Message.Time < b.Message.Time ? -1 : 0));
             return list;
+        }
+
+        public async Task<MessageUserEntity> FindLast(int fromId, int toId)
+        {
+            try
+            {
+                var messages = (List<MessageUserEntity>)await Find(fromId, toId);
+                messages.Sort(0, messages.Count, Comparer<MessageUserEntity>.Create((a, b) => a.Message.Time > b.Message.Time ? 1 : a.Message.Time < b.Message.Time ? -1 : 0));
+                var item = messages.Last();
+                item.FromUser = await _dataContext.Users.FindAsync(item.UserFromId);
+                item.ToUser = await _dataContext.Users.FindAsync(item.UserToId);
+                item.Message = await _dataContext.Messages.FindAsync(item.MessageId);
+                return item;
+            }
+            catch { return null; }
         }
 
         public async Task<IEnumerable<MessageUserEntity>> GetAll()

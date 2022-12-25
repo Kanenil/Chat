@@ -125,13 +125,12 @@ namespace ClientWPF.ViewModels
             {
                 if (contact.Id != _accountStore.CurrentAccount.Id)
                 {
-                    var messages = (await _messageUserService.Find(_accountStore.CurrentAccount.Id, contact.Id)).ToList();
-                    messages.Sort(0, messages.Count, Comparer<MessageUserDTO>.Create((a, b) => a.Message.Time > b.Message.Time ? 1 : a.Message.Time < b.Message.Time ? -1 : 0));
+                    var message = await _messageUserService.FindLast(_accountStore.CurrentAccount.Id, contact.Id);
 
                     Contacts.Add(new ContactModel()
                     {
                         User = contact,
-                        LastMessage = messages.Count > 0 ? messages.Last().Message.Message : null
+                        LastMessage = message != null ? message.Message.Message : null
                     });
                 }
             }
@@ -140,7 +139,6 @@ namespace ClientWPF.ViewModels
         {
             Messages.Clear();
             var messages = (await _messageUserService.Find(_accountStore.CurrentAccount.Id, SelectedContact.User.Id)).ToList();
-            messages.Sort(0, messages.Count, Comparer<MessageUserDTO>.Create((a, b) => a.Message.Time > b.Message.Time ? 1 : a.Message.Time < b.Message.Time ? -1 : 0));
             var color1 = String.Format("#{0:X6}", StaticRandom.Random(0x1000000));
             var color2 = String.Format("#{0:X6}", StaticRandom.Random(0x1000000));
             foreach (var message in messages)
@@ -172,73 +170,12 @@ namespace ClientWPF.ViewModels
                 }
             }
             var messages = (await _messageUserService.Find(_accountStore.CurrentAccount.Id, contact.User.Id)).ToList();
-            messages.Sort(0, messages.Count, Comparer<MessageUserDTO>.Create((a, b) => a.Message.Time > b.Message.Time ? 1 : a.Message.Time < b.Message.Time ? -1 : 0));
             contact.LastMessage = messages.Last().Message.Message;
             contacts.Insert(0, contact);
             Contacts.Clear();
             foreach (var item in contacts)
                 Contacts.Add(item);
             
-
-
-            //Application.Current.Dispatcher.Invoke(() =>
-            //{
-            //    SelectedContact = null;
-
-            //    var allMessages = _messageService.GetAll();
-            //    ContactModel cont = new ContactModel();
-
-            //    var login = _serverConnection.LastMessage;
-
-            //    foreach (var contact in Contacts)
-            //    {
-            //        if (contact.User.Login == login)
-            //        {
-            //            cont = contact;
-            //            break;
-            //        }
-            //    }
-
-            //    var messages = allMessages.Where(m => (m.FromUser.Id == _accountStore.CurrentAccount.Id && m.ToUser.Id == cont.User.Id) || (m.ToUser.Id == _accountStore.CurrentAccount.Id && m.FromUser.Id == cont.User.Id)).ToList();
-            //    messages.Sort(0, messages.Count, Comparer<MessageUserDTO>.Create((a, b) => a.Message.Time > b.Message.Time ? 1 : a.Message.Time < b.Message.Time ? -1 : 0));
-            //    var lastMessage = messages.Last();
-            //    cont.Messages.Add(new MessageModel()
-            //    {
-            //        User = lastMessage.FromUser,
-            //        ImageSource = lastMessage.FromUser.Photo,
-            //        Username = lastMessage.FromUser.Login,
-            //        IsNativeOrigin = false, 
-            //        FirstMessage = cont.Messages.Count == 0 ? true : cont.Messages.Last().User.Id != lastMessage.FromUser.Id ? true : false,
-            //        Message = lastMessage.Message.Message,
-            //        Time = lastMessage.Message.Time
-            //    });
-
-            //    var contacts = new List<ContactModel>();
-            //    foreach (var contact in Contacts)
-            //    {
-            //        if (contact.User.Login == login)
-            //        {
-            //            contacts.Add(cont);
-            //            continue;
-            //        }
-            //        contacts.Add(contact);
-            //    }
-
-            //    contacts.Sort(0, contacts.Count,
-            //        Comparer<ContactModel>.Create((a, b) =>
-            //        {
-            //            if (a.Messages.Count > 0 && b.Messages.Count > 0)
-            //                return a.Messages.Last().Time < b.Messages.Last().Time ? 1 : a.Messages.Last().Time > b.Messages.Last().Time ? -1 : 0;
-            //            return a.Messages.Count > 0 ? -1 : 1;
-            //        }));
-
-            //    Contacts = new ObservableCollection<ContactModel>();
-
-            //    foreach (var item in contacts)
-            //        Contacts.Add(item);
-
-            //    SelectedContact = Contacts.Where(x => x.User.Login == _selectedLogin).First();
-            //});
         }
 
         private async void OnMessageSended()
