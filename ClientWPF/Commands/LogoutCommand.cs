@@ -1,4 +1,5 @@
 ﻿using ClientWPF.Model;
+using ClientWPF.Server;
 using ClientWPF.Stores;
 using System;
 using System.Collections.Generic;

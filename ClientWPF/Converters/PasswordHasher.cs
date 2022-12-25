@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClientWPF.Model
+namespace ClientWPF.Converters
 {
     public class PasswordHasher
     {

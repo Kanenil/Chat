@@ -2,19 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
-using System.Windows;
-using ClientWPF.Stores;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace ClientWPF.Model
+namespace ClientWPF.Server
 {
     public class ServerConnection
     {
@@ -74,7 +68,7 @@ namespace ClientWPF.Model
                     OnDataReceived();
                 }
             }
-            catch 
+            catch
             {
 
             }

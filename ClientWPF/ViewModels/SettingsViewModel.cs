@@ -2,6 +2,7 @@
 using BusinnesLogicLayer.Interfaces;
 using ClientWPF.Commands;
 using ClientWPF.Model;
+using ClientWPF.Server;
 using ClientWPF.Services;
 using ClientWPF.Stores;
 using System;

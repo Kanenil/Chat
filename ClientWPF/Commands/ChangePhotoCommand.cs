@@ -1,5 +1,6 @@
 ﻿using BusinnesLogicLayer.DTO;
 using BusinnesLogicLayer.Interfaces;
+using ClientWPF.Converters;
 using ClientWPF.Model;
 using ClientWPF.Stores;
 using Microsoft.Win32;

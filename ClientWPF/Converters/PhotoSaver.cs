@@ -8,13 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ClientWPF.Model
+namespace ClientWPF.Converters
 {
-    public class UploadDTO
+    internal class UploadDTO
     {
         public string Photo { get; set; }
     }
-    public class UploadResponseDTO
+    internal class UploadResponseDTO
     {
         public string Image { get; set; }
     }

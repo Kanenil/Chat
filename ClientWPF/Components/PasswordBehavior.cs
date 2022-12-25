@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows;
 
-namespace ClientWPF.Model
+namespace ClientWPF.Components
 {
     public class PasswordBehavior : Behavior<PasswordBox>
     {

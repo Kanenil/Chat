@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClientWPF.Model
+namespace ClientWPF.Converters
 {
     public static class StaticRandom
     {

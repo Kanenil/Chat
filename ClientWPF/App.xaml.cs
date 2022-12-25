@@ -3,6 +3,7 @@ using BusinnesLogicLayer.Infrastructure;
 using BusinnesLogicLayer.Interfaces;
 using BusinnesLogicLayer.Services;
 using ClientWPF.Model;
+using ClientWPF.Server;
 using ClientWPF.Services;
 using ClientWPF.Stores;
 using ClientWPF.ViewModels;
@@ -32,7 +33,6 @@ namespace ClientWPF
             connectionString = ConfigurationManager.ConnectionStrings["ChatDB"].ConnectionString;
 
             services.AddSingleton<AccountStore>();
-            services.AddSingleton<PeopleStore>();
             services.AddSingleton<NavigationStore>();
             services.AddSingleton<ModalNavigationStore>();
             services.AddSingleton<ServerConnection>();
@@ -56,13 +56,6 @@ namespace ClientWPF
                 s.GetRequiredService<IMessageUserService<MessageUserDTO>>(),
                 s.GetRequiredService<ServerConnection>())
                 );
-            services.AddTransient<PeopleListingViewModel>(s => new PeopleListingViewModel(
-                s.GetRequiredService<PeopleStore>(),
-                CreateAddPersonNavigationService(s)));
-            services.AddTransient<AddPersonViewModel>(s => new AddPersonViewModel(
-                s.GetRequiredService<PeopleStore>(),
-                s.GetRequiredService<CloseModalNavigationService>()
-                ));
 
             services.AddTransient<ChangeUsernameViewModel>(CreateChangeUsernameViewModel);
 
@@ -101,20 +94,6 @@ namespace ClientWPF
                 () => serviceProvider.GetRequiredService<SettingsViewModel>());
         }
 
-        private INavigationService CreateLoginNavigationService(IServiceProvider serviceProvider)
-        {
-            return new ModalNavigationService<LoginViewModel>(
-                serviceProvider.GetRequiredService<ModalNavigationStore>(),
-                () => serviceProvider.GetRequiredService<LoginViewModel>());
-        }
-
-        private INavigationService CreateAddPersonNavigationService(IServiceProvider serviceProvider)
-        {
-            return new ModalNavigationService<AddPersonViewModel>(
-                serviceProvider.GetRequiredService<ModalNavigationStore>(),
-                () => serviceProvider.GetRequiredService<AddPersonViewModel>());
-        }
-
         private INavigationService CreateAccountNavigationService(IServiceProvider serviceProvider)
         {
             return new NavigationService<AccountViewModel>(
@@ -122,12 +101,6 @@ namespace ClientWPF
                 () => serviceProvider.GetRequiredService<AccountViewModel>());
         }
 
-        private INavigationService CreatePeopleListingNavigationService(IServiceProvider serviceProvider)
-        {
-            return new NavigationService<PeopleListingViewModel>(
-                serviceProvider.GetRequiredService<NavigationStore>(),
-                () => serviceProvider.GetRequiredService<PeopleListingViewModel>());
-        }
         private INavigationService CreateRegistartionNavigationService(IServiceProvider serviceProvider)
         {
             return new NavigationService<RegistrationViewModel>(

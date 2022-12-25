@@ -19,8 +19,6 @@ namespace ClientWPF.Stores
             }
         }
 
-        public bool IsLoggedIn => CurrentAccount != null;
-
         public event Action CurrentAccountChanged;
 
         public void Logout()

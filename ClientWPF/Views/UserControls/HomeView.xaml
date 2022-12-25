@@ -7,12 +7,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:components="clr-namespace:PasswordBoxMVVM.Components;assembly=PasswordBoxMVVM"
-    xmlns:md="clr-namespace:ClientWPF.Model" 
+    xmlns:md="clr-namespace:ClientWPF.Components" 
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     d:DesignHeight="550"
     d:DesignWidth="1000"
     mc:Ignorable="d">
 
+    
+    <!--#region Old Design-->
     <UserControl.Resources>
 
         <Style x:Key="titleText" TargetType="TextBlock">
@@ -107,7 +109,6 @@
         </Style>
 
     </UserControl.Resources>
-    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -205,4 +206,5 @@
         </Border>
 
     </Grid>
+    <!--#endregion-->
 </UserControl>

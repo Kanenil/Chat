@@ -1,6 +1,7 @@
 ﻿using BusinnesLogicLayer.DTO;
 using BusinnesLogicLayer.Interfaces;
 using ClientWPF.Model;
+using ClientWPF.Server;
 using ClientWPF.Stores;
 using ClientWPF.ViewModels;
 using System;

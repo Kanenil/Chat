@@ -2,7 +2,9 @@
 using BusinnesLogicLayer.Interfaces;
 using BusinnesLogicLayer.Services;
 using ClientWPF.Commands;
+using ClientWPF.Converters;
 using ClientWPF.Model;
+using ClientWPF.Server;
 using ClientWPF.Services;
 using ClientWPF.Stores;
 using System;
@@ -241,7 +243,8 @@ namespace ClientWPF.ViewModels
 
         private async void OnMessageSended()
         {
-            await ConfigureMessages();
+            await ConfigureChat(_selectedLogin);
+            SelectedContact = Contacts.First(u => u.User.Login == _selectedLogin);
         }
         private void OnCurrentAccountChanged()
         {

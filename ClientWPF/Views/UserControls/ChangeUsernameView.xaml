@@ -5,9 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ClientWPF.Views.UserControls"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:md="clr-namespace:ClientWPF.Model" 
+             xmlns:md="clr-namespace:ClientWPF.Components" 
              xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
+             xmlns:viewModel="clr-namespace:ClientWPF.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewModel:ChangeUsernameViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
@@ -117,6 +119,11 @@
                 MinWidth="400"
                 Background="#FF2F3136"
                 CornerRadius="6">
+
+            <Border.InputBindings>
+                <KeyBinding Command="{Binding CancelCommand}" Key="Esc"/>
+            </Border.InputBindings>
+            
             <StackPanel>
                 <Border Background="#FF36393F"
                         CornerRadius="6 6 0 0">

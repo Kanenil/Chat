@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ClientWPF.Views.UserControls"
              xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:components="clr-namespace:PasswordBoxMVVM.Components;assembly=PasswordBoxMVVM"
-             xmlns:md="clr-namespace:ClientWPF.Model" 
+             xmlns:md="clr-namespace:ClientWPF.Components" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
