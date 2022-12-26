@@ -1,0 +1,18 @@
+﻿<Application x:Class="Chat.WPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Chat.WPF">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/ContactCard.xaml"/>
+                <ResourceDictionary Source="Themes/ChatItem.xaml"/>
+                <ResourceDictionary Source="Themes/MessageBox.xaml"/>
+                <ResourceDictionary Source="Themes/StylishScrollbar.xaml"/>
+                <ResourceDictionary Source="Themes/CommonResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <FontFamily x:Key="SansGG">pack://application:,,,/Materials/Fonts/#Sans GG</FontFamily>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

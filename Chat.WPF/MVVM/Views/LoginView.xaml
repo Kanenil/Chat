@@ -1,0 +1,163 @@
+﻿<UserControl x:Class="Chat.WPF.MVVM.Views.LoginView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Chat.WPF.MVVM.Views"
+             mc:Ignorable="d" 
+             xmlns:md="clr-namespace:Chat.WPF.Components"
+             xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:viewModel="clr-namespace:Chat.WPF.MVVM.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewModel:LoginViewModel}"
+             d:DesignHeight="550"
+             d:DesignWidth="1000">
+    
+    <UserControl.Background>
+        <ImageBrush ImageSource="..\..\Materials\Images\login-background.webp"/>
+    </UserControl.Background>
+
+    <Grid>
+        <Border HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                MinWidth="400"
+                Background="#FF2F3136"
+                CornerRadius="10">
+            <StackPanel>
+                <!--#region Headertext-->
+                <TextBlock Text="Welcome back!"
+                           Style="{StaticResource Headertext}"
+                           Margin="0 40 0 0"
+                           FontWeight="Bold"
+                           FontFamily="{StaticResource SansGG}"/>
+                <TextBlock Text="We are really glad to see you again!"
+                           Style="{StaticResource Commontext}"
+                           FontFamily="{StaticResource SansGG}"
+                           Margin="0 10 0 0"/>
+                <!--#endregion-->
+                <!--#region Username-->
+                <StackPanel HorizontalAlignment="Left"
+                            Orientation="Horizontal"
+                            Margin="25 10 0 0">
+                    <TextBlock Text="{Binding UsernameText}"
+                           Style="{StaticResource Commontext}"
+                           Foreground="{Binding UsernameTextColor}"
+                               FontFamily="{StaticResource SansGG}"
+                               FontSize="12"
+                           HorizontalAlignment="Left"
+                           FontWeight="Bold"/>
+                    <icons:PackIconMaterial Kind="Asterisk" 
+                                            Height="10"
+                                            VerticalAlignment="Center" 
+                                            Margin="3 0 0 0"
+                                            Foreground="#FFED4245"
+                                            Visibility="{Binding UsernameRequiredVisibilty}"/>
+                </StackPanel>
+                <Border Background="#FF202225"
+                        Margin="0 10 0 0"
+                        MinWidth="350"
+                        HorizontalAlignment="Center"
+                        Padding="2"
+                        CornerRadius="3">
+                    <TextBox Style="{StaticResource textBox}"
+                             Text="{Binding Username}"
+                             CaretBrush="White"
+                             FontFamily="{StaticResource SansGG}"
+                             Padding="4"
+                             FontSize="16"
+                             Foreground="#a3a3a5"/>
+                </Border>
+                <!--#endregion-->
+                <!--#region Password-->
+                <StackPanel HorizontalAlignment="Left"
+                            Orientation="Horizontal"
+                            Margin="25 10 0 0">
+                    <TextBlock Text="{Binding PasswordText}"
+                           Style="{StaticResource Commontext}"
+                           Foreground="{Binding PasswordTextColor}"
+                               FontFamily="{StaticResource SansGG}"
+                           HorizontalAlignment="Left"
+                               FontSize="12"
+                           FontWeight="Bold"/>
+                    <icons:PackIconMaterial Kind="Asterisk" 
+                                            Height="10"
+                                            VerticalAlignment="Center" 
+                                            Margin="3 0 0 0"
+                                            Foreground="#FFED4245"
+                                            Visibility="{Binding PasswordRequiredVisibilty}"/>
+                </StackPanel>
+                <Border Background="#FF202225"
+                        Margin="0 10 0 0"
+                        MinWidth="350"
+                        HorizontalAlignment="Center"
+                        Padding="2"
+                        CornerRadius="3">
+                    <PasswordBox Style="{StaticResource textBox}"
+                                 FontSize="16"
+                                 FontFamily="{StaticResource SansGG}"
+                                 Padding="4"
+                                 CaretBrush="White"
+                                 Foreground="#a3a3a5"
+                                 MaxLength="16">
+                        <i:Interaction.Behaviors>
+                            <md:PasswordBehavior Password="{Binding Password, Mode=TwoWay}" />
+                        </i:Interaction.Behaviors>
+                    </PasswordBox>
+                </Border>
+                <!--#endregion-->
+                <!--#region Forgot your password?-->
+                <TextBlock Style="{StaticResource HoverUnderlineStyle}" 
+                           FontFamily="{StaticResource SansGG}"
+                           Text="Forgot your password?"
+                           FontSize="13"
+                           VerticalAlignment="Center"
+                           Foreground="#05a4e4"
+                           FontWeight="SemiBold"
+                           HorizontalAlignment="Left"
+                           Margin="25 6 0 0">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding CancelCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                </TextBlock>
+                <!--#endregion-->
+                <!--#region Login-->
+                <Button Style="{StaticResource editbuttonBlue}"
+                        Content="Login"
+                        FontFamily="{StaticResource SansGG}"
+                        Command="{Binding LoginCommand}"
+                        Margin="0 10 0 0"
+                        MinWidth="350"
+                        FontSize="17"
+                        Padding="10"
+                        FontWeight="SemiBold"
+                        HorizontalAlignment="Center"/>
+                <!--#endregion-->
+                <!--#region Need account?-->
+                <StackPanel HorizontalAlignment="Left"
+                            Margin="25 10 0 40"
+                            Orientation="Horizontal">
+                    <TextBlock Text="Need account?"
+                               FontFamily="{StaticResource SansGG}"
+                               Style="{StaticResource Commontext}"/>
+                    <TextBlock Style="{StaticResource HoverUnderlineStyle}" 
+                               FontFamily="{StaticResource SansGG}"
+                               Text="Register"
+                               FontSize="13"
+                               VerticalAlignment="Center"
+                               Foreground="#05a4e4"
+                               FontWeight="SemiBold"
+                               Margin="8 0 0 0">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <i:InvokeCommandAction Command="{Binding RegistrationCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBlock>
+                </StackPanel>
+                <!--#endregion-->
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
