@@ -83,7 +83,7 @@ namespace ClientWPF.ViewModels
         public ICommand LoginCommand { get; }
         public ICommand RegistrationCommand { get; }
 
-        public HomeViewModel(AccountStore accountStore,IService<UserDTO> service, INavigationService loginNavigationService, INavigationService registartionNavigationService)
+        public HomeViewModel(AccountStore accountStore, IService<UserDTO> service, INavigationService loginNavigationService, INavigationService registartionNavigationService)
         {
             UsernameText = "Email address or Login";
             UsernameTextColor = "#FFB8BABD";

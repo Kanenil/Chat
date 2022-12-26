@@ -9,11 +9,14 @@ namespace ClientWPF.Commands
     {
         public event EventHandler CanExecuteChanged;
 
-        public virtual bool CanExecute(object parameter) => true;
+        public virtual bool CanExecute(object parameter)
+        {
+            return true;
+        }
 
         public abstract void Execute(object parameter);
 
-        protected void OnCanExecuteChanged()
+        protected virtual void OnCanExecutedChanged()
         {
             CanExecuteChanged?.Invoke(this, new EventArgs());
         }
