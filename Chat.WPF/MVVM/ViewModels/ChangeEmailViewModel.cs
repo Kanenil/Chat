@@ -11,19 +11,19 @@ using System.Windows.Input;
 
 namespace Chat.WPF.MVVM.ViewModels
 {
-    public class ChangeUsernameViewModel : ViewModelBase
+    public class ChangeEmailViewModel : ViewModelBase
     {
-        private string _username;
-        public string Username
+        private string _email;
+        public string Email
         {
             get
             {
-                return _username;
+                return _email;
             }
             set
             {
-                _username = value;
-                OnPropertyChanged(nameof(Username));
+                _email = value;
+                OnPropertyChanged(nameof(Email));
             }
         }
 
@@ -42,26 +42,26 @@ namespace Chat.WPF.MVVM.ViewModels
         }
         private string _passwordMessage;
         public string PasswordMessage { get => _passwordMessage; set { _passwordMessage = value; OnPropertyChanged(); } }
-        private string _usernameMessage;
-        public string UsernameMessage { get => _usernameMessage; set { _usernameMessage = value; OnPropertyChanged(); } }
+        private string _emailMessage;
+        public string EmailMessage { get => _emailMessage; set { _emailMessage = value; OnPropertyChanged(); } }
         private string _passwordMessageColor;
         public string PasswordMessageColor { get => _passwordMessageColor; set { _passwordMessageColor = value; OnPropertyChanged(); } }
-        private string _usernameMessageColor;
-        public string UsernameMessageColor { get => _usernameMessageColor; set { _usernameMessageColor = value; OnPropertyChanged(); } }
+        private string _emailMessageColor;
+        public string EmailMessageColor { get => _emailMessageColor; set { _emailMessageColor = value; OnPropertyChanged(); } }
         public ICommand CancelCommand { get; }
         public ICommand DoneCommand { get; }
 
-        public ChangeUsernameViewModel(UserStore userStore, INavigationService backNavigationService)
+        public ChangeEmailViewModel(UserStore userStore, INavigationService backNavigationService)
         {
             PasswordMessage = "Password";
-            UsernameMessage = "Username";
+            EmailMessage = "Email";
             PasswordMessageColor = "#808080";
-            UsernameMessageColor = "#808080";
+            EmailMessageColor = "#808080";
 
-            Username = userStore.LoginedUser.Login;
+            Email = userStore.LoginedUser.Email;
 
             CancelCommand = new NavigateCommand(backNavigationService);
-            DoneCommand = new ChangeUsernameCommand(this, userStore, backNavigationService);
+            DoneCommand = new ChangeEmailCommand(this, userStore, backNavigationService);
         }
     }
 }

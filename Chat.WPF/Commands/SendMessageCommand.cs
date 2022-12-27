@@ -28,7 +28,7 @@ namespace Chat.WPF.Commands
 
         public async override Task ExecuteAsync(object parameter)
         {
-            if (_homeViewModel.Messages == null || string.IsNullOrWhiteSpace(_homeViewModel.Message))
+            if (_homeViewModel.Messages == null || string.IsNullOrWhiteSpace(_homeViewModel.Message) || _homeViewModel.SelectedContact == null)
                 return;
 
             await _userStore.SendMessage(new Domain.Models.MessageUser()

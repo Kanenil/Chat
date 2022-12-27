@@ -21,7 +21,6 @@ namespace Chat.WPF.MVVM.ViewModels
     public class HomeViewModel : ViewModelBase
     {
         private readonly UserStore _userStore;
-        private readonly ServerConnection _serverConnection;
         public User User => _userStore.LoginedUser;
         public string Online => "Server Offline";
 
@@ -69,27 +68,40 @@ namespace Chat.WPF.MVVM.ViewModels
             set { _message = value; OnPropertyChanged(); }
         }
 
+        private bool _isLoading;
+
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { _isLoading = value; OnPropertyChanged(); }
+        }
+
+
         public HomeViewModel(UserStore userStore, 
                              INavigationService settingsNavigationService, 
                              ServerConnection serverConnection)
         {
             _userStore = userStore;
-            _serverConnection = serverConnection;
 
             _userStore.UsersLoaded += UsersLoaded;
             _userStore.MessagesLoaded += MessagesLoaded;
             _userStore.ConnectedUsersChanged += ConnectedUsersChanged;
+            _userStore.LoginedUserChanged += LoginedUserChanged;
 
             NavigateSettingsCommand = new NavigateCommand(settingsNavigationService);
-            LoadContactsCommand = new LoadUsersCommand(userStore);
+            LoadContactsCommand = new LoadUsersCommand(this ,userStore);
             SendCommand = new SendMessageCommand(this, userStore, serverConnection);
-            InitializeServerConnection = new InitializeServerConnectionCommand();
             LoadMessages = new LoadMessagesCommand(userStore, this);
 
             (SendCommand as SendMessageCommand).MessageSended += MessageSended;
 
             Contacts = new ObservableCollection<ContactModel>();
             Messages = new ObservableCollection<MessageModel>();
+        }
+
+        private void LoginedUserChanged()
+        {
+            LoadContactsCommand.Execute(null);
         }
 
         private void MessageSended()
@@ -100,7 +112,6 @@ namespace Chat.WPF.MVVM.ViewModels
         public ICommand LoadContactsCommand { get; }
         public ICommand NavigateSettingsCommand { get; }
         public ICommand SendCommand { get; }
-        private ICommand InitializeServerConnection { get; }
         private ICommand LoadMessages { get; }
 
         public static HomeViewModel LoadViewModel(UserStore userStore, 
@@ -110,8 +121,6 @@ namespace Chat.WPF.MVVM.ViewModels
             HomeViewModel viewModel = new HomeViewModel(userStore, settingsNavigationService, serverConnection);
 
             viewModel.LoadContactsCommand.Execute(null);
-
-            viewModel.InitializeServerConnection.Execute(null);
 
             return viewModel;
         }
@@ -170,6 +179,7 @@ namespace Chat.WPF.MVVM.ViewModels
         {
             Application.Current.Dispatcher.Invoke(async () =>
             {
+                //IsLoading = true;
                 Contacts.Clear();
                 foreach (var user in _userStore.Users)
                     if (_userStore.LoginedUser.Id != user.Id)
@@ -178,6 +188,7 @@ namespace Chat.WPF.MVVM.ViewModels
                         Contacts.Add(new ContactModel() { User = user, Online = _userStore.ConnectedUsers.Contains(user.Login), LastMessage = lastMessage != null ? lastMessage.Message.Info : "" });
                     }
                 SelectedContact = Contacts.FirstOrDefault(x => x.User.Login == _selectedLogin);
+                IsLoading = false;
             });
         }
 
@@ -194,15 +205,6 @@ namespace Chat.WPF.MVVM.ViewModels
                     }
                 SelectedContact = Contacts.FirstOrDefault(x => x.User.Login == _selectedLogin);
             });
-        }
-        public override void Dispose()
-        {
-            _userStore.UsersLoaded -= UsersLoaded;
-            _userStore.MessagesLoaded -= MessagesLoaded;
-            _userStore.ConnectedUsersChanged -= ConnectedUsersChanged;
-            (SendCommand as SendMessageCommand).MessageSended -= MessageSended;
-
-            base.Dispose();
         }
     }
 }

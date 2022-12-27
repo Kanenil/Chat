@@ -31,6 +31,8 @@ namespace Chat.WPF.Commands
 
         public async override Task ExecuteAsync(object parameter)
         {
+            _loginViewModel.IsLoading = true;
+
             TextFieldsDefault();
 
             if (String.IsNullOrWhiteSpace(_loginViewModel.Username))
@@ -38,6 +40,7 @@ namespace Chat.WPF.Commands
                 _loginViewModel.UsernameRequiredVisibilty = Visibility.Collapsed;
                 _loginViewModel.UsernameText = "Email address or Login - This is a required field.";
                 _loginViewModel.UsernameTextColor = "#c77377";
+                _loginViewModel.IsLoading = false;
                 return;
             }
 
@@ -46,6 +49,7 @@ namespace Chat.WPF.Commands
                 _loginViewModel.PasswordRequiredVisibilty = Visibility.Collapsed;
                 _loginViewModel.PasswordText = "Password - This is a required field.";
                 _loginViewModel.PasswordTextColor = "#c77377";
+                _loginViewModel.IsLoading = false;
                 return;
             }
 
@@ -55,6 +59,7 @@ namespace Chat.WPF.Commands
                 _loginViewModel.UsernameRequiredVisibilty = Visibility.Collapsed;
                 _loginViewModel.UsernameText = "Email address or Login - Invalid login or email.";
                 _loginViewModel.UsernameTextColor = "#c77377";
+                _loginViewModel.IsLoading = false;
                 return;
             }
 
@@ -65,6 +70,7 @@ namespace Chat.WPF.Commands
                 _loginViewModel.PasswordRequiredVisibilty = Visibility.Collapsed;
                 _loginViewModel.PasswordText = "Password - Invalid password.";
                 _loginViewModel.PasswordTextColor = "#c77377";
+                _loginViewModel.IsLoading = false;
                 return;
             }
 
@@ -87,6 +93,7 @@ namespace Chat.WPF.Commands
                 _loginViewModel.Password = "";
 
                 _navigation.Navigate();
+                _loginViewModel.IsLoading = false;
             }
         }
         private void TextFieldsDefault()

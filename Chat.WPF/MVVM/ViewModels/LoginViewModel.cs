@@ -88,6 +88,14 @@ namespace Chat.WPF.MVVM.ViewModels
         public ICommand LoginCommand { get; }
         public ICommand RegistrationCommand { get; }
 
+        private bool _isLoading;
+
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { _isLoading = value; OnPropertyChanged(); }
+        }
+
         public LoginViewModel(INavigationService registartionNavigationService, UserStore userStore, INavigationService homeNavigationService, ServerConnection serverConnection)
         {
             UsernameText = "Email address or Login";

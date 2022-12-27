@@ -5,20 +5,17 @@ using Chat.WPF.MVVM.ViewModels;
 using Chat.WPF.Services.Interface;
 using Chat.WPF.Stores;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Chat.WPF.Commands
 {
-    public class ChangeUsernameCommand : AsyncCommandBase
+    public class ChangeEmailCommand : AsyncCommandBase
     {
-        private readonly ChangeUsernameViewModel _viewModel;
+        private readonly ChangeEmailViewModel _viewModel;
         private readonly UserStore _userStore;
         private readonly INavigationService _navigationService;
 
-        public ChangeUsernameCommand(ChangeUsernameViewModel viewModel, UserStore userStore, INavigationService navigationService)
+        public ChangeEmailCommand(ChangeEmailViewModel viewModel, UserStore userStore, INavigationService navigationService)
         {
             _viewModel = viewModel;
             _userStore = userStore;
@@ -28,30 +25,30 @@ namespace Chat.WPF.Commands
         public async override Task ExecuteAsync(object parameter)
         {
             _viewModel.PasswordMessage = "Password";
-            _viewModel.UsernameMessage = "Username";
+            _viewModel.EmailMessage = "Email";
             _viewModel.PasswordMessageColor = "#808080";
-            _viewModel.UsernameMessageColor = "#808080";
+            _viewModel.EmailMessageColor = "#808080";
 
             if (!await Validate())
                 return;
 
-            User user = await _userStore.GetUserByLoginOrEmail(_viewModel.Username);
+            User user = await _userStore.GetUserByLoginOrEmail(_viewModel.Email);
             if (user != null)
             {
-                _viewModel.UsernameMessage = "Username - Current username is already registered!";
-                _viewModel.UsernameMessageColor = "#c77377";
+                _viewModel.EmailMessage = "Email - Current email is already registered!";
+                _viewModel.EmailMessageColor = "#c77377";
                 return;
             }
 
             var updateUser = _userStore.LoginedUser;
-            updateUser.Login = _viewModel.Username;
+            updateUser.Email = _viewModel.Email;
 
             _viewModel.PasswordMessage = "Password";
-            _viewModel.UsernameMessage = "Username";
+            _viewModel.EmailMessage = "Email";
             _viewModel.PasswordMessageColor = "#808080";
-            _viewModel.UsernameMessageColor = "#808080";
+            _viewModel.EmailMessageColor = "#808080";
             _viewModel.Password = "";
-            _viewModel.Username = updateUser.Login;
+            _viewModel.Email = updateUser.Email;
 
 
             await _userStore.UpdateUser(updateUser);
@@ -61,17 +58,17 @@ namespace Chat.WPF.Commands
 
         private async Task<bool> Validate()
         {
-            if (String.IsNullOrWhiteSpace(_viewModel.Username))
+            if (String.IsNullOrWhiteSpace(_viewModel.Email))
             {
-                _viewModel.UsernameMessage = "Username - This field can`t be empty.";
-                _viewModel.UsernameMessageColor = "#c77377";
+                _viewModel.EmailMessage = "Username - This field can`t be empty.";
+                _viewModel.EmailMessageColor = "#c77377";
                 return false;
             }
 
-            if (_viewModel.Username.Length > 20 && _viewModel.Username.Length < 4)
+            if (_viewModel.Email.Length > 20 && _viewModel.Email.Length < 4)
             {
-                _viewModel.UsernameMessage = "Username - Username lenght can`t de over than 20 or less then 4 symbols.";
-                _viewModel.UsernameMessageColor = "#c77377";
+                _viewModel.EmailMessage = "Username - Username lenght can`t de over than 20 or less then 4 symbols.";
+                _viewModel.EmailMessageColor = "#c77377";
                 return false;
             }
 

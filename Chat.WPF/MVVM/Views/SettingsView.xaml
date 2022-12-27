@@ -193,7 +193,7 @@
     <Grid Background="#36393F">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="0.23*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
@@ -303,7 +303,8 @@
                                 <Button Grid.Column="1"
                                     Grid.Row="1"
                                     Style="{StaticResource editbuttonGray}"
-                                    Content="Edit"/>
+                                    Content="Edit"
+                                        Command="{Binding ChangeEmailCommand}"/>
 
                             </Grid>
                         </Border>

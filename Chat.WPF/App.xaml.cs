@@ -57,6 +57,7 @@ namespace Chat.WPF
                     services.AddSingleton<HomeViewModel>(CreateHomeViewModel);
                     services.AddSingleton<SettingsViewModel>(CreateSettingsViewModel);
                     services.AddSingleton<ChangeUsernameViewModel>(CreateChangeUsernameViewModel);
+                    services.AddSingleton<ChangeEmailViewModel>(CreateChangeEmailViewModel);
                     services.AddSingleton<MainViewModel>();
 
                     services.AddSingleton<MainWindow>((services) => new MainWindow(services.GetRequiredService<ServerConnection>())
@@ -65,6 +66,18 @@ namespace Chat.WPF
                     });
                 })
                 .Build();
+        }
+
+        private ChangeEmailViewModel CreateChangeEmailViewModel(IServiceProvider s)
+        {
+            CompositeNavigationService navigationService = new CompositeNavigationService(
+                s.GetRequiredService<CloseModalNavigationService>(),
+                CreateSettingsNavigationService(s));
+
+            return new ChangeEmailViewModel(
+                s.GetRequiredService<UserStore>(),
+                navigationService
+                );
         }
 
         private HomeViewModel CreateHomeViewModel(IServiceProvider s)
@@ -93,6 +106,9 @@ namespace Chat.WPF
                 new ModalNavigationService<ChangeUsernameViewModel>(
                     s.GetRequiredService<ModalNavigationStore>(),
                     () => s.GetRequiredService<ChangeUsernameViewModel>()),
+                new ModalNavigationService<ChangeEmailViewModel>(
+                    s.GetRequiredService<ModalNavigationStore>(),
+                    () => s.GetRequiredService<ChangeEmailViewModel>()),
                 s.GetRequiredService<ServerConnection>()
                 );
         }

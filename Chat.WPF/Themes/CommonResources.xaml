@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks">
+                    xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks" xmlns:loadingspinnercontrol="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl">
     <Style x:Key="editbuttonBlue" TargetType="Button">
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -27,6 +27,26 @@
             </Setter.Value>
         </Setter>
         <Style.Triggers>
+            <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Border CornerRadius="3" 
+                            BorderThickness="1"
+                            BorderBrush="#44474D"
+                            Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}">
+                                <loadingspinnercontrol:LoadingSpinner HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Diameter="20"
+                                                  Color="#fdfefe"
+                                                  IsLoading="True"/>
+
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="#4752c4"/>
                 <Setter Property="Foreground" Value="White"/>

@@ -88,6 +88,9 @@
                 <DataTemplate DataType="{x:Type viewModels:ChangeUsernameViewModel}">
                     <views:ChangeUsernameView />
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:ChangeEmailViewModel}">
+                    <views:ChangeEmailView />
+                </DataTemplate>
             </Grid.Resources>
 
             <custom:Modal Panel.ZIndex="1" IsOpen="{Binding IsOpen}">

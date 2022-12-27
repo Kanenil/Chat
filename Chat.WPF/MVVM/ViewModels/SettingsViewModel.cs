@@ -21,8 +21,9 @@ namespace Chat.WPF.MVVM.ViewModels
         public ICommand LogoutCommand { get; }
         public ICommand ChangePhotoCommand { get; }
         public ICommand ChangeUsernameCommand { get; }
+        public ICommand ChangeEmailCommand { get; }
 
-        public SettingsViewModel(UserStore userStore, INavigationService homeNavigationService, INavigationService loginNavigationService, INavigationService changeUsernameNavigationService, ServerConnection serverConnection)
+        public SettingsViewModel(UserStore userStore, INavigationService homeNavigationService, INavigationService loginNavigationService, INavigationService changeUsernameNavigationService, INavigationService changeEmailNavigationService, ServerConnection serverConnection)
         {
             _userStore = userStore;
             User = _userStore.LoginedUser;
@@ -31,6 +32,7 @@ namespace Chat.WPF.MVVM.ViewModels
             BackCommand = new NavigateCommand(homeNavigationService);
             LogoutCommand = new LogoutCommand(loginNavigationService, serverConnection);
             ChangeUsernameCommand = new NavigateCommand(changeUsernameNavigationService);
+            ChangeEmailCommand = new NavigateCommand(changeEmailNavigationService);
             ChangePhotoCommand = new ChangePhotoCommand(userStore);
         }
 
@@ -38,11 +40,6 @@ namespace Chat.WPF.MVVM.ViewModels
         {
             User = _userStore.LoginedUser;
             OnPropertyChanged(nameof(User));
-        }
-        public override void Dispose()
-        {
-            _userStore.LoginedUserChanged -= LoginedUserChanged;
-            base.Dispose();
         }
     }
 }
