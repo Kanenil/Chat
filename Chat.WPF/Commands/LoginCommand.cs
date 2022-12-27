@@ -76,25 +76,37 @@ namespace Chat.WPF.Commands
 
             TextFieldsDefault();
 
-            _userStore.LoginedUser = user;
             try
             {
                 await _serverConnection.Connect();
                 await _serverConnection.Rename(user.Login);
+
+                await Task.Delay(200);
+
+                if(!_serverConnection.IsConnected)
+                {
+                    TextFieldsDefault();
+                    _loginViewModel.UsernameRequiredVisibilty = Visibility.Collapsed;
+                    _loginViewModel.UsernameText = "Email address or Login - This user is already logined.";
+                    _loginViewModel.UsernameTextColor = "#c77377";
+                    _loginViewModel.IsLoading = false;
+                    return;
+                }
+
                 await _serverConnection.GetAllConnectedUsers(user.Login);
             }
             catch 
             {
-
+                
             }
-            finally
-            {
-                _loginViewModel.Username = "";
-                _loginViewModel.Password = "";
 
-                _navigation.Navigate();
-                _loginViewModel.IsLoading = false;
-            }
+            _loginViewModel.Username = "";
+            _loginViewModel.Password = "";
+
+            _userStore.LoginedUser = user;
+
+            _navigation.Navigate();
+            _loginViewModel.IsLoading = false;
         }
         private void TextFieldsDefault()
         {

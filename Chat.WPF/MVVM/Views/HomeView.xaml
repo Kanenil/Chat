@@ -43,10 +43,10 @@
 
             <Grid.Style>
                 <Style TargetType="Grid">
-                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Setter Property="Visibility" Value="Visible"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsLoading}" Value="False">
-                            <Setter Property="Visibility" Value="Visible"/>
+                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -73,6 +73,28 @@
                       BorderThickness="0"
                       ItemContainerStyle="{StaticResource ContactCard}"/>
 
+                <Grid Grid.Row="1"
+                      Background="#2F3136">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLoadingUsers}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+
+                    <loadingspinnercontrol:LoadingSpinner HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Diameter="120"
+                                                  Color="#FF2D61CA"
+                                                  IsLoading="True"/>
+
+
+                </Grid>
+                
                 <Grid Grid.Row="2">
                     <StackPanel Orientation="Horizontal"
                             Background="#292B2F" Height="50" Width="200">
@@ -132,6 +154,28 @@
                       BorderThickness="0"
                       ItemContainerStyle="{StaticResource ChatItem}"
                       Margin="8 0 0 0"/>
+
+                <Grid Grid.Row="1"
+                      Background="#36393F">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsLoadingMessages}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+
+                    <loadingspinnercontrol:LoadingSpinner HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Diameter="120"
+                                                  Color="#FF2D61CA"
+                                                  IsLoading="True"/>
+
+
+                </Grid>
 
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>

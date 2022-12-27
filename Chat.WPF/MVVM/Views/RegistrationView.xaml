@@ -13,6 +13,7 @@
              d:DesignHeight="650"
              d:DesignWidth="1000">
 
+    
     <UserControl.InputBindings>
         <KeyBinding Command="{Binding RegistrationCommand}" Key="Return"/>
     </UserControl.InputBindings>
@@ -34,6 +35,14 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Storyboard x:Key="RegisterAnimation">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.TargetName="main" BeginTime="00:00:00">
+                <SplineThicknessKeyFrame KeyTime="00:00:00"
+                                         Value="0 0 0 0"/>
+                <SplineThicknessKeyFrame KeyTime="0:0:1"
+                                         Value="0 0 0 300"/>
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
     </UserControl.Resources>
 
     <Grid>
@@ -41,7 +50,8 @@
                 VerticalAlignment="Center"
                 MinWidth="400"
                 Background="#FF2F3136"
-                CornerRadius="10">
+                CornerRadius="10"
+                x:Name="main">
             <StackPanel>
                 <!--#region Header-->
                 <TextBlock Style="{StaticResource HoverUnderlineStyle}" 
@@ -56,6 +66,7 @@
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseLeftButtonDown">
                                 <i:InvokeCommandAction Command="{Binding CancelCommand}" />
+                                <i:ControlStoryboardAction Storyboard="{StaticResource RegisterAnimation}" ControlStoryboardOption="Play"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                 </TextBlock>
@@ -194,7 +205,8 @@
                            Margin="25 10 0 20">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseLeftButtonDown">
-                                <i:InvokeCommandAction Command="{Binding CancelCommand}" />
+                                <i:InvokeCommandAction Command="{Binding CancelCommand}" />                    
+                                <i:ControlStoryboardAction Storyboard="{StaticResource RegisterAnimation}" ControlStoryboardOption="Play"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                 </TextBlock>

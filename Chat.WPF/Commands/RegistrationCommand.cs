@@ -31,6 +31,8 @@ namespace Chat.WPF.Commands
 
         public async override Task ExecuteAsync(object parameter)
         {
+            _registrationViewModel.IsLoading= true;
+
             _registrationViewModel.UsernameText = "Username";
             _registrationViewModel.UsernameTextColor = "#FFB8BABD";
             _registrationViewModel.EmailText = "Email address";
@@ -67,10 +69,8 @@ namespace Chat.WPF.Commands
                     _registrationViewModel.Password = "";
 
                     _navigation.Navigate();
+                    _registrationViewModel.IsLoading = false;
                 }
-
-
-                _navigation.Navigate();
             }
             catch 
             {
@@ -86,6 +86,7 @@ namespace Chat.WPF.Commands
             {
                 _registrationViewModel.EmailText = "Email - This field can`t be empty.";
                 _registrationViewModel.EmailTextColor = "#c77377";
+                _registrationViewModel.IsLoading = false;
                 return false;
             }
 
@@ -93,6 +94,7 @@ namespace Chat.WPF.Commands
             {
                 _registrationViewModel.EmailText = "Email - Email must be like \"something\"@\"domain\".";
                 _registrationViewModel.EmailTextColor = "#c77377";
+                _registrationViewModel.IsLoading = false;
                 return false;
             }
 
@@ -100,6 +102,7 @@ namespace Chat.WPF.Commands
             {
                 _registrationViewModel.EmailText = "Email - Email lenght can`t de over than 50 symbols.";
                 _registrationViewModel.EmailTextColor = "#c77377";
+                _registrationViewModel.IsLoading = false;
                 return false;
             }
 
@@ -108,6 +111,7 @@ namespace Chat.WPF.Commands
             {
                 _registrationViewModel.EmailText = "Email - This email address is already registered.";
                 _registrationViewModel.EmailTextColor = "#c77377";
+                _registrationViewModel.IsLoading = false;
                 return false;
             }
             #endregion
@@ -116,6 +120,7 @@ namespace Chat.WPF.Commands
             {
                 _registrationViewModel.UsernameText = "Username - This field can`t be empty.";
                 _registrationViewModel.UsernameTextColor = "#c77377";
+                _registrationViewModel.IsLoading = false;
                 return false;
             }
 
@@ -123,14 +128,16 @@ namespace Chat.WPF.Commands
             {
                 _registrationViewModel.UsernameText = "Username - Username lenght can`t de over than 20 or less then 4 symbols.";
                 _registrationViewModel.UsernameTextColor = "#c77377";
+                _registrationViewModel.IsLoading = false;
                 return false;
             }
 
             User userLogin = await _userStore.GetUserByLoginOrEmail(_registrationViewModel.Username);
             if (userLogin != null)
             {
-                _registrationViewModel.EmailText = "Email - This email address is already registered.";
+                _registrationViewModel.EmailText = "Username - This username is already registered.";
                 _registrationViewModel.EmailTextColor = "#c77377";
+                _registrationViewModel.IsLoading = false;
                 return false;
             }
             #endregion
@@ -139,6 +146,7 @@ namespace Chat.WPF.Commands
             {
                 _registrationViewModel.PasswordText = "Password - This field can`t be empty.";
                 _registrationViewModel.PasswordTextColor = "#c77377";
+                _registrationViewModel.IsLoading = false;
                 return false;
             }
 
@@ -146,6 +154,7 @@ namespace Chat.WPF.Commands
             {
                 _registrationViewModel.PasswordText = "Password - Password lenght can`t de less then 6 symbols.";
                 _registrationViewModel.PasswordTextColor = "#c77377";
+                _registrationViewModel.IsLoading = false;
                 return false;
             }
             #endregion
@@ -154,6 +163,7 @@ namespace Chat.WPF.Commands
             {
                 _registrationViewModel.ConfirmPasswordText = "Confirm Password - Passwords aren`t equal.";
                 _registrationViewModel.ConfirmPasswordTextColor = "#c77377";
+                _registrationViewModel.IsLoading = false;
                 return false;
             }
             #endregion

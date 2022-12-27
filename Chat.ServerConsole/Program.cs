@@ -73,11 +73,25 @@ namespace Chat.ServerConsole
                 {
                     if (split[i] == "rename")
                     {
-                        foreach (var item in clients_login)
-                            broadcast(item.Value, $"connected {split[2]}");
-                        clients_login.Add(split[i + 2], id);
-                        Console.WriteLine("[{0}] Клієнт {1}  викликав команду rename to {2}", DateTime.Now, client.Client.RemoteEndPoint, split[2]);
-                        i = i + 2;
+                        if (clients_login.TryAdd(split[i + 2], id) != false)
+                        {
+                            foreach (var item in clients_login)
+                                broadcast(item.Value, $"connected {split[2]}");
+                            Console.WriteLine("[{0}] Клієнт {1}  викликав команду rename to {2}", DateTime.Now, client.Client.RemoteEndPoint, split[2]);
+                            i = i + 2;
+                        }
+                        else
+                        {
+                            Console.WriteLine("[{0}] Було викинуто небажаного гостя {1}", DateTime.Now, client.Client.RemoteEndPoint);
+                            client.Client.Shutdown(SocketShutdown.Both);
+                            client.Close();
+                            lock (_lock)
+                            {
+                                list_clients.Remove(id);
+                            }
+
+                            return;
+                        }
                     }
                     else if (split[i] == "send")
                     {

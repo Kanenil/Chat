@@ -1,4 +1,5 @@
-﻿using Chat.WPF.Commands.Base;
+﻿using Chat.Domain.Models;
+using Chat.WPF.Commands.Base;
 using Chat.WPF.MVVM.ViewModels;
 using Chat.WPF.Stores;
 using System;

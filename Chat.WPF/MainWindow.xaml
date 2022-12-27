@@ -8,7 +8,7 @@
         xmlns:views="clr-namespace:Chat.WPF.MVVM.Views"
         xmlns:custom="clr-namespace:ModalControl;assembly=ModalControl"
         mc:Ignorable="d"
-        Title="MainWindow" 
+        Title="Chat" 
         Height="800" Width="1200"
         MinHeight="650"
         MinWidth="950"

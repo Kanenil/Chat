@@ -105,7 +105,7 @@ namespace Chat.WPF.MVVM.ViewModels
             UsernameRequiredVisibilty = Visibility.Visible;
             PasswordRequiredVisibilty = Visibility.Visible;
 
-            RegistrationCommand = new NavigateCommand(registartionNavigationService);
+            RegistrationCommand = new DelayNavigationCommand(registartionNavigationService);
             LoginCommand = new LoginCommand(this, userStore, homeNavigationService, serverConnection);
         }
     }

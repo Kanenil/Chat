@@ -21,12 +21,24 @@
         <ImageBrush ImageSource="..\..\Materials\Images\login-background.webp"/>
     </UserControl.Background>
 
+    <UserControl.Resources>
+        <Storyboard x:Key="RegisterAnimation">
+            <ThicknessAnimationUsingKeyFrames Storyboard.TargetProperty="Margin" Storyboard.TargetName="main" BeginTime="00:00:00">
+                <SplineThicknessKeyFrame KeyTime="00:00:00"
+                                         Value="0 0 0 0"/>
+                <SplineThicknessKeyFrame KeyTime="0:0:1"
+                                         Value="0 0 0 300"/>
+            </ThicknessAnimationUsingKeyFrames>
+        </Storyboard>
+    </UserControl.Resources>
+    
     <Grid>
         <Border HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 MinWidth="400"
                 Background="#FF2F3136"
-                CornerRadius="10">
+                CornerRadius="10"
+                x:Name="main">
             <StackPanel>
                 <!--#region Headertext-->
                 <TextBlock Text="Welcome back!"
@@ -118,13 +130,7 @@
                            Foreground="#05a4e4"
                            FontWeight="SemiBold"
                            HorizontalAlignment="Left"
-                           Margin="25 6 0 0">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseLeftButtonDown">
-                                <i:InvokeCommandAction Command="{Binding CancelCommand}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                </TextBlock>
+                           Margin="25 6 0 0"/>
                 <!--#endregion-->
                 <!--#region Login-->
                 <Button Style="{StaticResource editbuttonBlue}"
@@ -155,7 +161,8 @@
                                Margin="8 0 0 0">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseLeftButtonDown">
-                                <i:InvokeCommandAction Command="{Binding RegistrationCommand}" />
+                                <i:InvokeCommandAction Command="{Binding RegistrationCommand}" /> 
+                                <i:ControlStoryboardAction Storyboard="{StaticResource RegisterAnimation}" ControlStoryboardOption="Play"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </TextBlock>

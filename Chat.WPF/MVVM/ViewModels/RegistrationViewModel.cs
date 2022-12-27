@@ -99,6 +99,14 @@ namespace Chat.WPF.MVVM.ViewModels
             set { _emailTextColor = value; OnPropertyChanged(); }
         }
 
+        private bool _isLoading;
+
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { _isLoading = value; OnPropertyChanged(); }
+        }
+
         private string _confirmPassword;
         public string ConfirmPassword
         {
@@ -142,7 +150,7 @@ namespace Chat.WPF.MVVM.ViewModels
             ConfirmPasswordText = "Confirm Password";
             ConfirmPasswordTextColor = "#FFB8BABD";
 
-            CancelCommand = new NavigateCommand(backNavigationService);
+            CancelCommand = new DelayNavigationCommand(backNavigationService);
             RegistrationCommand = new RegistrationCommand(this, userStore, homeNavigationService, serverConnection);
         }
     }

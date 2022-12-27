@@ -75,15 +75,13 @@ namespace Chat.WPF.Stores
                 await _serverConnection.GetAllConnectedUsers(LoginedUser.Login);
             }
             else
-            {
                 UsersLoaded?.Invoke();
-            }
-
         }
 
         public async Task LoadMessages(int userId)
         {
             IEnumerable<MessageUser> messages = await _getAllMessagesFromToQuery.Execute(LoginedUser.Id, userId);
+
             _messageUsers.Clear();
             _messageUsers.AddRange(messages);
 
@@ -117,6 +115,15 @@ namespace Chat.WPF.Stores
         private async Task ConfigureUsers(string login)
         {
             var user = _users.FirstOrDefault(x => x.Login == login);
+
+            if (user == null)
+            {
+                var users = await _getAllUsersQuery.Execute();
+                _users.Clear();
+                _users.AddRange(users);
+                user = _users.FirstOrDefault(x => x.Login == login);
+            }
+
             IEnumerable<MessageUser> messages = await _getAllMessagesFromToQuery.Execute(LoginedUser.Id, user.Id);
 
             _messageUsers.Clear();
