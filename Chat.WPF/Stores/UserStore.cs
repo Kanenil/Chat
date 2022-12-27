@@ -4,11 +4,14 @@ using Chat.Domain.Queries;
 using Chat.EntityFramework.Commands;
 using Chat.WPF.MVVM.ViewModels;
 using Chat.WPF.Server;
+using Chat.WPF.Services.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Chat.WPF.Stores
 {
@@ -37,6 +40,7 @@ namespace Chat.WPF.Stores
         public event Action LoginedUserChanged;
         public event Action<string> MessagesLoaded;
         public event Action ConnectedUsersChanged;
+        public event Action OnConnectionLost;
 
         public UserStore(IGetUserByLoginOrEmailQuery getUserByLoginOrEmailQuery, 
                          IGetAllUsersQuery getAllUsersQuery,
@@ -61,6 +65,8 @@ namespace Chat.WPF.Stores
             _connectedUsers = new List<string>();
         }
 
+        
+
         public async Task Load()
         {
             IEnumerable<User> users = await _getAllUsersQuery.Execute();
@@ -68,14 +74,18 @@ namespace Chat.WPF.Stores
             _users.Clear();
             _users.AddRange(users);
 
+            _serverConnection.DataReceived += ServerConnection_DataReceived;
+            _serverConnection.ConnectedUsersChanged += ServerConnection_ConnectedUsersChanged;
+            _serverConnection.OnConnectionLost += OnConnectionLost;
+
             if (_serverConnection.IsConnected)
             {
-                _serverConnection.DataReceived += ServerConnection_DataReceived;
-                _serverConnection.ConnectedUsersChanged += ServerConnection_ConnectedUsersChanged;
                 await _serverConnection.GetAllConnectedUsers(LoginedUser.Login);
             }
             else
-                UsersLoaded?.Invoke();
+            {
+                OnConnectionLost?.Invoke();
+            }
         }
 
         public async Task LoadMessages(int userId)

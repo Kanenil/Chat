@@ -28,7 +28,6 @@ namespace Chat.WPF.Commands
             _navigation = navigation;
             _serverConnection = serverConnection;
         }
-
         public async override Task ExecuteAsync(object parameter)
         {
             _loginViewModel.IsLoading = true;
@@ -81,33 +80,37 @@ namespace Chat.WPF.Commands
                 await _serverConnection.Connect();
                 await _serverConnection.Rename(user.Login);
 
-                await Task.Delay(200);
+                await Task.Delay(500);
 
-                if(!_serverConnection.IsConnected)
+                if (!_serverConnection.IsConnected)
                 {
                     TextFieldsDefault();
                     _loginViewModel.UsernameRequiredVisibilty = Visibility.Collapsed;
                     _loginViewModel.UsernameText = "Email address or Login - This user is already logined.";
                     _loginViewModel.UsernameTextColor = "#c77377";
-                    _loginViewModel.IsLoading = false;
                     return;
                 }
 
                 await _serverConnection.GetAllConnectedUsers(user.Login);
+
+
+                _loginViewModel.Username = "";
+                _loginViewModel.Password = "";
+
+                _userStore.LoginedUser = user;
+
+                _navigation.Navigate();
             }
             catch 
             {
                 
             }
-
-            _loginViewModel.Username = "";
-            _loginViewModel.Password = "";
-
-            _userStore.LoginedUser = user;
-
-            _navigation.Navigate();
-            _loginViewModel.IsLoading = false;
+            finally
+            {
+                _loginViewModel.IsLoading = false;
+            }
         }
+
         private void TextFieldsDefault()
         {
             _loginViewModel.UsernameText = "Email address or Login";

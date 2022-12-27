@@ -42,6 +42,7 @@ namespace Chat.WPF.Commands
             _registrationViewModel.ConfirmPasswordText = "Confirm Password";
             _registrationViewModel.ConfirmPasswordTextColor = "#FFB8BABD";
 
+
             if (!await Validate())
                 return;
 
@@ -56,6 +57,13 @@ namespace Chat.WPF.Commands
                     await _serverConnection.Connect();
                     await _serverConnection.Rename(user.Login);
                     await _serverConnection.GetAllConnectedUsers(user.Login);
+
+                    _registrationViewModel.Username = "";
+                    _registrationViewModel.Email = "";
+                    _registrationViewModel.ConfirmPassword = "";
+                    _registrationViewModel.Password = "";
+
+                    _navigation.Navigate();
                 }
                 catch
                 {
@@ -63,12 +71,7 @@ namespace Chat.WPF.Commands
                 }
                 finally
                 {
-                    _registrationViewModel.Username = "";
-                    _registrationViewModel.Email = "";
-                    _registrationViewModel.ConfirmPassword = "";
-                    _registrationViewModel.Password = "";
 
-                    _navigation.Navigate();
                     _registrationViewModel.IsLoading = false;
                 }
             }

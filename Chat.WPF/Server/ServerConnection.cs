@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace Chat.WPF.Server
 {
@@ -17,6 +18,40 @@ namespace Chat.WPF.Server
         Thread thread;
         public string LastMessage { get; private set; }
         public List<string> ConnectedUsers { get; private set; }
+
+        public async Task<bool> ConnectAndRename(string login)
+        {
+            try
+            {
+                await Connect();
+
+                try
+                {
+                    await Rename(login);
+
+                    if (IsConnected)
+                    {
+                        _checkConnectTimer.Elapsed += OnCheckConnectionTimer;
+                        _checkConnectTimer.AutoReset = true;
+                        _checkConnectTimer.Enabled = true;
+                        return true;
+                    }
+                    else
+                        throw new Exception("Already logined");
+
+                }
+                catch 
+                {
+                    return false;
+                }
+
+            }
+            catch 
+            {
+                throw new Exception("Connection error");
+            }
+        }
+
         public async Task Connect()
         {
             client = new TcpClient();
@@ -35,6 +70,10 @@ namespace Chat.WPF.Server
             ns = client.GetStream();
             thread = new Thread(o => DataResive());
             thread.Start();
+
+            _checkConnectTimer.Elapsed += OnCheckConnectionTimer;
+            _checkConnectTimer.AutoReset = true;
+            _checkConnectTimer.Start();
         }
         public void CloseConnection()
         {
@@ -45,6 +84,16 @@ namespace Chat.WPF.Server
             }
         }
 
+        private System.Timers.Timer _checkConnectTimer = new System.Timers.Timer(5000);
+        private void OnCheckConnectionTimer(object? sender, ElapsedEventArgs e)
+        {
+            if (IsConnected == false)
+            {
+                _checkConnectTimer.Elapsed -= OnCheckConnectionTimer;
+                _checkConnectTimer.Stop();
+                OnConnectionLost?.Invoke();
+            }
+        }
 
         public async Task Rename(string login)
         {
@@ -65,6 +114,7 @@ namespace Chat.WPF.Server
         }
         public event Action DataReceived;
         public event Action ConnectedUsersChanged;
+        public event Action OnConnectionLost;
         private async void DataResive()
         {
             NetworkStream ns = client.GetStream();

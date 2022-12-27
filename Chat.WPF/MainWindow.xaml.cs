@@ -1,4 +1,5 @@
 ﻿using Chat.WPF.Server;
+using MahApps.Metro.IconPacks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,10 +42,26 @@ namespace Chat.WPF
 
         private void WindowStateButton_Click(object sender, RoutedEventArgs e)
         {
+            var icon = new PackIconMaterial();
+            icon.Width = 20;
+            icon.Height = 20;
+            icon.HorizontalAlignment = HorizontalAlignment.Center;
+            icon.VerticalAlignment = VerticalAlignment.Center;
+            icon.Foreground = Brushes.Gray;
+            icon.Padding = new Thickness(4);
+
             if (Application.Current.MainWindow.WindowState != WindowState.Maximized)
+            {
+                icon.Kind = PackIconMaterialKind.DockWindow;
                 Application.Current.MainWindow.WindowState = WindowState.Maximized;
+            }
             else
+            {
+                icon.Kind = PackIconMaterialKind.WindowMaximize;
                 Application.Current.MainWindow.WindowState = WindowState.Normal;
+            }
+
+            (sender as Button).Content = icon;
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)

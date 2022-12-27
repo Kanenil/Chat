@@ -93,7 +93,11 @@ namespace Chat.WPF.MVVM.ViewModels
         public bool IsLoading
         {
             get { return _isLoading; }
-            set { _isLoading = value; OnPropertyChanged(); }
+            set 
+            { 
+                _isLoading = value; 
+                OnPropertyChanged("IsLoading"); 
+            }
         }
 
         public LoginViewModel(INavigationService registartionNavigationService, UserStore userStore, INavigationService homeNavigationService, ServerConnection serverConnection)

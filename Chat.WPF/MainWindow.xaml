@@ -7,6 +7,8 @@
         xmlns:viewModels="clr-namespace:Chat.WPF.MVVM.ViewModels"
         xmlns:views="clr-namespace:Chat.WPF.MVVM.Views"
         xmlns:custom="clr-namespace:ModalControl;assembly=ModalControl"
+        xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks" 
+        xmlns:loadingspinnercontrol="clr-namespace:LoadingSpinnerControl;assembly=LoadingSpinnerControl"
         mc:Ignorable="d"
         Title="Chat" 
         Height="800" Width="1200"
@@ -18,9 +20,36 @@
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
         Icon="Materials\Images\logo.ico">
+
+    <Window.Resources>
+
+        <Style x:Key="exitButton" TargetType="Button">
+
+            <Setter Property="Background" Value="Transparent"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="IndianRed"/>
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+
+        <Style x:Key="menuButton" TargetType="Button">
+
+            <Setter Property="Background" Value="Transparent"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="AliceBlue"/>
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
@@ -36,33 +65,64 @@
             <Grid HorizontalAlignment="Stretch">
                 <Label Content="Chat"
                        Foreground="Gray"
+                       FontSize="19"
                        FontWeight="SemiBold"
-                       Margin="10 0 0 0"/>
+                       Margin="15 0 0 0"
+                       VerticalAlignment="Center"/>
 
                 <StackPanel HorizontalAlignment="Right"
-                            Orientation="Horizontal">
+                            Orientation="Horizontal"
+                            Margin="0 0 8 0">
                     <Button Width="20" Height="20"
-                            Content="▁"
                             Background="Transparent"
                             BorderThickness="0"
                             Foreground="Gray"
                             FontWeight="Bold"
                             Margin="0 0 0 3"
-                            Click="ButtonMinimize_Click"/>
+                            Click="ButtonMinimize_Click"
+                            Style="{StaticResource menuButton}">
+                        <Button.Content>
+                            <icons:PackIconMaterial Kind="WindowMinimize"
+                                                    Width="20" Height="20"
+                                                    VerticalAlignment="Center" 
+                                                    HorizontalAlignment="Center" 
+                                                    Foreground="Gray"
+                                                    Margin="0 12 0 0"
+                                                    Padding="4"/>
+                        </Button.Content>
+                    </Button>
                     <Button Width="20" Height="20"
-                            Content="⬜"
                             Background="Transparent"
                             BorderThickness="0"
                             Foreground="Gray"
                             FontWeight="Bold"
-                            Click="WindowStateButton_Click"/>
+                            Click="WindowStateButton_Click"
+                            Style="{StaticResource menuButton}">
+                        <Button.Content>
+                            <icons:PackIconMaterial Kind="WindowMaximize"
+                                                    Width="20" Height="20"
+                                                    VerticalAlignment="Center" 
+                                                    HorizontalAlignment="Center" 
+                                                    Foreground="Gray"
+                                                    Padding="4"/>
+                        </Button.Content>
+                    </Button>
                     <Button Width="20" Height="20"
-                            Content="╳"
                             Background="Transparent"
                             BorderThickness="0"
                             Foreground="Gray"
                             FontWeight="Bold"
-                            Click="Exit_Click"/>
+                            Click="Exit_Click"
+                            Style="{StaticResource exitButton}">
+                        <Button.Content>
+                            <icons:PackIconMaterial Kind="WindowClose"
+                                                    Width="20" Height="20"
+                                                    VerticalAlignment="Center" 
+                                                    HorizontalAlignment="Center" 
+                                                    Foreground="Gray"
+                                                    Padding="4"/>
+                        </Button.Content>
+                    </Button>
                 </StackPanel>
 
             </Grid>
@@ -90,6 +150,9 @@
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type viewModels:ChangeEmailViewModel}">
                     <views:ChangeEmailView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:ConnectionLostViewModel}">
+                    <views:ConnectionLostView />
                 </DataTemplate>
             </Grid.Resources>
 

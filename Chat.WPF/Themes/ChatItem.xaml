@@ -23,10 +23,10 @@
                                    Margin="0 0 -5 0"/>
 
                                 <Label Content="{Binding Time}"
-                                   Foreground="#44474D"
+                                       Margin="0 2 0 0"
                                    FontSize="8"
                                    FontWeight="SemiBold"
-                                   VerticalAlignment="Center"/>
+                                   VerticalAlignment="Center" Foreground="#FF7C7F83"/>
                             </StackPanel>
 
                             <Label Content="{Binding Message}"

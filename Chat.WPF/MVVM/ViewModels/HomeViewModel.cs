@@ -25,8 +25,8 @@ namespace Chat.WPF.MVVM.ViewModels
     {
         private readonly UserStore _userStore;
         private readonly ServerConnection _serverConnection;
+        private readonly INavigationService _loginNavigation;
         public User User => _userStore.LoginedUser;
-        public string Online => _serverConnection.IsConnected ? "Server Online" : "Server Offline";
 
         private ObservableCollection<ContactModel> _contacts;
         public ObservableCollection<ContactModel> Contacts
@@ -106,15 +106,19 @@ namespace Chat.WPF.MVVM.ViewModels
 
         public HomeViewModel(UserStore userStore, 
                              INavigationService settingsNavigationService, 
-                             ServerConnection serverConnection)
+                             ServerConnection serverConnection,
+                             INavigationService loginNavigation)
         {
             _userStore = userStore;
             _serverConnection = serverConnection;
+            _serverConnection = serverConnection;
+            _loginNavigation = loginNavigation;
 
             _userStore.UsersLoaded += UsersLoaded;
             _userStore.MessagesLoaded += MessagesLoaded;
             _userStore.ConnectedUsersChanged += ConnectedUsersChanged;
             _userStore.LoginedUserChanged += LoginedUserChanged;
+            _userStore.OnConnectionLost += OnConnectionLost;
 
             NavigateSettingsCommand = new NavigateCommand(settingsNavigationService);
             LoadContactsCommand = new LoadUsersCommand(this ,userStore);
@@ -125,6 +129,11 @@ namespace Chat.WPF.MVVM.ViewModels
 
             Contacts = new ObservableCollection<ContactModel>();
             Messages = new ObservableCollection<MessageModel>();
+        }
+
+        private void OnConnectionLost()
+        {
+            _loginNavigation.Navigate();
         }
 
         private void LoginedUserChanged()
@@ -143,9 +152,10 @@ namespace Chat.WPF.MVVM.ViewModels
 
         public static HomeViewModel LoadViewModel(UserStore userStore, 
                                                   INavigationService settingsNavigationService, 
-                                                  ServerConnection serverConnection)
+                                                  ServerConnection serverConnection,
+                                                  INavigationService back)
         {
-            HomeViewModel viewModel = new HomeViewModel(userStore, settingsNavigationService, serverConnection);
+            HomeViewModel viewModel = new HomeViewModel(userStore, settingsNavigationService, serverConnection, back);
 
             viewModel.LoadContactsCommand.Execute(null);
 
