@@ -11,6 +11,7 @@ namespace Chat.WPF.MVVM.Models
     {
         public User User { get; set; }
         public string LastMessage { get; set; }
+        public DateTime? LastMessageTime { get; set; }
         public bool Online { get; set; }
     }
 }

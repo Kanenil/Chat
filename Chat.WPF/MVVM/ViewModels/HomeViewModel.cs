@@ -46,7 +46,7 @@ namespace Chat.WPF.MVVM.ViewModels
                 OnPropertyChanged("Contacts");
             }
         }
- 
+        private string _selectedLogin;
 
         private ContactModel _selectedContact;
         private ContactModel _prevSelectedContact;
@@ -61,7 +61,7 @@ namespace Chat.WPF.MVVM.ViewModels
 
                 if (value == null)
                     return;
-
+                _selectedLogin = value.User.Login;
                 LoadMessages.Execute(null);
             }
         }
@@ -180,7 +180,14 @@ namespace Chat.WPF.MVVM.ViewModels
                     var contact = Contacts.FirstOrDefault(u => u.User.Login == user);
                     var index = Contacts.IndexOf(contact);
                     lastMessage = await _userStore.GetLastMessageFrom(_userStore.LoginedUser.Id, contact.User.Id);
-                    Contacts[index].LastMessage = lastMessage != null ? lastMessage.Message.Info : null;
+                    var realContact = Contacts[index];
+                    realContact.LastMessage = lastMessage != null ? lastMessage.Message.Info : null;
+
+                    Contacts.RemoveAt(index);
+                    Contacts.Insert(0, realContact);
+
+                    _selectedContact = Contacts.FirstOrDefault(x => x.User.Login == _selectedLogin);
+                    OnPropertyChanged("SelectedContact");
 
                     isUserName = true;
                     
@@ -190,8 +197,6 @@ namespace Chat.WPF.MVVM.ViewModels
                         return;
                     }
                 }
-
-
 
                 if ((Messages.Count == 0 && _prevSelectedContact == null) || !(_prevSelectedContact == null || _prevSelectedContact.User.Id == _selectedContact.User.Id))
                 {
@@ -305,6 +310,10 @@ namespace Chat.WPF.MVVM.ViewModels
                         var lastMessage = await _userStore.GetLastMessageFrom(_userStore.LoginedUser.Id, user.Id);
                         Contacts.Add(new ContactModel() { User = user, Online = _userStore.ConnectedUsers.Contains(user.Login), LastMessage = lastMessage != null ? lastMessage.Message.Info : "" });
                     }
+                var orderedContacts = Contacts.OrderByDescending(e => e.LastMessageTime).ToList();
+                Contacts.Clear();
+                foreach (var item in orderedContacts)
+                    Contacts.Add(item);
                 IsLoading = false;
             });
         }
@@ -321,8 +330,13 @@ namespace Chat.WPF.MVVM.ViewModels
                         if (_userStore.LoginedUser.Id != user.Id)
                         {
                             var lastMessage = await _userStore.GetLastMessageFrom(_userStore.LoginedUser.Id, user.Id);
-                            Contacts.Add(new ContactModel() { User = user, Online = _userStore.ConnectedUsers.Contains(user.Login), LastMessage = lastMessage != null ? lastMessage.Message.Info : "" });
+                            Contacts.Add(new ContactModel() { User = user, Online = _userStore.ConnectedUsers.Contains(user.Login), LastMessage = lastMessage != null ? lastMessage.Message.Info : "", LastMessageTime = lastMessage != null ? lastMessage.Message.Time : null });
                         }
+
+                    var orderedContacts = Contacts.OrderByDescending(e => e.LastMessageTime).ToList();
+                    Contacts.Clear();
+                    foreach (var item in orderedContacts)
+                        Contacts.Add(item);
                 }
 
                 string newContact = "";
@@ -361,7 +375,12 @@ namespace Chat.WPF.MVVM.ViewModels
                     {
                         if (Contacts[i].User.Login != connectedUser)
                             continue;
-                        
+
+                        //var contact = Contacts[i];
+                        //contact.Online = true;
+                        //Contacts.RemoveAt(i);
+                        //Contacts.Insert(0, contact);
+
                         Contacts[i].Online = true;
                     }
                 }
