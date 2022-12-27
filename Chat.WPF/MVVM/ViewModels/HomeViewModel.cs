@@ -366,7 +366,7 @@ namespace Chat.WPF.MVVM.ViewModels
                     }
                 }
 
-                Contacts.OrderBy(x => !x.Online);
+                //Contacts.OrderBy(x => !x.Online);
 
                 IsLoadingUsers = false;
                 IsLoading = false;
