@@ -44,50 +44,6 @@
             </Style.Triggers>
 
         </Style>
-        <Style x:Key="toolTip" TargetType="ToolTip" x:Name="toolTip1">
-            <Setter Property="OverridesDefaultStyle"
-                    Value="true" />
-            <Setter Property="HasDropShadow"
-                    Value="True" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ToolTip">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="7"/>
-                            </Grid.RowDefinitions>
-                            <Rectangle Fill="#18191c" RadiusX="10" RadiusY="10"/>
-                            <Path Fill="#18191c" Stretch="Fill" HorizontalAlignment="Left" Margin="50,-5.5,0,-0.003" Width="25" Grid.Row="1" Data="M22.166642,154.45381 L29.999666,187.66699 40.791059,154.54395"/>
-                            <Rectangle Fill="#18191c" RadiusX="10" RadiusY="10" Margin="1"/>
-                            <ContentPresenter Margin="4"
-                                              HorizontalAlignment="Left"
-                                              VerticalAlignment="Top" />
-                        </Grid>
-                        <!--<Border Name="Border"
-                                BorderThickness="1"
-                                Width="{TemplateBinding Width}"
-                                Height="{TemplateBinding Height}"
-                                Background="#18191c">
-                            <ContentPresenter Margin="4"
-                                              HorizontalAlignment="Left"
-                                              VerticalAlignment="Top" />
-                        </Border>-->
-                        <!--<ControlTemplate.Triggers>
-                            --><!--<Trigger Property="HasDropShadow"
-                                    Value="true">
-                                <Setter TargetName="Border"
-                                        Property="CornerRadius"
-                                        Value="4" />
-                                <Setter TargetName="Border"
-                                        Property="SnapsToDevicePixels"
-                                        Value="true" />
-                            </Trigger>--><!--
-                        </ControlTemplate.Triggers>-->
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </UserControl.Resources>
     
     <Grid>
@@ -213,25 +169,6 @@
                                                     Foreground="#dcddde"
                                                     Padding="4"/>
                             </Button.Content>
-                            <Button.ToolTip>
-                                <ToolTip Style="{StaticResource toolTip}"
-                                         Placement="Top"
-                                         VerticalOffset="-1"
-                                         HorizontalOffset="-45">
-                                    <TextBlock Text="Account settings"
-                                               Padding="10">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="FontSize" Value="14"/>
-                                                <Setter Property="FontWeight" Value="SemiBold"/>
-                                                <Setter Property="TextAlignment" Value="Center"/>
-                                                <Setter Property="VerticalAlignment" Value="Center"/>
-                                                <Setter Property="Foreground" Value="#d2d3d4"/>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                </ToolTip>
-                            </Button.ToolTip>
                         </Button>
                     </StackPanel>
                 </Grid>
@@ -330,7 +267,7 @@
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Messages.Count}" Value="0">
+                                <DataTrigger Binding="{Binding SelectedContact}" Value="{x:Null}">
                                     <Setter Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
                             </Style.Triggers>

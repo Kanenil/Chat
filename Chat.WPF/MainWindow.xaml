@@ -105,9 +105,9 @@
             <Grid HorizontalAlignment="Stretch">
                 <Label Content="Chat"
                        Foreground="#dcddde"
-                       FontSize="17"
+                       FontSize="14"
                        FontWeight="SemiBold"
-                       Margin="15 -5 0 0"
+                       Margin="15 -2 0 0"
                        VerticalAlignment="Center"/>
 
                 <StackPanel HorizontalAlignment="Right"

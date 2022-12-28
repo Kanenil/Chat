@@ -26,6 +26,16 @@ namespace Chat.WPF.Commands
 
         public async override Task ExecuteAsync(object parameter)
         {
+            /*
+             Працює з помилками!
+             Тимчасово відключено
+             */
+            _viewModel.PasswordMessage = "Password - Not allowed operation.";
+            _viewModel.PasswordMessageColor = "#c77377";
+            _viewModel.IsLoading = false;
+            return;
+
+
             _viewModel.IsLoading = true;
 
             _viewModel.PasswordMessage = "Password";
@@ -51,6 +61,7 @@ namespace Chat.WPF.Commands
             _viewModel.PasswordMessageColor = "#808080";
             _viewModel.Password = "";
 
+            
             await _userStore.DeleteUser(_userStore.LoginedUser.Id);
             _logoutCommand.Execute(null);
 

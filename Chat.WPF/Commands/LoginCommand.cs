@@ -75,12 +75,16 @@ namespace Chat.WPF.Commands
 
             TextFieldsDefault();
 
+            user.Login = _loginViewModel.Username;
+            _userStore.LoginedUser = user;
+
             try
             {
+
                 await _serverConnection.Connect();
                 await _serverConnection.Rename(user.Login);
+                await Task.Delay(200);
 
-                await Task.Delay(500);
 
                 if (!_serverConnection.IsConnected)
                 {
@@ -91,13 +95,11 @@ namespace Chat.WPF.Commands
                     return;
                 }
 
-                await _serverConnection.GetAllConnectedUsers(user.Login);
-
+                //await _serverConnection.GetAllConnectedUsers(user.Login);
 
                 _loginViewModel.Username = "";
                 _loginViewModel.Password = "";
 
-                _userStore.LoginedUser = user;
 
                 _navigation.Navigate();
             }

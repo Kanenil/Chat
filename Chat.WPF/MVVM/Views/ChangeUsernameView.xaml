@@ -84,6 +84,7 @@
                                 Padding="2"
                                 CornerRadius="6">
                             <TextBox Style="{StaticResource textBox}"
+                                     CaretBrush="White"
                                      Text="{Binding Username}"
                                      Padding="3"/>
                         </Border>
@@ -100,6 +101,7 @@
                                 Padding="2"
                                 CornerRadius="6">
                             <PasswordBox Style="{StaticResource textBox}"
+                                         CaretBrush="White"
                                          Padding="3">
                                 <i:Interaction.Behaviors>
                                     <md:PasswordBehavior Password="{Binding Password, Mode=TwoWay}" />

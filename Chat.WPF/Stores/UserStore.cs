@@ -29,7 +29,26 @@ namespace Chat.WPF.Stores
         private readonly ServerConnection _serverConnection;
 
         private User _loginedUser;
-        public User LoginedUser { get { return _loginedUser; } set { _loginedUser = value; LoginedUserChanged?.Invoke(); }  }
+        public User LoginedUser 
+        { 
+            get 
+            { 
+                return _loginedUser; 
+            } 
+            set 
+            {
+                if (_loginedUser != null)
+                {
+                    _serverConnection.DataReceived -= ServerConnection_DataReceived;
+                    _serverConnection.ConnectedUsersChanged -= ServerConnection_ConnectedUsersChanged;
+                    _serverConnection.OnConnectionLost -= OnConnectionLost;
+                }
+
+                _loginedUser = value; 
+                LoginedUserChanged?.Invoke(); 
+
+            }  
+        }
 
         private readonly List<User> _users;
         public IEnumerable<User> Users => _users;
@@ -187,6 +206,9 @@ namespace Chat.WPF.Stores
             await _deleteUserCommand.Execute(id);
         }
 
-
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await _getAllUsersQuery.Execute();
+        }
     }
 }

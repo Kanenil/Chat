@@ -138,6 +138,7 @@ namespace Chat.WPF.MVVM.ViewModels
 
         private void LoginedUserChanged()
         {
+            Contacts.Clear();
             LoadContactsCommand.Execute(null);
         }
         private void MessageSended()
@@ -333,10 +334,11 @@ namespace Chat.WPF.MVVM.ViewModels
             Application.Current.Dispatcher.Invoke(async () =>
             {
                 IsLoadingUsers = true;
+                var users = await _userStore.GetAllUsers();
 
-                if (Contacts.Count == 0)
+                if (Contacts.Count == 0 || users.Count() < Contacts.Count)
                 {
-                    foreach (var user in _userStore.Users)
+                    foreach (var user in users)
                         if (_userStore.LoginedUser.Id != user.Id)
                         {
                             var lastMessage = await _userStore.GetLastMessageFrom(_userStore.LoginedUser.Id, user.Id);

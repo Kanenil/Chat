@@ -84,10 +84,8 @@ namespace Chat.WPF.Server
             }
 
             if (client.Connected)
-            {
                 client.Client.Shutdown(SocketShutdown.Send);
-                ConnectedUsers.Clear();
-            }
+            ConnectedUsers.Clear();
         }
 
         private System.Timers.Timer _checkConnectTimer = new System.Timers.Timer(5000);
