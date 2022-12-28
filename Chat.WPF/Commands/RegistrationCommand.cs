@@ -56,7 +56,6 @@ namespace Chat.WPF.Commands
                 {
                     await _serverConnection.Connect();
                     await _serverConnection.Rename(user.Login);
-                    await _serverConnection.GetAllConnectedUsers(user.Login);
 
                     _registrationViewModel.Username = "";
                     _registrationViewModel.Email = "";
