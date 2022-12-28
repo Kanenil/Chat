@@ -24,11 +24,29 @@
     <Window.Resources>
 
         <Style x:Key="exitButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="Transparent" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
 
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Cursor" Value="{x:Null}"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="IndianRed"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="#ed4245" BorderThickness="0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Cursor" Value="Hand"/>
                 </Trigger>
             </Style.Triggers>
 
@@ -36,10 +54,30 @@
 
         <Style x:Key="menuButton" TargetType="Button">
 
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="Transparent" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+
+            <Setter Property="Cursor" Value="{x:Null}"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="AliceBlue"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="#3f434a" BorderThickness="0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Cursor" Value="Hand"/>
                 </Trigger>
             </Style.Triggers>
 
@@ -49,7 +87,7 @@
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="25"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
@@ -60,25 +98,22 @@
 
         <Border Grid.ColumnSpan="2"
                 Background="#252525"
-                MouseDown="Border_MouseDown">
+                MouseDown="Border_MouseDown"
+                MouseMove="Border_MouseMove"
+                MouseUp="Border_MouseUp">
 
             <Grid HorizontalAlignment="Stretch">
                 <Label Content="Chat"
-                       Foreground="Gray"
-                       FontSize="19"
+                       Foreground="#dcddde"
+                       FontSize="17"
                        FontWeight="SemiBold"
-                       Margin="15 0 0 0"
+                       Margin="15 -5 0 0"
                        VerticalAlignment="Center"/>
 
                 <StackPanel HorizontalAlignment="Right"
-                            Orientation="Horizontal"
-                            Margin="0 0 8 0">
-                    <Button Width="20" Height="20"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Foreground="Gray"
+                            Orientation="Horizontal">
+                    <Button BorderThickness="0"
                             FontWeight="Bold"
-                            Margin="0 0 0 3"
                             Click="ButtonMinimize_Click"
                             Style="{StaticResource menuButton}">
                         <Button.Content>
@@ -86,15 +121,12 @@
                                                     Width="20" Height="20"
                                                     VerticalAlignment="Center" 
                                                     HorizontalAlignment="Center" 
-                                                    Foreground="Gray"
-                                                    Margin="0 12 0 0"
+                                                    Foreground="#dcddde"
+                                                    Margin="0 9 0 0"
                                                     Padding="4"/>
                         </Button.Content>
                     </Button>
-                    <Button Width="20" Height="20"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Foreground="Gray"
+                    <Button BorderThickness="0"
                             FontWeight="Bold"
                             Click="WindowStateButton_Click"
                             Style="{StaticResource menuButton}">
@@ -103,14 +135,11 @@
                                                     Width="20" Height="20"
                                                     VerticalAlignment="Center" 
                                                     HorizontalAlignment="Center" 
-                                                    Foreground="Gray"
+                                                    Foreground="#dcddde"
                                                     Padding="4"/>
                         </Button.Content>
                     </Button>
-                    <Button Width="20" Height="20"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Foreground="Gray"
+                    <Button BorderThickness="0"
                             FontWeight="Bold"
                             Click="Exit_Click"
                             Style="{StaticResource exitButton}">
@@ -119,7 +148,7 @@
                                                     Width="20" Height="20"
                                                     VerticalAlignment="Center" 
                                                     HorizontalAlignment="Center" 
-                                                    Foreground="Gray"
+                                                    Foreground="#dcddde"
                                                     Padding="4"/>
                         </Button.Content>
                     </Button>
@@ -153,6 +182,12 @@
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type viewModels:ConnectionLostViewModel}">
                     <views:ConnectionLostView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:ChangePasswordViewModel}">
+                    <views:ChangePasswordView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:DeleteUserViewModel}">
+                    <views:DeleteUserView />
                 </DataTemplate>
             </Grid.Resources>
 

@@ -12,6 +12,84 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style x:Key="iconButton" TargetType="Button">
+
+            <Setter Property="Cursor" Value="{x:Null}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Height="20" Background="Transparent" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border CornerRadius="5" Background="#3f434a" BorderThickness="0">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Cursor" Value="Hand"/>
+                </Trigger>
+            </Style.Triggers>
+
+        </Style>
+        <Style x:Key="toolTip" TargetType="ToolTip" x:Name="toolTip1">
+            <Setter Property="OverridesDefaultStyle"
+                    Value="true" />
+            <Setter Property="HasDropShadow"
+                    Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToolTip">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="7"/>
+                            </Grid.RowDefinitions>
+                            <Rectangle Fill="#18191c" RadiusX="10" RadiusY="10"/>
+                            <Path Fill="#18191c" Stretch="Fill" HorizontalAlignment="Left" Margin="50,-5.5,0,-0.003" Width="25" Grid.Row="1" Data="M22.166642,154.45381 L29.999666,187.66699 40.791059,154.54395"/>
+                            <Rectangle Fill="#18191c" RadiusX="10" RadiusY="10" Margin="1"/>
+                            <ContentPresenter Margin="4"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top" />
+                        </Grid>
+                        <!--<Border Name="Border"
+                                BorderThickness="1"
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                Background="#18191c">
+                            <ContentPresenter Margin="4"
+                                              HorizontalAlignment="Left"
+                                              VerticalAlignment="Top" />
+                        </Border>-->
+                        <!--<ControlTemplate.Triggers>
+                            --><!--<Trigger Property="HasDropShadow"
+                                    Value="true">
+                                <Setter TargetName="Border"
+                                        Property="CornerRadius"
+                                        Value="4" />
+                                <Setter TargetName="Border"
+                                        Property="SnapsToDevicePixels"
+                                        Value="true" />
+                            </Trigger>--><!--
+                        </ControlTemplate.Triggers>-->
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid>
             <Grid.Style>
@@ -97,7 +175,7 @@
                 
                 <Grid Grid.Row="2">
                     <StackPanel Orientation="Horizontal"
-                            Background="#292B2F" Height="50" Width="200">
+                            Background="#282a2e" Height="50" Width="200">
 
                         <Ellipse Width="30" Height="30"
                              Margin="15 0 0 0">
@@ -117,9 +195,45 @@
                            FontSize="10"
                            Margin="0 -8 0 -5"/>
                         </StackPanel>
+                        <Button BorderThickness="0"
+                                Margin="50 0 0 0"
+                                Height="30"
+                                Width="30"
+                                FontWeight="Bold"
+                                Style="{StaticResource iconButton}"
+                                Command="{Binding NavigateSettingsCommand}"
+                                ToolTipService.InitialShowDelay="0"
+                                ToolTipService.BetweenShowDelay="0"
+                                x:Name="settingsButton">
+                            <Button.Content>
+                                <icons:PackIconMaterial Kind="Cog"
+                                                    Width="23" Height="23"
+                                                    VerticalAlignment="Center" 
+                                                    HorizontalAlignment="Center" 
+                                                    Foreground="#dcddde"
+                                                    Padding="4"/>
+                            </Button.Content>
+                            <Button.ToolTip>
+                                <ToolTip Style="{StaticResource toolTip}"
+                                         Placement="Top"
+                                         VerticalOffset="-1"
+                                         HorizontalOffset="-45">
+                                    <TextBlock Text="Account settings"
+                                               Padding="10">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontSize" Value="14"/>
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                                <Setter Property="TextAlignment" Value="Center"/>
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="Foreground" Value="#d2d3d4"/>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </ToolTip>
+                            </Button.ToolTip>
+                        </Button>
                     </StackPanel>
-                    <Button Opacity="0"
-                        Command="{Binding NavigateSettingsCommand}"/>
                 </Grid>
 
 
@@ -209,6 +323,21 @@
                     </StackPanel>
                 </Grid>
 
+                <Grid Grid.Row="1"
+                      Grid.RowSpan="2"
+                      Background="#36393F">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Messages.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                </Grid>
+                
             </Grid>
         </Grid>
     </Grid>

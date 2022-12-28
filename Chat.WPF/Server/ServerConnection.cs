@@ -75,8 +75,14 @@ namespace Chat.WPF.Server
             _checkConnectTimer.AutoReset = true;
             _checkConnectTimer.Start();
         }
-        public void CloseConnection()
+        public void CloseConnection(bool notevicate = true)
         {
+            if (!notevicate)
+            {
+                _checkConnectTimer.Elapsed -= OnCheckConnectionTimer;
+                _checkConnectTimer.Stop();
+            }
+
             if (client.Connected)
             {
                 client.Client.Shutdown(SocketShutdown.Send);

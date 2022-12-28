@@ -22,6 +22,8 @@ namespace Chat.WPF.Stores
         private readonly ICreateUserCommand _createUserCommand;
         private readonly IUpdateUserCommand _updateUserCommand;
         private readonly ISendMessageCommand _sendMessageCommand;
+        private readonly IDeleteUserCommand _deleteUserCommand;
+        private readonly IDeleteAllUserMessageCommand _deleteAllUserMessageCommand;
         private readonly IGetLastMessageFromToQuery _getLastMessageFromQuery;
         private readonly IGetAllMessagesFromToQuery _getAllMessagesFromToQuery;
         private readonly ServerConnection _serverConnection;
@@ -47,6 +49,8 @@ namespace Chat.WPF.Stores
                          ICreateUserCommand createUserCommand,
                          IUpdateUserCommand updateUserCommand,
                          ISendMessageCommand sendMessage,
+                         IDeleteUserCommand deleteUserCommand,
+                         IDeleteAllUserMessageCommand deleteAllUserMessageCommand,
                          IGetLastMessageFromToQuery messageFromToQuery,
                          IGetAllMessagesFromToQuery getAllMessagesFromToQuery,
                          ServerConnection serverConnection)
@@ -56,6 +60,8 @@ namespace Chat.WPF.Stores
             _createUserCommand = createUserCommand;
             _updateUserCommand = updateUserCommand;
             _sendMessageCommand = sendMessage;
+            _deleteUserCommand = deleteUserCommand;
+            _deleteAllUserMessageCommand = deleteAllUserMessageCommand;
             _getLastMessageFromQuery = messageFromToQuery;
             _getAllMessagesFromToQuery = getAllMessagesFromToQuery;
             _serverConnection = serverConnection;
@@ -174,5 +180,13 @@ namespace Chat.WPF.Stores
         {
             return await _getAllMessagesFromToQuery.Execute(fromId, toId);
         }
+
+        public async Task DeleteUser(int id)
+        {
+            await _deleteAllUserMessageCommand.Execute(id);
+            await _deleteUserCommand.Execute(id);
+        }
+
+
     }
 }

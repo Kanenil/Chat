@@ -81,20 +81,6 @@
                             VerticalAlignment="Center"
                             Margin="0 0 10 10">
 
-                    <TextBlock Style="{StaticResource HoverUnderlineStyle}" 
-                                   Text="Cancel"
-                                   FontSize="13"
-                                   VerticalAlignment="Center"
-                                   Foreground="White"
-                                   Margin="10 15 0 0"
-                                   Panel.ZIndex="1">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseLeftButtonDown">
-                                <i:InvokeCommandAction Command="{Binding CancelCommand}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </TextBlock>
-
                     <Button Style="{StaticResource editbuttonBlue}"
                             Content="OK"
                             Padding="4"

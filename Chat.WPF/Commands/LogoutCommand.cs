@@ -22,7 +22,7 @@ namespace Chat.WPF.Commands
         public override void Execute(object parameter)
         {
             if (_serverConnection.IsConnected)
-                _serverConnection.CloseConnection();
+                _serverConnection.CloseConnection(false);
             _navigationService.Navigate();
         }
     }

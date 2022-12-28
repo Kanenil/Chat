@@ -38,6 +38,7 @@
             <Setter Property="Foreground" Value="#fdfefe"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Cursor" Value="{x:Null}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -55,11 +56,12 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#252525"/>
+                    <Setter Property="Background" Value="#686d73"/>
                     <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Cursor" Value="Hand"/>
                 </Trigger>
                 <Trigger Property="IsMouseCaptured" Value="True">
-                    <Setter Property="Background" Value="#252530"/>
+                    <Setter Property="Background" Value="#686d73"/>
                     <Setter Property="Foreground" Value="White"/>
                 </Trigger>
             </Style.Triggers>
@@ -74,6 +76,7 @@
             <Setter Property="Foreground" Value="#fdfefe"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Cursor" Value="{x:Null}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -91,11 +94,12 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#FF1E40C8"/>
+                    <Setter Property="Background" Value="#4752c4"/>
                     <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Cursor" Value="Hand"/>
                 </Trigger>
                 <Trigger Property="IsMouseCaptured" Value="True">
-                    <Setter Property="Background" Value="#FF318FD8"/>
+                    <Setter Property="Background" Value="#4752c4"/>
                     <Setter Property="Foreground" Value="White"/>
                 </Trigger>
             </Style.Triggers>
@@ -109,6 +113,8 @@
             <Setter Property="Foreground" Value="#fdfefe"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Cursor" Value="{x:Null}"/>
+            
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ToggleButton">
@@ -127,6 +133,7 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#FF3C3F45"/>
+                    <Setter Property="Cursor" Value="Hand"/>
                     <Setter Property="Foreground" Value="White"/>
                 </Trigger>
                 <Trigger Property="IsChecked" Value="True">
@@ -145,6 +152,7 @@
             <Setter Property="Foreground" Value="#FFB9BBBE"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Cursor" Value="{x:Null}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -174,9 +182,50 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="#FFA4A8AF"/>
+                    <Setter Property="Cursor" Value="Hand"/>
                 </Trigger>
                 <Trigger Property="IsMouseCaptured" Value="True">
                     <Setter Property="Foreground" Value="#FFDADCE0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="deleteButton" TargetType="Button">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Margin" Value="25 -10 0 0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#fdfefe"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Cursor" Value="{x:Null}"/>
+            
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="6" 
+                                BorderThickness="2"
+                                BorderBrush="#ed4245"
+                                Padding="7"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#ed4245"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Trigger>
+                <Trigger Property="IsMouseCaptured" Value="True">
+                    <Setter Property="Background" Value="#ed4245"/>
+                    <Setter Property="BorderThickness" Value="0"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -320,9 +369,26 @@
                            Text="Password"/>
 
                 <Button Style="{StaticResource editbuttonBlue}"
+                        Command="{Binding ChangePasswordCommand}"
                         Content="Edit password"/>
 
+                <Separator Margin="25 20 0 20"
+                           Width="{Binding ElementName=personalInfo, Path=ActualWidth}"
+                           HorizontalAlignment="Left"
+                           Background="Gray"/>
+
+                <TextBlock Style="{StaticResource Commontext}"
+                           Margin="25 0 0 20"
+                           FontSize="13"
+                           Foreground="Gray"
+                           Text="ACCOUNT DELETION"/>
+
+                <Button Style="{StaticResource deleteButton}"
+                        Command="{Binding DeleteAccountCommand}"
+                        Content="Delete account"/>
+
             </StackPanel>
+            
         </ScrollViewer>
 
         <Button Grid.Column="1"

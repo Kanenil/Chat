@@ -43,6 +43,8 @@ namespace Chat.WPF
                     services.AddSingleton<ISendMessageCommand, EntityFramework.Commands.SendMessageCommand>();
                     services.AddSingleton<IGetLastMessageFromToQuery, GetLastMessageFromToQuery>();
                     services.AddSingleton<IGetAllMessagesFromToQuery, GetAllMessagesFromToQuery>();
+                    services.AddSingleton<IDeleteUserCommand, DeleteUserCommand>();
+                    services.AddSingleton<IDeleteAllUserMessageCommand, DeleteAllUserMessageCommand>();
 
                     services.AddSingleton<INavigationService>(s => CreateLoginNavigationService(s));
                     services.AddSingleton<CloseModalNavigationService>();
@@ -58,6 +60,8 @@ namespace Chat.WPF
                     services.AddSingleton<SettingsViewModel>(CreateSettingsViewModel);
                     services.AddSingleton<ChangeUsernameViewModel>(CreateChangeUsernameViewModel);
                     services.AddSingleton<ChangeEmailViewModel>(CreateChangeEmailViewModel);
+                    services.AddSingleton<ChangePasswordViewModel>(CreateChangePasswordViewModel);
+                    services.AddSingleton<DeleteUserViewModel>(CreateDeleteUserViewModel);
                     services.AddSingleton<ConnectionLostViewModel>(CreateConncetionLostViewModel);
                     services.AddSingleton<MainViewModel>();
 
@@ -67,6 +71,34 @@ namespace Chat.WPF
                     });
                 })
                 .Build();
+        }
+
+        private DeleteUserViewModel CreateDeleteUserViewModel(IServiceProvider s)
+        {
+            CompositeNavigationService navigationService = new CompositeNavigationService(
+                s.GetRequiredService<CloseModalNavigationService>(),
+                CreateSettingsNavigationService(s));
+
+            return new DeleteUserViewModel(
+                s.GetRequiredService<UserStore>(),
+                navigationService,
+                    new LogoutCommand(new CompositeNavigationService(
+                        s.GetRequiredService<CloseModalNavigationService>(),
+                        CreateLoginNavigationService(s))
+                ,s.GetRequiredService<ServerConnection>())
+                );
+        }
+
+        private ChangePasswordViewModel CreateChangePasswordViewModel(IServiceProvider s)
+        {
+            CompositeNavigationService navigationService = new CompositeNavigationService(
+                s.GetRequiredService<CloseModalNavigationService>(),
+                CreateSettingsNavigationService(s));
+
+            return new ChangePasswordViewModel(
+                s.GetRequiredService<UserStore>(),
+                navigationService
+                );
         }
 
         private ChangeEmailViewModel CreateChangeEmailViewModel(IServiceProvider s)
@@ -124,6 +156,12 @@ namespace Chat.WPF
                 new ModalNavigationService<ChangeEmailViewModel>(
                     s.GetRequiredService<ModalNavigationStore>(),
                     () => s.GetRequiredService<ChangeEmailViewModel>()),
+                new ModalNavigationService<ChangePasswordViewModel>(
+                    s.GetRequiredService<ModalNavigationStore>(),
+                    () => s.GetRequiredService<ChangePasswordViewModel>()),
+                new ModalNavigationService<DeleteUserViewModel>(
+                    s.GetRequiredService<ModalNavigationStore>(),
+                    () => s.GetRequiredService<DeleteUserViewModel>()),
                 s.GetRequiredService<ServerConnection>()
                 );
         }

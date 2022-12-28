@@ -348,6 +348,7 @@ namespace Chat.WPF.MVVM.ViewModels
                     foreach (var item in orderedContacts)
                         Contacts.Add(item);
                 }
+                
 
                 string newContact = "";
                 foreach (var connectedUser in _userStore.ConnectedUsers)

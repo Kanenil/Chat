@@ -25,14 +25,25 @@ namespace Chat.WPF
         public MainWindow(ServerConnection serverConnection)
         {
             InitializeComponent();
-            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight - 10;
+            this.MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth - 10;
             _serverConnection = serverConnection;
         }
-
+        private bool _canMove = false;
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
-                DragMove();
+            {
+                if (e.ClickCount == 2)
+                {
+                    if (Application.Current.MainWindow.WindowState != WindowState.Maximized)
+                        Application.Current.MainWindow.WindowState = WindowState.Maximized;
+                    else
+                        Application.Current.MainWindow.WindowState = WindowState.Normal;
+                    return;
+                }
+                _canMove = true;
+            }
         }
 
         private void ButtonMinimize_Click(object sender, RoutedEventArgs e)
@@ -42,26 +53,10 @@ namespace Chat.WPF
 
         private void WindowStateButton_Click(object sender, RoutedEventArgs e)
         {
-            var icon = new PackIconMaterial();
-            icon.Width = 20;
-            icon.Height = 20;
-            icon.HorizontalAlignment = HorizontalAlignment.Center;
-            icon.VerticalAlignment = VerticalAlignment.Center;
-            icon.Foreground = Brushes.Gray;
-            icon.Padding = new Thickness(4);
-
             if (Application.Current.MainWindow.WindowState != WindowState.Maximized)
-            {
-                icon.Kind = PackIconMaterialKind.DockWindow;
                 Application.Current.MainWindow.WindowState = WindowState.Maximized;
-            }
             else
-            {
-                icon.Kind = PackIconMaterialKind.WindowMaximize;
                 Application.Current.MainWindow.WindowState = WindowState.Normal;
-            }
-
-            (sender as Button).Content = icon;
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -69,6 +64,24 @@ namespace Chat.WPF
             Application.Current.Shutdown();
             if (_serverConnection.IsConnected)
                 _serverConnection.CloseConnection();
+        }
+
+        private void Border_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed && _canMove)
+            {
+                if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
+                {
+                    Application.Current.MainWindow.WindowState = WindowState.Normal;
+                    this.Top = e.GetPosition(this).Y - 15;
+                }
+                DragMove();
+            }
+        }
+
+        private void Border_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            _canMove = false;
         }
     }
 }
