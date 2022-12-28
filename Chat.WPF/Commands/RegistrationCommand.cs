@@ -127,9 +127,9 @@ namespace Chat.WPF.Commands
                 return false;
             }
 
-            if (_registrationViewModel.Username.Length > 20 && _registrationViewModel.Username.Length < 4)
+            if (_registrationViewModel.Username.Length > 20 || _registrationViewModel.Username.Length < 4)
             {
-                _registrationViewModel.UsernameText = "Username - Username lenght can`t de over than 20 or less then 4 symbols.";
+                _registrationViewModel.UsernameText = "Username - Username lenght can`t be over 20 or less 4 symbols.";
                 _registrationViewModel.UsernameTextColor = "#c77377";
                 _registrationViewModel.IsLoading = false;
                 return false;
